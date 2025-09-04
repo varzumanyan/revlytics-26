@@ -22,6 +22,30 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [sortField, setSortField] = useState<SortField>('revenueType');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
+  // Predefined order for revenue types
+  const revenueTypeOrder = [
+    'Property Tax 1%',
+    'Property Tax - Ex-CRA Tax Increment',
+    'Utility Users\' Tax',
+    'Departmental Receipts',
+    'Business Tax',
+    'Sales Tax',
+    'Documentary Transfer Tax',
+    'Power Revenue Transfer',
+    'Transient Occupancy Tax',
+    'Parking Fines',
+    'Parking Users\' Tax',
+    'Franchise Income',
+    'Grant Receipts',
+    'Interest',
+    'State Motor Vehicle License Fees',
+    'Tobacco Settlement',
+    'Residential Development Tax',
+    'Special Parking Revenue Transfer',
+    'Transfer from Budget Stabilization Fund',
+    'Monthly Total'
+  ];
+
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -32,13 +56,34 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   };
 
   const sortedData = [...data].sort((a, b) => {
+    // Special handling for revenueType to use predefined order
+    if (sortField === 'revenueType') {
+      const aIndex = revenueTypeOrder.indexOf(a.revenueType);
+      const bIndex = revenueTypeOrder.indexOf(b.revenueType);
+      
+      // If both items are in the predefined order, sort by their position
+      if (aIndex !== -1 && bIndex !== -1) {
+        return sortDirection === 'asc' ? aIndex - bIndex : bIndex - aIndex;
+      }
+      
+      // If only one is in the predefined order, prioritize it
+      if (aIndex !== -1) return sortDirection === 'asc' ? -1 : 1;
+      if (bIndex !== -1) return sortDirection === 'asc' ? 1 : -1;
+      
+      // If neither is in the predefined order, fall back to alphabetical
+      return sortDirection === 'asc' 
+        ? a.revenueType.localeCompare(b.revenueType)
+        : b.revenueType.localeCompare(a.revenueType);
+    }
+    
+    // For other fields, use the original sorting logic
     const aValue = a[sortField];
     const bValue = b[sortField];
     
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return sortDirection === 'asc' 
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
+        ? (aValue as string).localeCompare(bValue as string)
+        : (bValue as string).localeCompare(aValue as string);
     }
     
     if (typeof aValue === 'number' && typeof bValue === 'number') {
