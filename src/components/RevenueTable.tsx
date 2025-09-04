@@ -92,6 +92,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                 <SortableHeader field="july25VsJuly24Change">Jul25 vs Jul24</SortableHeader>
                 <SortableHeader field="%">YoY Change %</SortableHeader>
                 <SortableHeader field="july25RevAs %OfFy2026Budget">% of FY2026 Budget</SortableHeader>
+                <SortableHeader field="fy2026
+adoptedBudget">FY2026 Adopted Budget</SortableHeader>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -122,6 +124,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatPercentage(row["july25RevAs %OfFy2026Budget"])}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatCurrency(row["fy2026\nadoptedBudget"])}
                   </TableCell>
                 </TableRow>
               ))}
