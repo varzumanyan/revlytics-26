@@ -22,6 +22,7 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-accent': 'var(--gradient-accent)',
 				'gradient-card': 'var(--gradient-card)',
+				'gradient-header': 'var(--gradient-header)',
 			},
 			boxShadow: {
 				'soft': 'var(--shadow-soft)',
@@ -69,6 +70,11 @@ export default {
 				warning: {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))'
+				},
+				chart: {
+					primary: 'hsl(var(--chart-primary))',
+					secondary: 'hsl(var(--chart-secondary))',
+					tertiary: 'hsl(var(--chart-tertiary))',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

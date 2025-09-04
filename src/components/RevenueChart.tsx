@@ -76,9 +76,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   color: 'hsl(var(--foreground))'
                 }}
               />
-              <Bar dataKey="july2023" fill="hsl(var(--primary))" name="July 2023" />
-              <Bar dataKey="july2024" fill="hsl(var(--accent))" name="July 2024" />
-              <Bar dataKey="july2025" fill="hsl(var(--success))" name="July 2025" />
+              <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
+              <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
+              <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="July 2025" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
