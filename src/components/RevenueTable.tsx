@@ -89,8 +89,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                 <SortableHeader field="july2023">July 2023</SortableHeader>
                 <SortableHeader field="july2024">July 2024</SortableHeader>
                 <SortableHeader field="july2025">July 2025</SortableHeader>
-                <SortableHeader field="%">YoY Change %</SortableHeader>
                 <SortableHeader field="july25VsJuly24Change">Jul25 vs Jul24</SortableHeader>
+                <SortableHeader field="%">YoY Change %</SortableHeader>
                 <SortableHeader field="july25RevAs %OfFy2026Budget">% of FY2026 Budget</SortableHeader>
               </TableRow>
             </TableHeader>
@@ -110,15 +110,15 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     {formatCurrency(row.july2025)}
                   </TableCell>
                   <TableCell className={`font-medium ${
-                    row["%"] > 0 ? 'text-success' : row["%"] < 0 ? 'text-destructive' : 'text-muted-foreground'
-                  }`}>
-                    {formatPercentage(row["%"])}
-                  </TableCell>
-                  <TableCell className={`font-medium ${
                     row.july25VsJuly24Change > 0 ? 'text-success' : 
                     row.july25VsJuly24Change < 0 ? 'text-destructive' : 'text-muted-foreground'
                   }`}>
                     {formatCurrency(row.july25VsJuly24Change)}
+                  </TableCell>
+                  <TableCell className={`font-medium ${
+                    row["%"] > 0 ? 'text-success' : row["%"] < 0 ? 'text-destructive' : 'text-muted-foreground'
+                  }`}>
+                    {formatPercentage(row["%"])}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatPercentage(row["july25RevAs %OfFy2026Budget"])}
