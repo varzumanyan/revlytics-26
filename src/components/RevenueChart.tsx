@@ -1,24 +1,36 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from 'react';
+import { cn } from "@/lib/utils";
 
 interface RevenueChartProps {
   data: RevenueData[];
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
-  const [selectedCount, setSelectedCount] = useState("6");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([
+    "Utility Users' Tax",
+    "Departmental Receipts", 
+    "Sales Tax",
+    "Business Tax",
+    "Documentary Transfer Tax",
+    "Property Tax 1%"
+  ]);
+  const [open, setOpen] = useState(false);
   
-  // Filter out Monthly Total and sort by revenue amount
-  const filteredData = data
+  // Filter out Monthly Total and get available categories
+  const availableCategories = data
     .filter(item => item.revenueType !== "Monthly Total")
-    .sort((a, b) => b.july2025 - a.july2025);
+    .map(item => item.revenueType);
 
-  // Prepare data for the bar chart (selected number of top revenue types)
-  const topRevenueData = filteredData
-    .slice(0, parseInt(selectedCount))
+  // Prepare data for the bar chart (selected categories only)
+  const topRevenueData = data
+    .filter(item => selectedCategories.includes(item.revenueType))
     .map(item => ({
       name: item.revenueType.length > 20 ? 
         item.revenueType.substring(0, 20) + '...' : 
@@ -57,21 +69,52 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-semibold text-foreground">
-              Top Revenue Sources Comparison
+              Revenue Sources Comparison
             </CardTitle>
-            <Select value={selectedCount} onValueChange={setSelectedCount}>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Select count" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="3">Top 3</SelectItem>
-                <SelectItem value="5">Top 5</SelectItem>
-                <SelectItem value="6">Top 6</SelectItem>
-                <SelectItem value="8">Top 8</SelectItem>
-                <SelectItem value="10">Top 10</SelectItem>
-                <SelectItem value="15">Top 15</SelectItem>
-              </SelectContent>
-            </Select>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-48 justify-between"
+                >
+                  {selectedCategories.length > 0
+                    ? `${selectedCategories.length} selected`
+                    : "Select categories..."}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-72 p-0">
+                <Command>
+                  <CommandInput placeholder="Search revenue categories..." />
+                  <CommandEmpty>No category found.</CommandEmpty>
+                  <CommandGroup className="max-h-64 overflow-auto">
+                    {availableCategories.map((category) => (
+                      <CommandItem
+                        key={category}
+                        value={category}
+                        onSelect={() => {
+                          setSelectedCategories(prev => 
+                            prev.includes(category)
+                              ? prev.filter(item => item !== category)
+                              : [...prev, category]
+                          );
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            selectedCategories.includes(category) ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {category}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
         </CardHeader>
         <CardContent>
