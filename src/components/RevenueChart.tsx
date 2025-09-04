@@ -42,11 +42,11 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
 
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <Card className="bg-gradient-card border-border shadow-soft">
+    <div className="w-full">
+      <Card className="bg-gradient-card border-border shadow-soft hover:shadow-medium transition-all duration-300 animate-fade-in">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-foreground">
+            <CardTitle className="text-xl font-bold text-foreground bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Revenue Sources Comparison
             </CardTitle>
             <Popover open={open} onOpenChange={setOpen}>
@@ -55,15 +55,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-48 justify-between"
+                  className="w-64 justify-between hover:bg-accent/10 transition-all duration-200 border-primary/20 hover:border-primary/40"
                 >
-                  {selectedCategory || "Select category..."}
+                  <span className="truncate">{selectedCategory || "Select category..."}</span>
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-72 p-0">
+              <PopoverContent className="w-80 p-0 bg-popover/95 backdrop-blur-sm border-border/50">
                 <Command>
-                  <CommandInput placeholder="Search revenue categories..." />
+                  <CommandInput placeholder="Search revenue categories..." className="border-none focus:ring-0" />
                   <CommandEmpty>No category found.</CommandEmpty>
                   <CommandGroup className="max-h-64 overflow-auto">
                     {availableCategories.map((category) => (
@@ -74,14 +74,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                           setSelectedCategory(category);
                           setOpen(false);
                         }}
+                        className="cursor-pointer hover:bg-accent/20 transition-colors duration-200"
                       >
                         <Check
                           className={cn(
-                            "mr-2 h-4 w-4",
+                            "mr-2 h-4 w-4 text-primary",
                             selectedCategory === category ? "opacity-100" : "opacity-0"
                           )}
                         />
-                        {category}
+                        <span className="truncate">{category}</span>
                       </CommandItem>
                     ))}
                   </CommandGroup>
@@ -90,40 +91,110 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             </Popover>
           </div>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+        <CardContent className="pb-8">
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart 
+              data={topRevenueData} 
+              margin={{ top: 30, right: 40, left: 40, bottom: 80 }}
+              className="animate-scale-in"
+            >
+              <defs>
+                <linearGradient id="gradient2023" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--chart-primary))" stopOpacity={0.9}/>
+                  <stop offset="100%" stopColor="hsl(var(--chart-primary))" stopOpacity={0.6}/>
+                </linearGradient>
+                <linearGradient id="gradient2024" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--chart-secondary))" stopOpacity={0.9}/>
+                  <stop offset="100%" stopColor="hsl(var(--chart-secondary))" stopOpacity={0.6}/>
+                </linearGradient>
+                <linearGradient id="gradient2025" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={1}/>
+                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.7}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="hsl(var(--border))" 
+                strokeOpacity={0.3}
+                vertical={false}
+              />
               <XAxis 
                 dataKey="name" 
                 angle={-45}
                 textAnchor="end"
-                height={80}
-                fontSize={12}
+                height={100}
+                fontSize={13}
+                fontWeight={500}
                 stroke="hsl(var(--muted-foreground))"
+                tick={{ fill: 'hsl(var(--foreground))' }}
               />
               <YAxis 
-                fontSize={12}
+                fontSize={13}
+                fontWeight={500}
                 stroke="hsl(var(--muted-foreground))"
-                label={{ value: 'Revenue (Millions $)', angle: -90, position: 'insideLeft' }}
+                tick={{ fill: 'hsl(var(--foreground))' }}
+                label={{ 
+                  value: 'Revenue (Millions $)', 
+                  angle: -90, 
+                  position: 'insideLeft',
+                  style: { textAnchor: 'middle', fill: 'hsl(var(--foreground))', fontWeight: 600 }
+                }}
               />
               <Tooltip 
                 formatter={formatTooltip}
                 contentStyle={{
                   backgroundColor: 'hsl(var(--popover))',
                   border: '1px solid hsl(var(--border))',
-                  borderRadius: '6px',
-                  color: 'hsl(var(--foreground))'
+                  borderRadius: '12px',
+                  color: 'hsl(var(--foreground))',
+                  boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+                  backdropFilter: 'blur(8px)',
+                  fontSize: '14px',
+                  fontWeight: 500
                 }}
+                cursor={{ fill: 'hsl(var(--accent))', fillOpacity: 0.1 }}
               />
-              <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
-              <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
-              <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="July 2025" />
+              <Bar 
+                dataKey="july2023" 
+                fill="url(#gradient2023)" 
+                name="July 2023"
+                radius={[4, 4, 0, 0]}
+                className="hover:opacity-80 transition-opacity duration-200"
+              />
+              <Bar 
+                dataKey="july2024" 
+                fill="url(#gradient2024)" 
+                name="July 2024"
+                radius={[4, 4, 0, 0]}
+                className="hover:opacity-80 transition-opacity duration-200"
+              />
+              <Bar 
+                dataKey="july2025" 
+                fill="url(#gradient2025)" 
+                name="July 2025"
+                radius={[4, 4, 0, 0]}
+                className="hover:opacity-80 transition-opacity duration-200"
+              />
             </BarChart>
           </ResponsiveContainer>
+          
+          {/* Legend */}
+          <div className="flex justify-center gap-6 mt-6 p-4 bg-muted/20 rounded-lg">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-chart-primary"></div>
+              <span className="text-sm font-medium text-muted-foreground">July 2023</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-chart-secondary"></div>
+              <span className="text-sm font-medium text-muted-foreground">July 2024</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-primary"></div>
+              <span className="text-sm font-medium text-muted-foreground">July 2025</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
-
     </div>
   );
 };
