@@ -42,8 +42,10 @@ const Index = () => {
   }
   const revenueData = data?.sheet1 || [];
 
-  // Calculate summary metrics
-  const totalRevenue2025 = revenueData.reduce((sum, item) => sum + item.july2025, 0);
+  // Calculate summary metrics - exclude Monthly Total row to avoid double counting
+  const totalRevenue2025 = revenueData
+    .filter(item => item.revenueType !== "Monthly Total")
+    .reduce((sum, item) => sum + item.july2025, 0);
   const totalRevenue2024 = revenueData.reduce((sum, item) => sum + item.july2024, 0);
   const totalRevenue2023 = revenueData.reduce((sum, item) => sum + item.july2023, 0);
   const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
