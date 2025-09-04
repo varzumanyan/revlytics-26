@@ -34,18 +34,13 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       july2025: item.july2025 / 1000000,
     }));
 
-  // Prepare data for the trend line (total revenue over time)
-  const totalsByYear = {
-    july2023: data.reduce((sum, item) => sum + item.july2023, 0) / 1000000,
-    july2024: data.reduce((sum, item) => sum + item.july2024, 0) / 1000000,
-    july2025: data.reduce((sum, item) => sum + item.july2025, 0) / 1000000,
-  };
-
-  const trendData = [
-    { year: '2023', total: totalsByYear.july2023 },
-    { year: '2024', total: totalsByYear.july2024 },
-    { year: '2025', total: totalsByYear.july2025 },
-  ];
+  // Prepare data for the trend line (selected category over time)
+  const selectedData = data.find(item => item.revenueType === selectedCategory);
+  const trendData = selectedData ? [
+    { year: '2023', total: selectedData.july2023 / 1000000 },
+    { year: '2024', total: selectedData.july2024 / 1000000 },
+    { year: '2025', total: selectedData.july2025 / 1000000 },
+  ] : [];
 
   const formatTooltip = (value: number, name: string) => {
     return [`$${value.toFixed(1)}M`, name === 'july2023' ? 'July 2023' : 
@@ -53,7 +48,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
   };
 
   const formatTrendTooltip = (value: number) => {
-    return [`$${value.toFixed(1)}M`, 'Total Revenue'];
+    return [`$${value.toFixed(1)}M`, selectedCategory];
   };
 
   return (
@@ -142,7 +137,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       <Card className="bg-gradient-card border-border shadow-soft">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-foreground">
-            Total Revenue Trend
+            {selectedCategory} - Revenue Trend
           </CardTitle>
         </CardHeader>
         <CardContent>

@@ -47,7 +47,7 @@ const Index = () => {
   const totalRevenue2024 = revenueData.reduce((sum, item) => sum + item.july2024, 0);
   const totalRevenue2023 = revenueData.reduce((sum, item) => sum + item.july2023, 0);
   const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
-  const totalBudget = revenueData[0]?.["fy2026\nadoptedBudget"] || 0;
+  const totalBudget = 8178255972; // Corrected FY2026 Adopted Budget amount
   const budgetProgress = totalRevenue2025 / totalBudget;
   return <div className="min-h-screen bg-background">
       {/* Header */}
@@ -68,7 +68,7 @@ const Index = () => {
       <div className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <RevenueCard title="Total Revenue 2025" value={totalRevenue2025} isCurrency={true} />
+          <RevenueCard title="Total Revenue FY2026 YTD" value={totalRevenue2025} isCurrency={true} />
           <RevenueCard title="Year-over-Year Change" value={yearOverYearChange} change={yearOverYearChange} isPercentage={true} isCurrency={false} />
           <RevenueCard title="Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
           <RevenueCard title="FY2026 Adopted Budget" value={totalBudget} isCurrency={true} />
