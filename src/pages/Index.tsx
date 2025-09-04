@@ -72,7 +72,7 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <RevenueCard title="Total Revenue FY2026 YTD" value={totalRevenue2025} isCurrency={true} />
           <RevenueCard title="Year-over-Year Change" value={yearOverYearChange} change={yearOverYearChange} isPercentage={true} isCurrency={false} />
-          <RevenueCard title="Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
+          <RevenueCard title="FY2026 YTD Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
           <RevenueCard title="FY2026 Adopted Budget" value={totalBudget} isCurrency={true} />
         </div>
 
