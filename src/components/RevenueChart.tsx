@@ -36,8 +36,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
 
 
   const formatTooltip = (value: number, name: string) => {
-    return [`$${value.toFixed(1)}M`, name === 'july2023' ? 'July 2023' : 
-            name === 'july2024' ? 'July 2024' : 'July 2025'];
+    return [`$${value.toFixed(1)}M`, name];
   };
 
 
@@ -108,6 +107,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 label={{ value: 'Revenue (Millions $)', angle: -90, position: 'insideLeft' }}
               />
               <Tooltip 
+                cursor={false}
                 formatter={formatTooltip}
                 contentStyle={{
                   backgroundColor: 'hsl(var(--popover))',
