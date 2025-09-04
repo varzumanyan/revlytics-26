@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -34,25 +34,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       july2025: item.july2025 / 1000000,
     }));
 
-  // Prepare data for the trend line (selected category over time)
-  const selectedData = data.find(item => item.revenueType === selectedCategory);
-  const trendData = selectedData ? [
-    { year: '2023', total: selectedData.july2023 / 1000000 },
-    { year: '2024', total: selectedData.july2024 / 1000000 },
-    { year: '2025', total: selectedData.july2025 / 1000000 },
-  ] : [];
 
   const formatTooltip = (value: number, name: string) => {
     return [`$${value.toFixed(1)}M`, name === 'july2023' ? 'July 2023' : 
             name === 'july2024' ? 'July 2024' : 'July 2025'];
   };
 
-  const formatTrendTooltip = (value: number) => {
-    return [`$${value.toFixed(1)}M`, selectedCategory];
-  };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="w-full max-w-4xl mx-auto">
       <Card className="bg-gradient-card border-border shadow-soft">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -134,47 +124,6 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-card border-border shadow-soft">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-foreground">
-            {selectedCategory} - Revenue Trend
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis 
-                dataKey="year" 
-                fontSize={12}
-                stroke="hsl(var(--muted-foreground))"
-              />
-              <YAxis 
-                fontSize={12}
-                stroke="hsl(var(--muted-foreground))"
-                label={{ value: 'Revenue (Millions $)', angle: -90, position: 'insideLeft' }}
-              />
-              <Tooltip 
-                formatter={formatTrendTooltip}
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--popover))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '6px',
-                  color: 'hsl(var(--foreground))'
-                }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="total" 
-                stroke="hsl(var(--primary))" 
-                strokeWidth={3}
-                dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 6 }}
-                activeDot={{ r: 8, fill: 'hsl(var(--accent))' }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
     </div>
   );
 };
