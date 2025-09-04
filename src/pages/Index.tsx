@@ -5,13 +5,14 @@ import { RevenueChart } from "@/components/RevenueChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, TrendingUp, DollarSign, BarChart3 } from "lucide-react";
-
 const Index = () => {
-  const { data, isLoading, error } = useRevenueData();
-
+  const {
+    data,
+    isLoading,
+    error
+  } = useRevenueData();
   if (error) {
-    return (
-      <div className="min-h-screen bg-background p-6">
+    return <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-4xl">
           <Card className="bg-destructive/10 border-destructive/50">
             <CardContent className="flex items-center space-x-2 pt-6">
@@ -20,51 +21,43 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background p-6">
+    return <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-7xl space-y-6">
           <div className="text-center space-y-4">
             <Skeleton className="h-12 w-96 mx-auto" />
             <Skeleton className="h-6 w-64 mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-32" />
-            ))}
+            {Array.from({
+            length: 4
+          }).map((_, i) => <Skeleton key={i} className="h-32" />)}
           </div>
           <Skeleton className="h-96" />
           <Skeleton className="h-64" />
         </div>
-      </div>
-    );
+      </div>;
   }
-
   const revenueData = data?.sheet1 || [];
-  
+
   // Calculate summary metrics
   const totalRevenue2025 = revenueData.reduce((sum, item) => sum + item.july2025, 0);
   const totalRevenue2024 = revenueData.reduce((sum, item) => sum + item.july2024, 0);
   const totalRevenue2023 = revenueData.reduce((sum, item) => sum + item.july2023, 0);
-  
-  const yearOverYearChange = ((totalRevenue2025 - totalRevenue2024) / totalRevenue2024);
+  const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
   const totalBudget = revenueData[0]?.["fy2026\nadoptedBudget"] || 0;
   const budgetProgress = totalRevenue2025 / totalBudget;
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="bg-gradient-header shadow-strong">
         <div className="container mx-auto max-w-7xl px-6 py-12">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground">
+            <h1 className="text-4xl md:text-5xl font-bold text-[#41ffca]">
               FY2026 Revenue Analysis
             </h1>
-            <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto">
+            <p className="text-xl max-w-2xl mx-auto text-slate-50">
               Comprehensive financial overview and performance metrics for fiscal year 2026
             </p>
           </div>
@@ -75,29 +68,10 @@ const Index = () => {
       <div className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <RevenueCard
-            title="Total Revenue 2025"
-            value={totalRevenue2025}
-            isCurrency={true}
-          />
-          <RevenueCard
-            title="Year-over-Year Change"
-            value={yearOverYearChange}
-            change={yearOverYearChange}
-            isPercentage={true}
-            isCurrency={false}
-          />
-          <RevenueCard
-            title="Budget Progress"
-            value={budgetProgress}
-            isPercentage={true}
-            isCurrency={false}
-          />
-          <RevenueCard
-            title="FY2026 Adopted Budget"
-            value={totalBudget}
-            isCurrency={true}
-          />
+          <RevenueCard title="Total Revenue 2025" value={totalRevenue2025} isCurrency={true} />
+          <RevenueCard title="Year-over-Year Change" value={yearOverYearChange} change={yearOverYearChange} isPercentage={true} isCurrency={false} />
+          <RevenueCard title="Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
+          <RevenueCard title="FY2026 Adopted Budget" value={totalBudget} isCurrency={true} />
         </div>
 
         {/* Charts */}
@@ -116,8 +90,6 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
