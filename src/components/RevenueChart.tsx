@@ -13,14 +13,7 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    "Utility Users' Tax",
-    "Departmental Receipts", 
-    "Sales Tax",
-    "Business Tax",
-    "Documentary Transfer Tax",
-    "Property Tax 1%"
-  ]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Utility Users' Tax");
   const [open, setOpen] = useState(false);
   
   // Filter out Monthly Total and get available categories
@@ -28,9 +21,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     .filter(item => item.revenueType !== "Monthly Total")
     .map(item => item.revenueType);
 
-  // Prepare data for the bar chart (selected categories only)
+  // Prepare data for the bar chart (selected category only)
   const topRevenueData = data
-    .filter(item => selectedCategories.includes(item.revenueType))
+    .filter(item => item.revenueType === selectedCategory)
     .map(item => ({
       name: item.revenueType.length > 20 ? 
         item.revenueType.substring(0, 20) + '...' : 
@@ -79,9 +72,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   aria-expanded={open}
                   className="w-48 justify-between"
                 >
-                  {selectedCategories.length > 0
-                    ? `${selectedCategories.length} selected`
-                    : "Select categories..."}
+                  {selectedCategory || "Select category..."}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -95,17 +86,14 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                         key={category}
                         value={category}
                         onSelect={() => {
-                          setSelectedCategories(prev => 
-                            prev.includes(category)
-                              ? prev.filter(item => item !== category)
-                              : [...prev, category]
-                          );
+                          setSelectedCategory(category);
+                          setOpen(false);
                         }}
                       >
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            selectedCategories.includes(category) ? "opacity-100" : "opacity-0"
+                            selectedCategory === category ? "opacity-100" : "opacity-0"
                           )}
                         />
                         {category}
