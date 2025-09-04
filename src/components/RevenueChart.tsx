@@ -13,7 +13,7 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("Utility Users' Tax");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Sales Tax");
   const [open, setOpen] = useState(false);
   
   // Filter out Monthly Total and get available categories
