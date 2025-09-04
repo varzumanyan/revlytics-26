@@ -1,15 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from 'react';
 
 interface RevenueChartProps {
   data: RevenueData[];
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
-  // Prepare data for the bar chart (top revenue types)
-  const topRevenueData = data
-    .slice(0, 6)
+  const [selectedCount, setSelectedCount] = useState("6");
+  
+  // Filter out Monthly Total and sort by revenue amount
+  const filteredData = data
+    .filter(item => item.revenueType !== "Monthly Total")
+    .sort((a, b) => b.july2025 - a.july2025);
+
+  // Prepare data for the bar chart (selected number of top revenue types)
+  const topRevenueData = filteredData
+    .slice(0, parseInt(selectedCount))
     .map(item => ({
       name: item.revenueType.length > 20 ? 
         item.revenueType.substring(0, 20) + '...' : 
@@ -46,9 +55,24 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <Card className="bg-gradient-card border-border shadow-soft">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-foreground">
-            Top Revenue Sources Comparison
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg font-semibold text-foreground">
+              Top Revenue Sources Comparison
+            </CardTitle>
+            <Select value={selectedCount} onValueChange={setSelectedCount}>
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Select count" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="3">Top 3</SelectItem>
+                <SelectItem value="5">Top 5</SelectItem>
+                <SelectItem value="6">Top 6</SelectItem>
+                <SelectItem value="8">Top 8</SelectItem>
+                <SelectItem value="10">Top 10</SelectItem>
+                <SelectItem value="15">Top 15</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
