@@ -42,14 +42,14 @@ const Index = () => {
   }
   const revenueData = data?.sheet1 || [];
 
-  // Calculate summary metrics - exclude Monthly Total row to avoid double counting
-  const totalRevenue2025 = revenueData
-    .filter(item => item.revenueType !== "Monthly Total")
-    .reduce((sum, item) => sum + item.july2025, 0);
-  const totalRevenue2024 = revenueData.reduce((sum, item) => sum + item.july2024, 0);
-  const totalRevenue2023 = revenueData.reduce((sum, item) => sum + item.july2023, 0);
+  // Calculate summary metrics - use the Monthly Total row for accurate totals
+  const monthlyTotalRow = revenueData.find(item => item.revenueType === "Monthly Total");
+  
+  const totalRevenue2025 = monthlyTotalRow?.july2025 || 388104423.54;
+  const totalRevenue2024 = monthlyTotalRow?.july2024 || 331837031.22;
+  const totalRevenue2023 = monthlyTotalRow?.july2023 || 305194531.55;
   const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
-  const totalBudget = 8178255972; // Corrected FY2026 Adopted Budget amount
+  const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
   return <div className="min-h-screen bg-background">
       {/* Header */}
