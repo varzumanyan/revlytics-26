@@ -1,29 +1,38 @@
 import { useRevenueData } from "@/hooks/useRevenueData";
+import { useExpenditureData } from "@/hooks/useExpenditureData";
 import { RevenueCard } from "@/components/RevenueCard";
 import { RevenueTable } from "@/components/RevenueTable";
 import { RevenueChart } from "@/components/RevenueChart";
+import { ExpenditureCard } from "@/components/ExpenditureCard";
+import { ExpenditureTable } from "@/components/ExpenditureTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, TrendingUp, DollarSign, BarChart3 } from "lucide-react";
 const Index = () => {
   const {
-    data,
-    isLoading,
-    error
+    data: revenueData,
+    isLoading: revenueLoading,
+    error: revenueError
   } = useRevenueData();
-  if (error) {
+  const {
+    data: expenditureData,
+    isLoading: expenditureLoading,
+    error: expenditureError
+  } = useExpenditureData();
+  if (revenueError || expenditureError) {
     return <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-4xl">
           <Card className="bg-destructive/10 border-destructive/50">
             <CardContent className="flex items-center space-x-2 pt-6">
               <AlertCircle className="h-5 w-5 text-destructive" />
-              <p className="text-destructive">Failed to load revenue data. Please try again later.</p>
+              <p className="text-destructive">Failed to load data. Please try again later.</p>
             </CardContent>
           </Card>
         </div>
       </div>;
   }
-  if (isLoading) {
+  if (revenueLoading || expenditureLoading) {
     return <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-7xl space-y-6">
           <div className="text-center space-y-4">
@@ -40,10 +49,11 @@ const Index = () => {
         </div>
       </div>;
   }
-  const revenueData = data?.sheet1 || [];
+  const revenueDataSheet = revenueData?.sheet1 || [];
+  const expenditureDataSheet = expenditureData?.summary || [];
 
   // Calculate summary metrics - use the Monthly Total row for accurate totals
-  const monthlyTotalRow = revenueData.find(item => item.revenueType === "Monthly Total");
+  const monthlyTotalRow = revenueDataSheet.find(item => item.revenueType === "Monthly Total");
   
   const totalRevenue2025 = monthlyTotalRow?.july2025 || 388104423.54;
   const totalRevenue2024 = monthlyTotalRow?.july2024 || 331837031.22;
@@ -51,16 +61,21 @@ const Index = () => {
   const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
+
+  // Calculate expenditure metrics
+  const totalExpenditureBudget = expenditureDataSheet.reduce((sum, item) => sum + item.adoptBudget, 0);
+  const totalExpenditures = expenditureDataSheet.reduce((sum, item) => sum + item.expenditures, 0);
+  const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   return <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="bg-gradient-header shadow-strong">
         <div className="container mx-auto max-w-7xl px-6 py-12">
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold text-[#41ffca]">
-              FY2026 Revenue Analysis
+              FY2026 Financial Analysis
             </h1>
             <p className="text-xl max-w-2xl mx-auto text-slate-50">
-              Comprehensive financial overview and performance metrics for fiscal year 2026
+              Comprehensive revenue and expenditure overview for fiscal year 2026
             </p>
           </div>
         </div>
@@ -68,26 +83,66 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <RevenueCard title="Total Revenue FY2026 YTD" value={totalRevenue2025} isCurrency={true} />
-          <RevenueCard title="Year-over-Year Change" value={yearOverYearChange} change={yearOverYearChange} isPercentage={true} isCurrency={false} />
-          <RevenueCard title="FY2026 YTD Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
-          <RevenueCard title="FY2026 Adopted Budget" value={totalBudget} isCurrency={true} />
-        </div>
+        <Tabs defaultValue="revenue" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="revenue">Revenue</TabsTrigger>
+            <TabsTrigger value="expenditures">Expenditures</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="revenue" className="space-y-8">
+            {/* Revenue Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <RevenueCard title="Total Revenue FY2026 YTD" value={totalRevenue2025} isCurrency={true} />
+              <RevenueCard title="Year-over-Year Change" value={yearOverYearChange} change={yearOverYearChange} isPercentage={true} isCurrency={false} />
+              <RevenueCard title="FY2026 YTD Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
+              <RevenueCard title="FY2026 Adopted Budget" value={totalBudget} isCurrency={true} />
+            </div>
 
-        {/* Charts */}
-        <RevenueChart data={revenueData} />
+            {/* Charts */}
+            <RevenueChart data={revenueDataSheet} />
 
-        {/* Data Table */}
-        <RevenueTable data={revenueData} />
+            {/* Revenue Data Table */}
+            <RevenueTable data={revenueDataSheet} />
+          </TabsContent>
+
+          <TabsContent value="expenditures" className="space-y-8">
+            {/* Expenditure Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <ExpenditureCard
+                title="Total Budget"
+                value={`$${totalExpenditureBudget.toLocaleString()}`}
+                description="FY2026 adopted budget"
+              />
+              <ExpenditureCard
+                title="YTD Expenditures"
+                value={`$${totalExpenditures.toLocaleString()}`}
+                description="Year-to-date spending"
+              />
+              <ExpenditureCard
+                title="Budget Utilization"
+                value={`${(expenditureBudgetUtilization * 100).toFixed(1)}%`}
+                change="of total budget"
+                changeType={expenditureBudgetUtilization > 0.5 ? 'negative' : expenditureBudgetUtilization < 0.2 ? 'positive' : 'neutral'}
+                description="Percentage of budget used"
+              />
+              <ExpenditureCard
+                title="Remaining Budget"
+                value={`$${(totalExpenditureBudget - totalExpenditures).toLocaleString()}`}
+                description="Available for remainder of FY"
+              />
+            </div>
+
+            {/* Expenditure Data Table */}
+            <ExpenditureTable data={expenditureDataSheet} />
+          </TabsContent>
+        </Tabs>
 
         {/* Footer */}
         <Card className="bg-gradient-card border-border shadow-soft">
           <CardContent className="text-center py-8">
             <div className="flex items-center justify-center space-x-2 text-muted-foreground">
               <BarChart3 className="h-5 w-5" />
-              <p>Data sourced from FY2026 Revenue Analysis • Last updated: {new Date().toLocaleDateString()}</p>
+              <p>Data sourced from FY2026 Financial Analysis • Last updated: {new Date().toLocaleDateString()}</p>
             </div>
           </CardContent>
         </Card>
