@@ -49,6 +49,19 @@ const Index = () => {
         </div>
       </div>;
   }
+  if (!revenueData || !expenditureData) {
+    return <div className="min-h-screen bg-background p-6">
+        <div className="container mx-auto max-w-4xl">
+          <Card className="bg-destructive/10 border-destructive/50">
+            <CardContent className="flex items-center space-x-2 pt-6">
+              <AlertCircle className="h-5 w-5 text-destructive" />
+              <p className="text-destructive">Data not available. Please try again later.</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>;
+  }
+
   const revenueDataSheet = revenueData?.sheet1 || [];
   const expenditureDataSheet = expenditureData?.summary || [];
 
@@ -62,9 +75,11 @@ const Index = () => {
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
 
-  // Calculate expenditure metrics
-  const totalExpenditureBudget = expenditureDataSheet.reduce((sum, item) => sum + item.adoptBudget, 0);
-  const totalExpenditures = expenditureDataSheet.reduce((sum, item) => sum + item.expenditures, 0);
+  // Calculate expenditure metrics - ensure we have valid data
+  const totalExpenditureBudget = expenditureDataSheet.length > 0 ? 
+    expenditureDataSheet.reduce((sum, item) => sum + (item.adoptBudget || 0), 0) : 0;
+  const totalExpenditures = expenditureDataSheet.length > 0 ? 
+    expenditureDataSheet.reduce((sum, item) => sum + (item.expenditures || 0), 0) : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   return <div className="min-h-screen bg-background">
       {/* Header */}
