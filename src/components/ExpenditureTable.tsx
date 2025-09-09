@@ -85,27 +85,47 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
-                <SortableHeader field="category">Category</SortableHeader>
-                <SortableHeader field="account">Account</SortableHeader>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
+                    <span>Category</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('account')}>
+                    <span>Account</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
                 <TableHead className="text-center" colSpan={2}>FY2024</TableHead>
                 <TableHead className="text-center" colSpan={2}>FY2025</TableHead>
                 <TableHead className="text-center" colSpan={2}>FY2026</TableHead>
-                <SortableHeader field="notes">Notes</SortableHeader>
-                <SortableHeader field="fy24VsFy25">FY24 vs FY25</SortableHeader>
-                <SortableHeader field="fy25VsFy26">FY25 vs FY26</SortableHeader>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('notes')}>
+                    <span>Notes</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy24VsFy25')}>
+                    <span>FY24 vs FY25</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy25VsFy26')}>
+                    <span>FY25 vs FY26</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
               </TableRow>
               <TableRow className="border-border hover:bg-muted/50">
-                <TableHead></TableHead>
-                <TableHead></TableHead>
-                <TableHead className="text-xs">Adopt Budget</TableHead>
-                <TableHead className="text-xs">Expenditures</TableHead>
-                <TableHead className="text-xs">Adopt Budget</TableHead>
-                <TableHead className="text-xs">Expenditures</TableHead>
-                <TableHead className="text-xs">Adopt Budget</TableHead>
-                <TableHead className="text-xs">Expenditures</TableHead>
-                <TableHead></TableHead>
-                <TableHead></TableHead>
-                <TableHead></TableHead>
+                <TableHead className="text-xs text-center">Adopt Budget</TableHead>
+                <TableHead className="text-xs text-center">Expenditures</TableHead>
+                <TableHead className="text-xs text-center">Adopt Budget</TableHead>
+                <TableHead className="text-xs text-center">Expenditures</TableHead>
+                <TableHead className="text-xs text-center">Adopt Budget</TableHead>
+                <TableHead className="text-xs text-center">Expenditures</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
