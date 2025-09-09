@@ -96,57 +96,57 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full overflow-x-auto">
-          <div className="min-w-[1600px] rounded-md border border-border overflow-hidden">
-            <Table className="table-fixed w-full">
+        <div className="w-full overflow-hidden">
+          <div className="rounded-md border border-border">
+            <Table className="w-full text-sm">
               <TableHeader>
                 <TableRow className="border-border hover:bg-muted/50">
-                  <TableHead rowSpan={2} className="align-bottom w-[180px] p-3">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[120px] p-3">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('account')}>
                       <span>Account</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead className="text-center w-[240px] p-2" colSpan={2}>FY2024</TableHead>
-                  <TableHead className="text-center w-[240px] p-2" colSpan={2}>FY2025</TableHead>
-                  <TableHead className="text-center w-[240px] p-2" colSpan={2}>FY2026</TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[200px] p-3">
+                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2024</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2025</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2026</TableHead>
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('notes')}>
                       <span>Notes</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[120px] p-3">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy24VsFy25')}>
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px]">
+                    <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy24VsFy25')}>
                       <span>FY24 vs FY25</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[120px] p-3">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy25VsFy26')}>
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px]">
+                    <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy25VsFy26')}>
                       <span>FY25 vs FY26</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[100px] p-3">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2024')}>
                       <span>FY2024</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[100px] p-3">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2025')}>
                       <span>FY2025</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom w-[100px] p-3">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2026')}>
                       <span>FY2026</span>
                       <ArrowUpDown className="h-3 w-3" />
@@ -154,69 +154,69 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   </TableHead>
                 </TableRow>
                 <TableRow className="border-border hover:bg-muted/50">
-                  <TableHead className="text-xs text-center w-[120px] p-2">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center w-[120px] p-2">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center w-[120px] p-2">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center w-[120px] p-2">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center w-[120px] p-2">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center w-[120px] p-2">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {sortedData.map((row, index) => (
                   <TableRow key={row.id || index} className="border-border hover:bg-muted/30 transition-colors">
-                    <TableCell className="font-medium text-foreground p-3">
+                    <TableCell className="font-medium text-foreground p-2">
                       {row.category || 'Subcategory'}
                     </TableCell>
-                    <TableCell className="text-muted-foreground p-3">
+                    <TableCell className="text-muted-foreground p-2">
                       {row.account?.toString() || ''}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-3">
+                    <TableCell className="text-muted-foreground text-right p-2">
                       {formatCurrency(row.adoptBudget || 0)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-3">
+                    <TableCell className="text-muted-foreground text-right p-2">
                       {formatCurrency(row.expenditures || 0)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-3">
+                    <TableCell className="text-muted-foreground text-right p-2">
                       {formatCurrency(row.adoptBudget || 0)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-3">
+                    <TableCell className="text-muted-foreground text-right p-2">
                       {formatCurrency(row.expenditures || 0)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-3">
+                    <TableCell className="text-muted-foreground text-right p-2">
                       {formatCurrency(row.adoptBudget || 0)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-3">
+                    <TableCell className="text-muted-foreground text-right p-2">
                       {formatCurrency(row.expenditures || 0)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-xs p-3">
+                    <TableCell className="text-muted-foreground text-xs p-2">
                       {row.notes || ''}
                     </TableCell>
-                    <TableCell className={`font-medium text-right p-3 ${
+                    <TableCell className={`font-medium text-right p-2 text-xs ${
                       row.fy24VsFy25 > 0 ? 'text-success' : 
                       row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
                     }`}>
                       {formatPercentage(row.fy24VsFy25 || 0)}
                     </TableCell>
-                    <TableCell className={`font-medium text-right p-3 ${
+                    <TableCell className={`font-medium text-right p-2 text-xs ${
                       row.fy25VsFy26 > 0 ? 'text-success' : 
                       row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
                     }`}>
                       {formatPercentage(row.fy25VsFy26 || 0)}
                     </TableCell>
-                    <TableCell className={`font-medium text-right p-3 ${
+                    <TableCell className={`font-medium text-right p-2 text-xs ${
                       row.fy2024 > 0 ? 'text-success' : 
                       row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
                     }`}>
                       {formatPercentage(row.fy2024 || 0)}
                     </TableCell>
-                    <TableCell className={`font-medium text-right p-3 ${
+                    <TableCell className={`font-medium text-right p-2 text-xs ${
                       row.fy2025 > 0 ? 'text-success' : 
                       row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
                     }`}>
                       {formatPercentage(row.fy2025 || 0)}
                     </TableCell>
-                    <TableCell className={`font-medium text-right p-3 ${
+                    <TableCell className={`font-medium text-right p-2 text-xs ${
                       row.fy2026 > 0 ? 'text-success' : 
                       row.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
                     }`}>
