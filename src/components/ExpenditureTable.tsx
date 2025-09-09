@@ -86,11 +86,26 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
                 <SortableHeader field="category">Category</SortableHeader>
-                <SortableHeader field="adoptBudget">Adopted Budget</SortableHeader>
-                <SortableHeader field="expenditures">YTD Expenditures</SortableHeader>
-                <SortableHeader field="fy2026">Budget Utilization %</SortableHeader>
-                <SortableHeader field="fy25VsFy26">FY25 vs FY26</SortableHeader>
+                <SortableHeader field="account">Account</SortableHeader>
+                <TableHead className="text-center" colSpan={2}>FY2024</TableHead>
+                <TableHead className="text-center" colSpan={2}>FY2025</TableHead>
+                <TableHead className="text-center" colSpan={2}>FY2026</TableHead>
+                <SortableHeader field="notes">Notes</SortableHeader>
                 <SortableHeader field="fy24VsFy25">FY24 vs FY25</SortableHeader>
+                <SortableHeader field="fy25VsFy26">FY25 vs FY26</SortableHeader>
+              </TableRow>
+              <TableRow className="border-border hover:bg-muted/50">
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+                <TableHead className="text-xs">Adopt Budget</TableHead>
+                <TableHead className="text-xs">Expenditures</TableHead>
+                <TableHead className="text-xs">Adopt Budget</TableHead>
+                <TableHead className="text-xs">Expenditures</TableHead>
+                <TableHead className="text-xs">Adopt Budget</TableHead>
+                <TableHead className="text-xs">Expenditures</TableHead>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -100,28 +115,40 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     {row.category}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
+                    {row.account}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatCurrency(row.adoptBudget)}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatPercentage(row.fy2024)}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatCurrency(row.adoptBudget)}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatPercentage(row.fy2025)}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
                     {formatCurrency(row.adoptBudget)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatCurrency(row.expenditures)}
                   </TableCell>
-                  <TableCell className={`font-medium ${
-                    row.fy2026 > 0.5 ? 'text-destructive' : 
-                    row.fy2026 < 0.2 ? 'text-success' : 'text-muted-foreground'
-                  }`}>
-                    {formatPercentage(row.fy2026)}
-                  </TableCell>
-                  <TableCell className={`font-medium ${
-                    row.fy25VsFy26 > 0 ? 'text-success' : 
-                    row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                  }`}>
-                    {formatPercentage(row.fy25VsFy26)}
+                  <TableCell className="text-muted-foreground text-xs">
+                    {row.notes}
                   </TableCell>
                   <TableCell className={`font-medium ${
                     row.fy24VsFy25 > 0 ? 'text-success' : 
                     row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
                   }`}>
                     {formatPercentage(row.fy24VsFy25)}
+                  </TableCell>
+                  <TableCell className={`font-medium ${
+                    row.fy25VsFy26 > 0 ? 'text-success' : 
+                    row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                  }`}>
+                    {formatPercentage(row.fy25VsFy26)}
                   </TableCell>
                 </TableRow>
               ))}
