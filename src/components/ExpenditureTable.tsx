@@ -118,6 +118,24 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     <ArrowUpDown className="h-3 w-3" />
                   </div>
                 </TableHead>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2024')}>
+                    <span>FY2024</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2025')}>
+                    <span>FY2025</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
+                <TableHead rowSpan={2} className="align-bottom">
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2026')}>
+                    <span>FY2026</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </TableHead>
               </TableRow>
               <TableRow className="border-border hover:bg-muted/50">
                 <TableHead className="text-xs text-center">Adopt Budget</TableHead>
@@ -141,13 +159,13 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     {formatCurrency(row.adoptBudget)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatPercentage(row.fy2024)}
+                    {formatCurrency(row.expenditures)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatCurrency(row.adoptBudget)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatPercentage(row.fy2025)}
+                    {formatCurrency(row.expenditures)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatCurrency(row.adoptBudget)}
@@ -169,6 +187,24 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
                   }`}>
                     {formatPercentage(row.fy25VsFy26)}
+                  </TableCell>
+                  <TableCell className={`font-medium ${
+                    row.fy2024 > 0 ? 'text-success' : 
+                    row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                  }`}>
+                    {formatPercentage(row.fy2024)}
+                  </TableCell>
+                  <TableCell className={`font-medium ${
+                    row.fy2025 > 0 ? 'text-success' : 
+                    row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                  }`}>
+                    {formatPercentage(row.fy2025)}
+                  </TableCell>
+                  <TableCell className={`font-medium ${
+                    row.fy2026 > 0 ? 'text-success' : 
+                    row.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                  }`}>
+                    {formatPercentage(row.fy2026)}
                   </TableCell>
                 </TableRow>
               ))}
