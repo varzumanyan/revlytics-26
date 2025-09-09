@@ -88,7 +88,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                 <SortableHeader field="category">Category</SortableHeader>
                 <SortableHeader field="adoptBudget">Adopted Budget</SortableHeader>
                 <SortableHeader field="expenditures">YTD Expenditures</SortableHeader>
-                <SortableHeader field="fy2026">% of Budget Used</SortableHeader>
+                <SortableHeader field="fy2026">Budget Utilization %</SortableHeader>
                 <SortableHeader field="fy25VsFy26">FY25 vs FY26</SortableHeader>
                 <SortableHeader field="fy24VsFy25">FY24 vs FY25</SortableHeader>
               </TableRow>
@@ -105,7 +105,10 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableCell className="text-muted-foreground">
                     {formatCurrency(row.expenditures)}
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className={`font-medium ${
+                    row.fy2026 > 0.5 ? 'text-destructive' : 
+                    row.fy2026 < 0.2 ? 'text-success' : 'text-muted-foreground'
+                  }`}>
                     {formatPercentage(row.fy2026)}
                   </TableCell>
                   <TableCell className={`font-medium ${

@@ -110,24 +110,28 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <ExpenditureCard
                 title="Total Budget"
-                value={`$${totalExpenditureBudget.toLocaleString()}`}
+                value={totalExpenditureBudget}
+                isCurrency={true}
                 description="FY2026 adopted budget"
               />
               <ExpenditureCard
                 title="YTD Expenditures"
-                value={`$${totalExpenditures.toLocaleString()}`}
+                value={totalExpenditures}
+                isCurrency={true}
                 description="Year-to-date spending"
               />
               <ExpenditureCard
                 title="Budget Utilization"
-                value={`${(expenditureBudgetUtilization * 100).toFixed(1)}%`}
+                value={expenditureBudgetUtilization}
+                isPercentage={true}
                 change="of total budget"
                 changeType={expenditureBudgetUtilization > 0.5 ? 'negative' : expenditureBudgetUtilization < 0.2 ? 'positive' : 'neutral'}
                 description="Percentage of budget used"
               />
               <ExpenditureCard
                 title="Remaining Budget"
-                value={`$${(totalExpenditureBudget - totalExpenditures).toLocaleString()}`}
+                value={totalExpenditureBudget - totalExpenditures}
+                isCurrency={true}
                 description="Available for remainder of FY"
               />
             </div>
