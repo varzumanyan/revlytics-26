@@ -1,7 +1,7 @@
 export interface ExpenditureData {
   id: number;
   category: string;
-  account: number;
+  account: string | number;
   adoptBudget: number;
   expenditures: number;
   "": string;
