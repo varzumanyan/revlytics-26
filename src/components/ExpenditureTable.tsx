@@ -129,6 +129,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2024</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2026</TableHead>
+                  <TableHead className="text-center p-1 min-w-[120px] bg-muted/10" colSpan={3}>Percentage Growth</TableHead>
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px] bg-muted/10">
                     <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy24VsFy25')}>
                       <span>FY24 vs FY25</span>
@@ -141,24 +142,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px] bg-muted/10">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2024')}>
-                      <span>FY2024</span>
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px] bg-muted/10">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2025')}>
-                      <span>FY2025</span>
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px] bg-muted/10">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2026')}>
-                      <span>FY2026</span>
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
                 </TableRow>
                 <TableRow className="border-border hover:bg-muted/50 bg-muted/10">
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Adopt Budget</TableHead>
@@ -167,6 +150,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Adopt Budget</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[40px] bg-muted/10">FY2024</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[40px] bg-muted/10">FY2025</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[40px] bg-muted/10">FY2026</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -196,18 +182,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         {formatCurrency(group.department.expenditures || 0)}
                       </TableCell>
                       <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy24VsFy25 > 0 ? 'text-success' : 
-                        group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy24VsFy25 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy25VsFy26 > 0 ? 'text-success' : 
-                        group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy25VsFy26 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
                         group.department.fy2024 > 0 ? 'text-success' : 
                         group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
                       }`}>
@@ -224,6 +198,18 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         group.department.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
                       }`}>
                         {formatPercentage(group.department.fy2026 || 0)}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy24VsFy25 > 0 ? 'text-success' : 
+                        group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy24VsFy25 || 0)}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy25VsFy26 > 0 ? 'text-success' : 
+                        group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy25VsFy26 || 0)}
                       </TableCell>
                     </TableRow>
                     
@@ -252,18 +238,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                           {formatCurrency(row.expenditures || 0)}
                         </TableCell>
                         <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy24VsFy25 > 0 ? 'text-success' : 
-                          row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy24VsFy25 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy25VsFy26 > 0 ? 'text-success' : 
-                          row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy25VsFy26 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
                           row.fy2024 > 0 ? 'text-success' : 
                           row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
@@ -280,6 +254,18 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                           row.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
                           {formatPercentage(row.fy2026 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy24VsFy25 > 0 ? 'text-success' : 
+                          row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy24VsFy25 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy25VsFy26 > 0 ? 'text-success' : 
+                          row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy25VsFy26 || 0)}
                         </TableCell>
                       </TableRow>
                     ))}
