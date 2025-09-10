@@ -116,8 +116,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
       </CardHeader>
       <CardContent>
         <div className="w-full overflow-x-auto overflow-y-auto max-h-[600px] border border-border rounded-md">
-          <div className="min-w-max">
-            <Table className="w-full text-sm relative border-separate border-spacing-0">
+          <div className="min-w-[1400px]">
+            <Table className="w-full text-sm relative border-separate border-spacing-0 table-fixed">
               <TableHeader className="sticky top-0 bg-background z-20 border-b">
                 <TableRow className="border-border bg-muted/10">
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-background sticky left-0 z-30 border-r">
