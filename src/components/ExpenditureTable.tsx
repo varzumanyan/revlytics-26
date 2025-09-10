@@ -119,7 +119,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
           <div className="min-w-[1200px]">
             <Table className="w-full text-sm relative">
               <TableHeader className="sticky top-0 bg-background z-10">
-                <TableRow className="border-border hover:bg-muted/50">
+                <TableRow className="border-border hover:bg-muted/50 bg-muted/30">
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
@@ -160,7 +160,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     </div>
                   </TableHead>
                 </TableRow>
-                <TableRow className="border-border hover:bg-muted/50">
+                <TableRow className="border-border hover:bg-muted/50 bg-muted/30">
                   <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
