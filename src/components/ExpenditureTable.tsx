@@ -120,40 +120,40 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
             <Table className="w-full text-sm relative">
               <TableHeader className="sticky top-0 bg-background z-10">
                 <TableRow className="border-border hover:bg-muted/50 bg-muted/30">
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-muted/30">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2024</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2025</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2026</TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px]">
+                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/30" colSpan={2}>FY2024</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/30" colSpan={2}>FY2025</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/30" colSpan={2}>FY2026</TableHead>
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px] bg-muted/30">
                     <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy24VsFy25')}>
                       <span>FY24 vs FY25</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px]">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px] bg-muted/30">
                     <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy25VsFy26')}>
                       <span>FY25 vs FY26</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px] bg-muted/30">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2024')}>
                       <span>FY2024</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px] bg-muted/30">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2025')}>
                       <span>FY2025</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px] bg-muted/30">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('fy2026')}>
                       <span>FY2026</span>
                       <ArrowUpDown className="h-3 w-3" />
@@ -161,12 +161,12 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   </TableHead>
                 </TableRow>
                 <TableRow className="border-border hover:bg-muted/50 bg-muted/30">
-                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/30">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/30">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/30">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/30">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/30">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/30">Expenditures</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
