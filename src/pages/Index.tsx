@@ -79,7 +79,7 @@ const Index = () => {
   const totalExpenditureBudget = expenditureDataSheet.length > 0 ? 
     expenditureDataSheet.reduce((sum, item) => sum + (item.adoptBudget || 0), 0) : 0;
   const totalExpenditures = expenditureDataSheet.length > 0 ? 
-    expenditureDataSheet.reduce((sum, item) => sum + (item.fy2026 || 0), 0) : 0;
+    expenditureDataSheet.reduce((sum, item) => sum + (item.expenditures || 0), 0) : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   return <div className="min-h-screen bg-background">
       {/* Header */}
