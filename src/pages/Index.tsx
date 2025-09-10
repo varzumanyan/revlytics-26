@@ -75,7 +75,7 @@ const Index = () => {
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
 
-  // Calculate expenditure metrics - ensure we have valid data
+  // Calculate expenditure metrics for FY2026 only (adoptBudget and expenditures are already FY2026 data)
   const totalExpenditureBudget = expenditureDataSheet.length > 0 ? 
     expenditureDataSheet.reduce((sum, item) => sum + (item.adoptBudget || 0), 0) : 0;
   const totalExpenditures = expenditureDataSheet.length > 0 ? 
