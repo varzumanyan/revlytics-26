@@ -126,24 +126,24 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2024</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2025</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2026</TableHead>
-                  <TableHead className="text-center p-1 min-w-[360px] bg-muted/10" colSpan={3}>Expenditures as a % of Budget</TableHead>
-                  <TableHead className="text-center p-1 min-w-[200px] bg-muted/10" colSpan={2}>Operating Budget Change</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/10 sticky top-0 z-10" colSpan={2}>FY2024</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/10 sticky top-0 z-10" colSpan={2}>FY2025</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-muted/10 sticky top-0 z-10" colSpan={2}>FY2026</TableHead>
+                  <TableHead className="text-center p-1 min-w-[360px] bg-muted/10 sticky top-0 z-10" colSpan={3}>Expenditures as a % of Budget</TableHead>
+                  <TableHead className="text-center p-1 min-w-[200px] bg-muted/10 sticky top-0 z-10" colSpan={2}>Operating Budget Change</TableHead>
                 </TableRow>
-                <TableRow className="border-border hover:bg-muted/50 bg-muted/10">
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10">Total FY Expenditure as a % of Budget 2024</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10">Total FY Expenditure as a % of Budget 2025</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10">Total FY Expenditure as a % of Budget 2026</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-muted/10">FY24 vs FY25</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-muted/10">FY25 vs FY26</TableHead>
+                <TableRow className="border-border hover:bg-muted/50 bg-muted/10 sticky top-[42px] z-10">
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10 sticky top-[42px] z-10">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10 sticky top-[42px] z-10">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10 sticky top-[42px] z-10">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10 sticky top-[42px] z-10">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10 sticky top-[42px] z-10">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10 sticky top-[42px] z-10">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10 sticky top-[42px] z-10">Total FY Expenditure as a % of Budget 2024</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10 sticky top-[42px] z-10">Total FY Expenditure as a % of Budget 2025</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10 sticky top-[42px] z-10">Total FY Expenditure as a % of Budget 2026</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-muted/10 sticky top-[42px] z-10">FY24 vs FY25</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-muted/10 sticky top-[42px] z-10">FY25 vs FY26</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
