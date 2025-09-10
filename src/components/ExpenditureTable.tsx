@@ -130,7 +130,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-center p-1 min-w-[160px] bg-background" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-background" colSpan={2}>FY2026</TableHead>
                   <TableHead className="text-center p-1 min-w-[180px] bg-background" colSpan={3}>Fiscal YTD % Budget Utilization</TableHead>
-                  <TableHead className="text-center p-1 min-w-[120px] bg-background" colSpan={2}>FY Performance %</TableHead>
+                  <TableHead className="text-center p-1 min-w-[120px] bg-background" colSpan={2}>Prior FY % Budget Utilization</TableHead>
                   <TableHead className="text-center p-1 min-w-[200px] bg-background" colSpan={2}>Year-over-Year Change</TableHead>
                 </TableRow>
                 <TableRow className="border-border bg-muted/10">
