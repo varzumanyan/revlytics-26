@@ -120,7 +120,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
             <Table className="w-full text-sm relative">
               <TableHeader className="sticky top-0 bg-background z-10">
                 <TableRow className="border-border hover:bg-muted/50 bg-muted/10">
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-muted/10">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-muted/10 sticky left-0 z-20">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
                       <ArrowUpDown className="h-3 w-3" />
@@ -151,7 +151,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <React.Fragment key={group.department.id || groupIndex}>
                     {/* Department Header Row */}
                     <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20">
-                      <TableCell className="font-bold text-foreground p-2 bg-muted/30">
+                      <TableCell className="font-bold text-foreground p-2 bg-muted/30 sticky left-0 z-10">
                         {group.department.category}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
@@ -207,7 +207,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     {/* Subcategory Rows */}
                     {group.subcategories.map((row, subIndex) => (
                       <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors">
-                        <TableCell className="font-medium text-foreground p-2 pl-6">
+                        <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background">
                           {row.account?.toString() || 'Subcategory'}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
