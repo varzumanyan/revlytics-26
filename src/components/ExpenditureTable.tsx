@@ -108,7 +108,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   );
 
   return (
-    <Card className="bg-gradient-card border-border shadow-soft">
+    <Card className="bg-gradient-card border-border shadow-soft w-full resize-none">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
           Expenditure Analysis Details
