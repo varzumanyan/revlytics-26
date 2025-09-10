@@ -75,11 +75,12 @@ const Index = () => {
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
 
-  // Calculate expenditure metrics for FY2026 only
-  const totalExpenditureBudget = expenditureDataSheet.length > 0 ? 
-    expenditureDataSheet.reduce((sum, item) => sum + (item.adoptBudget || 0), 0) : 0;
-  const totalExpenditures = expenditureDataSheet.length > 0 ? 
-    expenditureDataSheet.reduce((sum, item) => sum + (item.expenditures || 0), 0) : 0;
+  // Calculate expenditure metrics for FY2026 only - filter to main categories only to avoid double counting
+  const mainCategories = expenditureDataSheet.filter(item => item.category && item.category.trim() !== '');
+  const totalExpenditureBudget = mainCategories.length > 0 ? 
+    mainCategories.reduce((sum, item) => sum + (item.adoptBudget || 0), 0) : 0;
+  const totalExpenditures = mainCategories.length > 0 ? 
+    mainCategories.reduce((sum, item) => sum + (item.expenditures || 0), 0) : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   return <div className="min-h-screen bg-background">
       {/* Header */}
