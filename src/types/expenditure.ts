@@ -5,6 +5,9 @@ export interface ExpenditureData {
   adoptBudget: number;
   expenditures: number;
   "": string;
+  fiscalyear24: number;
+  fiscalyear25: number;
+  fiscalyear26: number;
   fy2024: number;
   fy2025: number;
   fy2026: number;

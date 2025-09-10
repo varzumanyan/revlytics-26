@@ -129,7 +129,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-center p-1 min-w-[160px] bg-background" colSpan={2}>FY2024</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-background" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-background" colSpan={2}>FY2026</TableHead>
-                  <TableHead className="text-center p-1 min-w-[360px] bg-background" colSpan={3}>Expenditures as a % of Budget</TableHead>
+                  <TableHead className="text-center p-1 min-w-[240px] bg-background" colSpan={2}>Expenditures as a % of Budget</TableHead>
                   <TableHead className="text-center p-1 min-w-[200px] bg-background" colSpan={2}>Operating Budget Change</TableHead>
                 </TableRow>
                 <TableRow className="border-border bg-muted/10">
@@ -139,9 +139,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-background">Total FY Expenditure as a % of Budget 2024</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-background">Total FY Expenditure as a % of Budget 2025</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-background">Total FY Expenditure as a % of Budget 2026</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-background">FY2024</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-background">FY2025</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY24 vs FY25</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY25 vs FY26</TableHead>
                 </TableRow>
@@ -173,22 +172,16 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         {formatCurrency(group.department.expenditures || 0)}
                       </TableCell>
                       <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy2024 > 0 ? 'text-success' : 
-                        group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        (group.department as any).fiscalyear24 > 0 ? 'text-success' : 
+                        (group.department as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
                       }`}>
-                        {formatPercentage(group.department.fy2024 || 0)}
+                        {formatPercentage((group.department as any).fiscalyear24 || 0)}
                       </TableCell>
                       <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy2025 > 0 ? 'text-success' : 
-                        group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        (group.department as any).fiscalyear25 > 0 ? 'text-success' : 
+                        (group.department as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
                       }`}>
-                        {formatPercentage(group.department.fy2025 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy2026 > 0 ? 'text-success' : 
-                        group.department.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy2026 || 0)}
+                        {formatPercentage((group.department as any).fiscalyear25 || 0)}
                       </TableCell>
                       <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
                         group.department.fy24VsFy25 > 0 ? 'text-success' : 
@@ -229,22 +222,16 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                           {formatCurrency(row.expenditures || 0)}
                         </TableCell>
                         <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy2024 > 0 ? 'text-success' : 
-                          row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                          (row as any).fiscalyear24 > 0 ? 'text-success' : 
+                          (row as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
-                          {formatPercentage(row.fy2024 || 0)}
+                          {formatPercentage((row as any).fiscalyear24 || 0)}
                         </TableCell>
                         <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy2025 > 0 ? 'text-success' : 
-                          row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                          (row as any).fiscalyear25 > 0 ? 'text-success' : 
+                          (row as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
-                          {formatPercentage(row.fy2025 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy2026 > 0 ? 'text-success' : 
-                          row.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy2026 || 0)}
+                          {formatPercentage((row as any).fiscalyear25 || 0)}
                         </TableCell>
                         <TableCell className={`font-medium text-right p-2 text-xs ${
                           row.fy24VsFy25 > 0 ? 'text-success' : 
