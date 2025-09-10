@@ -129,7 +129,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2024</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px] bg-muted/10" colSpan={2}>FY2026</TableHead>
-                  <TableHead className="text-center p-1 min-w-[120px] bg-muted/10" colSpan={3}>Percentage Growth</TableHead>
+                  <TableHead className="text-center p-1 min-w-[360px] bg-muted/10" colSpan={3}>Expenditures as a % of Budget</TableHead>
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px] bg-muted/10">
                     <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy24VsFy25')}>
                       <span>FY24 vs FY25</span>
@@ -150,9 +150,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Adopt Budget</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-muted/10">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[40px] bg-muted/10">FY2024</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[40px] bg-muted/10">FY2025</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[40px] bg-muted/10">FY2026</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10">2024</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10">2025</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[120px] bg-muted/10">2026</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
