@@ -153,7 +153,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                 {sortedGroupedData.map((group, groupIndex) => (
                   <React.Fragment key={group.department.id || groupIndex}>
                     {/* Department Header Row */}
-                    <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20">
+                    <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b border-white">
                       <TableCell className="font-bold text-foreground p-2 bg-background sticky left-0 z-10 border-r">
                         {group.department.category}
                       </TableCell>
@@ -221,7 +221,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     
                     {/* Subcategory Rows */}
                     {group.subcategories.map((row, subIndex) => (
-                      <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors">
+                      <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b border-white">
                         <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background border-r">
                           {row.account?.toString() || 'Subcategory'}
                         </TableCell>
