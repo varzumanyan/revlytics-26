@@ -129,12 +129,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2024</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2026</TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('notes')}>
-                      <span>Notes</span>
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[100px]">
                     <div className="flex items-center space-x-1 cursor-pointer text-xs" onClick={() => handleSort('fy24VsFy25')}>
                       <span>FY24 vs FY25</span>
@@ -201,9 +195,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
                         {formatCurrency(group.department.expenditures || 0)}
                       </TableCell>
-                      <TableCell className="text-muted-foreground text-xs p-2 bg-muted/30">
-                        {group.department.notes || ''}
-                      </TableCell>
                       <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
                         group.department.fy24VsFy25 > 0 ? 'text-success' : 
                         group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
@@ -259,9 +250,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
                           {formatCurrency(row.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-xs p-2">
-                          {row.notes || ''}
                         </TableCell>
                         <TableCell className={`font-medium text-right p-2 text-xs ${
                           row.fy24VsFy25 > 0 ? 'text-success' : 
