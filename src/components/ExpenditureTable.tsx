@@ -126,12 +126,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[80px]">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('account')}>
-                      <span>Account</span>
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2024</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2026</TableHead>
@@ -188,9 +182,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20">
                       <TableCell className="font-bold text-foreground p-2 bg-muted/30">
                         {group.department.category}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground p-2 bg-muted/30">
-                        {group.department.account?.toString() || ''}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
                         {formatCurrency(group.department.adoptBudget || 0)}
@@ -250,9 +241,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors">
                         <TableCell className="font-medium text-foreground p-2 pl-6">
                           {row.account?.toString() || 'Subcategory'}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground p-2">
-                          
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
                           {formatCurrency(row.adoptBudget || 0)}
