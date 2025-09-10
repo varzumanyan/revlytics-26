@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,7 +10,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { ArrowUpDown } from "lucide-react";
-import { useState } from "react";
 
 interface ExpenditureTableProps {
   data: ExpenditureData[];
@@ -31,24 +31,43 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     }
   };
 
-  // Sort data alphabetically by category by default
-  const sortedData = [...data].sort((a, b) => {
+  // Group data by departments and their subcategories
+  const groupedData = () => {
+    const groups: Array<{ department: ExpenditureData; subcategories: ExpenditureData[] }> = [];
+    let currentDepartment: ExpenditureData | null = null;
+    let currentSubcategories: ExpenditureData[] = [];
+
+    data.forEach((item) => {
+      if (item.category && item.category.trim() !== '') {
+        // This is a department - save previous group and start new one
+        if (currentDepartment) {
+          groups.push({ department: currentDepartment, subcategories: currentSubcategories });
+        }
+        currentDepartment = item;
+        currentSubcategories = [];
+      } else if (currentDepartment) {
+        // This is a subcategory under the current department
+        currentSubcategories.push(item);
+      }
+    });
+
+    // Add the last group
+    if (currentDepartment) {
+      groups.push({ department: currentDepartment, subcategories: currentSubcategories });
+    }
+
+    return groups;
+  };
+
+  const sortedGroupedData = groupedData().sort((a, b) => {
     if (sortField === 'category') {
-      const aCategory = (a.category || '').toString().trim();
-      const bCategory = (b.category || '').toString().trim();
-      
-      // Handle empty categories - put them at the end
-      if (!aCategory && !bCategory) return 0;
-      if (!aCategory) return 1;
-      if (!bCategory) return -1;
-      
       return sortDirection === 'asc' 
-        ? aCategory.localeCompare(bCategory)
-        : bCategory.localeCompare(aCategory);
+        ? a.department.category.localeCompare(b.department.category)
+        : b.department.category.localeCompare(a.department.category);
     }
     
-    const aValue = a[sortField];
-    const bValue = b[sortField];
+    const aValue = a.department[sortField];
+    const bValue = b.department[sortField];
     
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return sortDirection === 'asc' 
@@ -163,66 +182,132 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {sortedData.map((row, index) => (
-                  <TableRow key={row.id || index} className="border-border hover:bg-muted/30 transition-colors">
-                    <TableCell className="font-medium text-foreground p-2">
-                      {row.category || 'Subcategory'}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground p-2">
-                      {row.account?.toString() || ''}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-2">
-                      {formatCurrency(row.adoptBudget || 0)}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-2">
-                      {formatCurrency(row.expenditures || 0)}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-2">
-                      {formatCurrency(row.adoptBudget || 0)}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-2">
-                      {formatCurrency(row.expenditures || 0)}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-2">
-                      {formatCurrency(row.adoptBudget || 0)}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-right p-2">
-                      {formatCurrency(row.expenditures || 0)}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-xs p-2">
-                      {row.notes || ''}
-                    </TableCell>
-                    <TableCell className={`font-medium text-right p-2 text-xs ${
-                      row.fy24VsFy25 > 0 ? 'text-success' : 
-                      row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                    }`}>
-                      {formatPercentage(row.fy24VsFy25 || 0)}
-                    </TableCell>
-                    <TableCell className={`font-medium text-right p-2 text-xs ${
-                      row.fy25VsFy26 > 0 ? 'text-success' : 
-                      row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                    }`}>
-                      {formatPercentage(row.fy25VsFy26 || 0)}
-                    </TableCell>
-                    <TableCell className={`font-medium text-right p-2 text-xs ${
-                      row.fy2024 > 0 ? 'text-success' : 
-                      row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                    }`}>
-                      {formatPercentage(row.fy2024 || 0)}
-                    </TableCell>
-                    <TableCell className={`font-medium text-right p-2 text-xs ${
-                      row.fy2025 > 0 ? 'text-success' : 
-                      row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                    }`}>
-                      {formatPercentage(row.fy2025 || 0)}
-                    </TableCell>
-                    <TableCell className={`font-medium text-right p-2 text-xs ${
-                      row.fy2026 > 0 ? 'text-success' : 
-                      row.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                    }`}>
-                      {formatPercentage(row.fy2026 || 0)}
-                    </TableCell>
-                  </TableRow>
+                {sortedGroupedData.map((group, groupIndex) => (
+                  <React.Fragment key={group.department.id || groupIndex}>
+                    {/* Department Header Row */}
+                    <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20">
+                      <TableCell className="font-bold text-foreground p-2 bg-muted/30">
+                        {group.department.category}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground p-2 bg-muted/30">
+                        {group.department.account?.toString() || ''}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.adoptBudget || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.adoptBudget || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.adoptBudget || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-xs p-2 bg-muted/30">
+                        {group.department.notes || ''}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy24VsFy25 > 0 ? 'text-success' : 
+                        group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy24VsFy25 || 0)}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy25VsFy26 > 0 ? 'text-success' : 
+                        group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy25VsFy26 || 0)}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy2024 > 0 ? 'text-success' : 
+                        group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy2024 || 0)}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy2025 > 0 ? 'text-success' : 
+                        group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy2025 || 0)}
+                      </TableCell>
+                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy2026 > 0 ? 'text-success' : 
+                        group.department.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy2026 || 0)}
+                      </TableCell>
+                    </TableRow>
+                    
+                    {/* Subcategory Rows */}
+                    {group.subcategories.map((row, subIndex) => (
+                      <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors">
+                        <TableCell className="font-medium text-foreground p-2 pl-6">
+                          {row.account?.toString() || 'Subcategory'}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground p-2">
+                          
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.adoptBudget || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.expenditures || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.adoptBudget || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.expenditures || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.adoptBudget || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.expenditures || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-xs p-2">
+                          {row.notes || ''}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy24VsFy25 > 0 ? 'text-success' : 
+                          row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy24VsFy25 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy25VsFy26 > 0 ? 'text-success' : 
+                          row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy25VsFy26 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy2024 > 0 ? 'text-success' : 
+                          row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy2024 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy2025 > 0 ? 'text-success' : 
+                          row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy2025 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs ${
+                          row.fy2026 > 0 ? 'text-success' : 
+                          row.fy2026 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(row.fy2026 || 0)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </React.Fragment>
                 ))}
               </TableBody>
             </Table>
