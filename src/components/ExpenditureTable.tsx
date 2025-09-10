@@ -132,6 +132,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2024</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2025</TableHead>
                   <TableHead className="text-center p-1 min-w-[160px]" colSpan={2}>FY2026</TableHead>
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('notes')}>
@@ -173,6 +175,10 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                 <TableRow className="border-border hover:bg-muted/50">
                   <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Adopt Budget</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px]">Expenditures</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -185,6 +191,18 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       </TableCell>
                       <TableCell className="text-muted-foreground p-2 bg-muted/30">
                         {group.department.account?.toString() || ''}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.adoptBudget || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.adoptBudget || 0)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.expenditures || 0)}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
                         {formatCurrency(group.department.adoptBudget || 0)}
@@ -235,6 +253,18 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         </TableCell>
                         <TableCell className="text-muted-foreground p-2">
                           
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.adoptBudget || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.expenditures || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.adoptBudget || 0)}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-right p-2">
+                          {formatCurrency(row.expenditures || 0)}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
                           {formatCurrency(row.adoptBudget || 0)}
