@@ -115,10 +115,10 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full overflow-x-auto">
-          <div className="rounded-md border border-border min-w-[1200px]">
-            <Table className="w-full text-sm">
-              <TableHeader>
+        <div className="w-full max-h-[600px] overflow-auto border border-border rounded-md">
+          <div className="min-w-[1200px]">
+            <Table className="w-full text-sm relative">
+              <TableHeader className="sticky top-0 bg-background z-10">
                 <TableRow className="border-border hover:bg-muted/50">
                   <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px]">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
