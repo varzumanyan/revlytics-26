@@ -132,7 +132,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-center p-1 min-w-[180px] bg-background" colSpan={3}>Fiscal Year % (Budget Utilization)</TableHead>
                   <TableHead className="text-center p-1 min-w-[120px] bg-background" colSpan={2}>FY Performance %</TableHead>
                   <TableHead className="text-center p-1 min-w-[200px] bg-background" colSpan={2}>Year-over-Year Change</TableHead>
-                  <TableHead className="text-center p-1 min-w-[100px] bg-background">Notes</TableHead>
                 </TableRow>
                 <TableRow className="border-border bg-muted/10">
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
@@ -148,7 +147,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY2025</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY24 vs FY25</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY25 vs FY26</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">Notes</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -219,9 +217,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       }`}>
                         {formatPercentage(group.department.fy25VsFy26 || 0)}
                       </TableCell>
-                      <TableCell className="text-muted-foreground text-left p-2 text-xs bg-muted/30 truncate max-w-[100px]">
-                        {group.department.notes || ''}
-                      </TableCell>
                     </TableRow>
                     
                     {/* Subcategory Rows */}
@@ -289,9 +284,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                           row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
                           {formatPercentage(row.fy25VsFy26 || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-left p-2 text-xs truncate max-w-[100px]">
-                          {row.notes || ''}
                         </TableCell>
                       </TableRow>
                     ))}
