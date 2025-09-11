@@ -115,12 +115,12 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full overflow-auto max-h-[600px] border border-border rounded-md relative">
+        <div className="w-full overflow-x-auto overflow-y-auto max-h-[600px] border border-border rounded-md">
           <div className="min-w-[1800px]">
-            <Table className="w-full text-sm relative border-separate border-spacing-0">
-              <TableHeader className="sticky top-0 bg-background z-20 border-b shadow-sm">
+            <Table className="w-full text-sm relative border-separate border-spacing-0 table-fixed">
+              <TableHeader className="sticky top-0 bg-background z-20 border-b">
                 <TableRow className="border-border bg-muted/10">
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-background sticky left-0 z-30 border-r-2 border-muted shadow-sm">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-background sticky left-0 z-30 border-r-2 border-muted">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
                       <ArrowUpDown className="h-3 w-3" />
@@ -154,7 +154,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <React.Fragment key={group.department.id || groupIndex}>
                     {/* Department Header Row */}
                     <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b-2 border-muted">
-                      <TableCell className="font-bold text-foreground p-2 bg-background sticky left-0 z-10 border-r-2 border-muted shadow-sm">
+                      <TableCell className="font-bold text-foreground p-2 bg-background sticky left-0 z-10 border-r-2 border-muted">
                         {group.department.category}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
@@ -222,7 +222,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     {/* Subcategory Rows */}
                     {group.subcategories.map((row, subIndex) => (
                       <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b-2 border-muted">
-                        <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background border-r-2 border-muted shadow-sm">
+                        <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background border-r-2 border-muted">
                           {row.account?.toString() || 'Subcategory'}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
