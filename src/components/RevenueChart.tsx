@@ -113,8 +113,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                       <div className="bg-popover border border-border rounded-md p-3 shadow-md">
                         <p className="text-foreground font-medium">{selectedCategory}</p>
                         <p className="text-foreground">
-                          <span className="text-muted-foreground">{item.name}: </span>
-                          ${typeof item.value === 'number' ? item.value.toFixed(1) : '0.0'}M
+                          <span 
+                            className="font-medium" 
+                            style={{ color: item.color }}
+                          >
+                            {item.name}: 
+                          </span>
+                          <span style={{ color: item.color }}>
+                            ${typeof item.value === 'number' ? item.value.toFixed(1) : '0.0'}M
+                          </span>
                         </p>
                       </div>
                     );
