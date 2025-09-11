@@ -105,21 +105,17 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               />
               <Tooltip 
                 cursor={{ fill: 'transparent' }}
+                shared={false}
                 content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
+                  if (active && payload && payload.length > 0) {
+                    const item = payload[0];
                     return (
                       <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                        <p className="text-foreground font-medium mb-2">{selectedCategory}</p>
-                        {payload.map((item, index) => (
-                          <p key={index} className="text-foreground">
-                            <span 
-                              className="inline-block w-3 h-3 mr-2 rounded" 
-                              style={{ backgroundColor: item.color }}
-                            ></span>
-                            <span className="text-muted-foreground">{item.name}: </span>
-                            ${typeof item.value === 'number' ? item.value.toFixed(1) : '0.0'}M
-                          </p>
-                        ))}
+                        <p className="text-foreground font-medium">{selectedCategory}</p>
+                        <p className="text-foreground">
+                          <span className="text-muted-foreground">{item.name}: </span>
+                          ${typeof item.value === 'number' ? item.value.toFixed(1) : '0.0'}M
+                        </p>
                       </div>
                     );
                   }
