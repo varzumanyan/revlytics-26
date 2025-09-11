@@ -101,17 +101,19 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
             style={{ minWidth: '1800px', tableLayout: 'fixed' }}
           >
             <thead>
-              <tr style={{ position: 'sticky', top: 0, zIndex: 100, backgroundColor: 'hsl(var(--background))' }}>
+              <tr style={{ position: 'sticky', top: 0, zIndex: 100, backgroundColor: 'hsl(var(--background))', borderBottom: 'none' }}>
                 <th 
                   rowSpan={2} 
                   className="align-bottom p-2 border-r-2 border-muted text-left"
                   style={{ 
                     position: 'sticky', 
                     left: 0, 
+                    top: 0,
                     zIndex: 101, 
                     backgroundColor: 'hsl(var(--background))',
                     minWidth: '140px',
-                    width: '140px'
+                    width: '140px',
+                    borderBottom: 'none'
                   }}
                 >
                   <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
@@ -180,7 +182,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   Y-o-Y Operating Budget Change
                 </th>
               </tr>
-              <tr style={{ position: 'sticky', top: '48px', zIndex: 99, backgroundColor: 'hsl(var(--background))' }}>
+              <tr style={{ position: 'sticky', top: '40px', zIndex: 99, backgroundColor: 'hsl(var(--background))', borderTop: 'none' }}>
                 <th 
                   className="text-xs text-center p-1"
                   style={{ 
