@@ -115,38 +115,250 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full overflow-x-auto overflow-y-auto max-h-[600px] border border-border rounded-md">
+        <div className="w-full overflow-auto max-h-[600px] border border-border rounded-md relative">
           <div className="min-w-[1800px]">
             <Table className="w-full text-sm relative border-separate border-spacing-0 table-fixed">
-              <TableHeader className="sticky top-0 bg-background z-20 border-b">
-                <TableRow className="border-border bg-muted/10">
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-background sticky left-0 z-30 border-r-2 border-muted">
+              <TableHeader>
+                <TableRow 
+                  className="border-border bg-muted/10"
+                  style={{ position: 'sticky', top: 0, zIndex: 30 }}
+                >
+                  <TableHead 
+                    rowSpan={2} 
+                    className="align-bottom p-2 min-w-[140px] border-r-2 border-muted"
+                    style={{ 
+                      position: 'sticky', 
+                      left: 0, 
+                      zIndex: 40, 
+                      backgroundColor: 'hsl(var(--background))',
+                      boxShadow: '2px 0 4px rgba(0,0,0,0.1)'
+                    }}
+                  >
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r-2 border-muted" colSpan={2}>FY2024</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r-2 border-muted" colSpan={2}>FY2025</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r-2 border-muted" colSpan={2}>FY2026</TableHead>
-                  <TableHead className="text-center p-1 min-w-[180px] bg-background border-r-2 border-muted" colSpan={3}>Fiscal YTD % Budget Utilization</TableHead>
-                  <TableHead className="text-center p-1 min-w-[120px] bg-background border-r-2 border-muted" colSpan={2}>Prior FY % Budget Utilization</TableHead>
-                  <TableHead className="text-center p-1 min-w-[200px] bg-background" colSpan={2}>Y-o-Y Operating Budget Change</TableHead>
+                  <TableHead 
+                    className="text-center p-1 min-w-[160px] border-r-2 border-muted" 
+                    colSpan={2}
+                    style={{ 
+                      position: 'sticky', 
+                      top: 0, 
+                      zIndex: 30, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY2024
+                  </TableHead>
+                  <TableHead 
+                    className="text-center p-1 min-w-[160px] border-r-2 border-muted" 
+                    colSpan={2}
+                    style={{ 
+                      position: 'sticky', 
+                      top: 0, 
+                      zIndex: 30, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY2025
+                  </TableHead>
+                  <TableHead 
+                    className="text-center p-1 min-w-[160px] border-r-2 border-muted" 
+                    colSpan={2}
+                    style={{ 
+                      position: 'sticky', 
+                      top: 0, 
+                      zIndex: 30, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY2026
+                  </TableHead>
+                  <TableHead 
+                    className="text-center p-1 min-w-[180px] border-r-2 border-muted" 
+                    colSpan={3}
+                    style={{ 
+                      position: 'sticky', 
+                      top: 0, 
+                      zIndex: 30, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Fiscal YTD % Budget Utilization
+                  </TableHead>
+                  <TableHead 
+                    className="text-center p-1 min-w-[120px] border-r-2 border-muted" 
+                    colSpan={2}
+                    style={{ 
+                      position: 'sticky', 
+                      top: 0, 
+                      zIndex: 30, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Prior FY % Budget Utilization
+                  </TableHead>
+                  <TableHead 
+                    className="text-center p-1 min-w-[200px]" 
+                    colSpan={2}
+                    style={{ 
+                      position: 'sticky', 
+                      top: 0, 
+                      zIndex: 30, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Y-o-Y Operating Budget Change
+                  </TableHead>
                 </TableRow>
-                <TableRow className="border-border bg-muted/10">
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r-2 border-muted">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r-2 border-muted">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r-2 border-muted">Expenditures</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY24</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY25</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background border-r-2 border-muted">FY26</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY2024</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background border-r-2 border-muted">FY2025</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY24 vs FY25</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY25 vs FY26</TableHead>
+                <TableRow 
+                  className="border-border bg-muted/10"
+                  style={{ position: 'sticky', top: '48px', zIndex: 29 }}
+                >
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[80px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Adopt Budget
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[80px] border-r-2 border-muted"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Expenditures
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[80px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Adopt Budget
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[80px] border-r-2 border-muted"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Expenditures
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[80px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Adopt Budget
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[80px] border-r-2 border-muted"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    Expenditures
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[60px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY24
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[60px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY25
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[60px] border-r-2 border-muted"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY26
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[60px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY2024
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[60px] border-r-2 border-muted"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY2025
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[100px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY24 vs FY25
+                  </TableHead>
+                  <TableHead 
+                    className="text-xs text-center p-1 min-w-[100px]"
+                    style={{ 
+                      position: 'sticky', 
+                      top: '48px', 
+                      zIndex: 29, 
+                      backgroundColor: 'hsl(var(--background))' 
+                    }}
+                  >
+                    FY25 vs FY26
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -154,7 +366,16 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   <React.Fragment key={group.department.id || groupIndex}>
                     {/* Department Header Row */}
                     <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b-2 border-muted">
-                      <TableCell className="font-bold text-foreground p-2 bg-background sticky left-0 z-10 border-r-2 border-muted">
+                      <TableCell 
+                        className="font-bold text-foreground p-2 border-r-2 border-muted"
+                        style={{ 
+                          position: 'sticky', 
+                          left: 0, 
+                          zIndex: 20, 
+                          backgroundColor: 'hsl(var(--background))',
+                          boxShadow: '2px 0 4px rgba(0,0,0,0.1)'
+                        }}
+                      >
                         {group.department.category}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
@@ -222,7 +443,16 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     {/* Subcategory Rows */}
                     {group.subcategories.map((row, subIndex) => (
                       <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b-2 border-muted">
-                        <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background border-r-2 border-muted">
+                        <TableCell 
+                          className="font-medium text-foreground p-2 pl-6 border-r-2 border-muted"
+                          style={{ 
+                            position: 'sticky', 
+                            left: 0, 
+                            zIndex: 20, 
+                            backgroundColor: 'hsl(var(--background))',
+                            boxShadow: '2px 0 4px rgba(0,0,0,0.1)'
+                          }}
+                        >
                           {row.account?.toString() || 'Subcategory'}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
