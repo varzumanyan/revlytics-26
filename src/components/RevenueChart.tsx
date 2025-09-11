@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -116,9 +116,16 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   color: 'hsl(var(--foreground))'
                 }}
               />
-              <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
-              <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
-              <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="July 2025" />
+               <Legend 
+                 wrapperStyle={{ 
+                   paddingTop: '20px',
+                   fontSize: '12px',
+                   color: 'hsl(var(--foreground))'
+                 }}
+               />
+               <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
+               <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
+               <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="July 2025" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
