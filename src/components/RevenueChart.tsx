@@ -107,15 +107,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 cursor={{ fill: 'transparent' }}
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
-                    // Get the specific bar being hovered - Recharts provides this in payload
-                    const hoveredBar = payload[0]; // The first item is the one being hovered
-                    if (hoveredBar && hoveredBar.value !== undefined) {
-                      const value = typeof hoveredBar.value === 'number' ? hoveredBar.value : 0;
+                    // Find the specific bar being hovered based on cursor position
+                    const activeItem = payload.find(item => item.value !== null && item.value !== undefined);
+                    if (activeItem) {
+                      const value = typeof activeItem.value === 'number' ? activeItem.value : 0;
                       return (
                         <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                          <p className="text-foreground font-medium">{hoveredBar.name}</p>
+                          <p className="text-foreground font-medium">{selectedCategory}</p>
                           <p className="text-foreground">
-                            <span className="text-muted-foreground">{label}: </span>
+                            <span className="text-muted-foreground">{activeItem.name}: </span>
                             ${value.toFixed(1)}M
                           </p>
                         </div>
