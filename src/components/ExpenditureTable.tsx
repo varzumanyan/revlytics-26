@@ -182,7 +182,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   Y-o-Y Operating Budget Change
                 </th>
               </tr>
-              <tr style={{ position: 'sticky', top: '32px', zIndex: 99, backgroundColor: 'hsl(var(--background))', borderTop: 'none' }}>
+              <tr style={{ position: 'sticky', top: '24px', zIndex: 99, backgroundColor: 'hsl(var(--background))', borderTop: 'none' }}>
                 <th 
                   className="text-xs text-center p-1"
                   style={{ 
