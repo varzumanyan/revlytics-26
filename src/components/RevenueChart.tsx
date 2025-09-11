@@ -105,15 +105,24 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               />
               <Tooltip 
                 cursor={{ fill: 'transparent' }}
-                formatter={(value: number, name: string) => {
-                  return [`$${value.toFixed(1)}M`, name];
-                }}
-                labelFormatter={(label) => label}
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--popover))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '6px',
-                  color: 'hsl(var(--foreground))'
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload.length) {
+                    // Filter to only show the bar that's actually being hovered
+                    const activeItem = payload.find(item => item.payload && item.dataKey);
+                    if (activeItem) {
+                      const value = typeof activeItem.value === 'number' ? activeItem.value : 0;
+                      return (
+                        <div className="bg-popover border border-border rounded-md p-3 shadow-md">
+                          <p className="text-foreground font-medium">{label}</p>
+                          <p className="text-foreground">
+                            <span className="text-muted-foreground">{activeItem.name}: </span>
+                            ${value.toFixed(1)}M
+                          </p>
+                        </div>
+                      );
+                    }
+                  }
+                  return null;
                 }}
               />
                <Legend 
