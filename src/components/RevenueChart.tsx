@@ -88,7 +88,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }} barCategoryGap="20%">
+            <BarChart data={topRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }} barCategoryGap="30%" maxBarSize={60}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="name" 
@@ -107,15 +107,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 cursor={{ fill: 'transparent' }}
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
-                    // Only show the data for the specific bar being hovered
-                    const hoveredData = payload.find(item => item.dataKey && item.value !== undefined);
+                    // Show data for the specific bar being hovered
+                    const hoveredData = payload[0]; // Get the first (and only) hovered bar
                     if (hoveredData) {
                       const value = typeof hoveredData.value === 'number' ? hoveredData.value : 0;
                       return (
                         <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                          <p className="text-foreground font-medium">{label}</p>
+                          <p className="text-foreground font-medium">{hoveredData.name}</p>
                           <p className="text-foreground">
-                            <span className="text-muted-foreground">{hoveredData.name}: </span>
+                            <span className="text-muted-foreground">{label}: </span>
                             ${value.toFixed(1)}M
                           </p>
                         </div>
