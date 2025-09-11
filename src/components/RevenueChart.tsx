@@ -35,16 +35,6 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     }));
 
 
-  const formatTooltip = (value: number, name: string, props: any) => {
-    // Only show the tooltip for the specific bar being hovered
-    if (props.active && props.payload && props.payload.length > 0) {
-      const activeData = props.payload.find((item: any) => item.dataKey === name);
-      if (activeData) {
-        return [`$${value.toFixed(1)}M`, name];
-      }
-    }
-    return null;
-  };
 
 
   return (
@@ -117,17 +107,20 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 cursor={{ fill: 'transparent' }}
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
-                    const data = payload[0];
-                    const value = typeof data.value === 'number' ? data.value : 0;
-                    return (
-                      <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                        <p className="text-foreground font-medium">{label}</p>
-                        <p className="text-foreground">
-                          <span className="text-muted-foreground">{data.name}: </span>
-                          ${value.toFixed(1)}M
-                        </p>
-                      </div>
-                    );
+                    // Only show the data for the specific bar being hovered
+                    const hoveredData = payload.find(item => item.dataKey && item.value !== undefined);
+                    if (hoveredData) {
+                      const value = typeof hoveredData.value === 'number' ? hoveredData.value : 0;
+                      return (
+                        <div className="bg-popover border border-border rounded-md p-3 shadow-md">
+                          <p className="text-foreground font-medium">{label}</p>
+                          <p className="text-foreground">
+                            <span className="text-muted-foreground">{hoveredData.name}: </span>
+                            ${value.toFixed(1)}M
+                          </p>
+                        </div>
+                      );
+                    }
                   }
                   return null;
                 }}
