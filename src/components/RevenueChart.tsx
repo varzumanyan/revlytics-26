@@ -35,8 +35,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     }));
 
 
-  const formatTooltip = (value: number, name: string) => {
-    return [`$${value.toFixed(1)}M`, name];
+  const formatTooltip = (value: number, name: string, props: any) => {
+    // Only show the tooltip for the specific bar being hovered
+    if (props.active && props.payload && props.payload.length > 0) {
+      const activeData = props.payload.find((item: any) => item.dataKey === name);
+      if (activeData) {
+        return [`$${value.toFixed(1)}M`, name];
+      }
+    }
+    return null;
   };
 
 
@@ -91,7 +98,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+            <BarChart data={topRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }} barCategoryGap="20%">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="name" 
@@ -107,13 +114,22 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 label={{ value: 'Revenue (Millions $)', angle: -90, position: 'insideLeft' }}
               />
               <Tooltip 
-                cursor={false}
-                formatter={formatTooltip}
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--popover))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '6px',
-                  color: 'hsl(var(--foreground))'
+                cursor={{ fill: 'transparent' }}
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0];
+                    const value = typeof data.value === 'number' ? data.value : 0;
+                    return (
+                      <div className="bg-popover border border-border rounded-md p-3 shadow-md">
+                        <p className="text-foreground font-medium">{label}</p>
+                        <p className="text-foreground">
+                          <span className="text-muted-foreground">{data.name}: </span>
+                          ${value.toFixed(1)}M
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
                 }}
               />
               <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
