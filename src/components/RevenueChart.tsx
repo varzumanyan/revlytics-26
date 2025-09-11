@@ -105,24 +105,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               />
               <Tooltip 
                 cursor={{ fill: 'transparent' }}
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    // Show data for the specific bar being hovered
-                    const hoveredData = payload[0]; // Get the first (and only) hovered bar
-                    if (hoveredData) {
-                      const value = typeof hoveredData.value === 'number' ? hoveredData.value : 0;
-                      return (
-                        <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                          <p className="text-foreground font-medium">{hoveredData.name}</p>
-                          <p className="text-foreground">
-                            <span className="text-muted-foreground">{label}: </span>
-                            ${value.toFixed(1)}M
-                          </p>
-                        </div>
-                      );
-                    }
-                  }
-                  return null;
+                formatter={(value: number, name: string) => {
+                  return [`$${value.toFixed(1)}M`, name];
+                }}
+                labelFormatter={(label) => label}
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--popover))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '6px',
+                  color: 'hsl(var(--foreground))'
                 }}
               />
               <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
