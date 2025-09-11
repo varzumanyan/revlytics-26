@@ -107,15 +107,15 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 cursor={{ fill: 'transparent' }}
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
-                    // Filter to only show the bar that's actually being hovered
-                    const activeItem = payload.find(item => item.payload && item.dataKey);
-                    if (activeItem) {
-                      const value = typeof activeItem.value === 'number' ? activeItem.value : 0;
+                    // Get the specific bar being hovered - Recharts provides this in payload
+                    const hoveredBar = payload[0]; // The first item is the one being hovered
+                    if (hoveredBar && hoveredBar.value !== undefined) {
+                      const value = typeof hoveredBar.value === 'number' ? hoveredBar.value : 0;
                       return (
                         <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                          <p className="text-foreground font-medium">{label}</p>
+                          <p className="text-foreground font-medium">{hoveredBar.name}</p>
                           <p className="text-foreground">
-                            <span className="text-muted-foreground">{activeItem.name}: </span>
+                            <span className="text-muted-foreground">{label}: </span>
                             ${value.toFixed(1)}M
                           </p>
                         </div>
@@ -124,6 +124,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   }
                   return null;
                 }}
+                allowEscapeViewBox={{ x: false, y: false }}
               />
                <Legend 
                  wrapperStyle={{ 
