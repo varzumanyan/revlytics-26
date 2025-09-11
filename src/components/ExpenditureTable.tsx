@@ -120,31 +120,31 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
             <Table className="w-full text-sm relative border-separate border-spacing-0 table-fixed">
               <TableHeader className="sticky top-0 bg-background z-20 border-b">
                 <TableRow className="border-border bg-muted/10">
-                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-background sticky left-0 z-30 border-r">
+                  <TableHead rowSpan={2} className="align-bottom p-2 min-w-[140px] bg-background sticky left-0 z-30 border-r-2 border-muted">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
                       <span>Category</span>
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r border-muted" colSpan={2}>FY2024</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r border-muted" colSpan={2}>FY2025</TableHead>
-                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r border-muted" colSpan={2}>FY2026</TableHead>
-                  <TableHead className="text-center p-1 min-w-[180px] bg-background border-r border-muted" colSpan={3}>Fiscal YTD % Budget Utilization</TableHead>
-                  <TableHead className="text-center p-1 min-w-[120px] bg-background border-r border-muted" colSpan={2}>Prior FY % Budget Utilization</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r-2 border-muted" colSpan={2}>FY2024</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r-2 border-muted" colSpan={2}>FY2025</TableHead>
+                  <TableHead className="text-center p-1 min-w-[160px] bg-background border-r-2 border-muted" colSpan={2}>FY2026</TableHead>
+                  <TableHead className="text-center p-1 min-w-[180px] bg-background border-r-2 border-muted" colSpan={3}>Fiscal YTD % Budget Utilization</TableHead>
+                  <TableHead className="text-center p-1 min-w-[120px] bg-background border-r-2 border-muted" colSpan={2}>Prior FY % Budget Utilization</TableHead>
                   <TableHead className="text-center p-1 min-w-[200px] bg-background" colSpan={2}>Y-o-Y Operating Budget Change</TableHead>
                 </TableRow>
                 <TableRow className="border-border bg-muted/10">
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r border-muted">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r-2 border-muted">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r border-muted">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r-2 border-muted">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background">Adopt Budget</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r border-muted">Expenditures</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[80px] bg-background border-r-2 border-muted">Expenditures</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY24</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY25</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background border-r border-muted">FY26</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background border-r-2 border-muted">FY26</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background">FY2024</TableHead>
-                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background border-r border-muted">FY2025</TableHead>
+                  <TableHead className="text-xs text-center p-1 min-w-[60px] bg-background border-r-2 border-muted">FY2025</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY24 vs FY25</TableHead>
                   <TableHead className="text-xs text-center p-1 min-w-[100px] bg-background">FY25 vs FY26</TableHead>
                 </TableRow>
@@ -153,94 +153,94 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                 {sortedGroupedData.map((group, groupIndex) => (
                   <React.Fragment key={group.department.id || groupIndex}>
                     {/* Department Header Row */}
-                    <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b border-muted">
-                      <TableCell className="font-bold text-foreground p-2 bg-background sticky left-0 z-10 border-r">
+                    <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b-2 border-muted">
+                      <TableCell className="font-bold text-foreground p-2 bg-background sticky left-0 z-10 border-r-2 border-muted">
                         {group.department.category}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
                         {formatCurrency(group.department.adoptBudget || 0)}
                       </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r border-muted">
+                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
                           {formatCurrency(group.department.expenditures || 0)}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
                           {formatCurrency(group.department.adoptBudget || 0)}
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r border-muted">
+                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
                           {formatCurrency(group.department.expenditures || 0)}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
                           {formatCurrency(group.department.adoptBudget || 0)}
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r border-muted">
-                        {formatCurrency(group.department.expenditures || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        (group.department as any).fiscalyear24 > 0 ? 'text-success' : 
-                        (group.department as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage((group.department as any).fiscalyear24 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        (group.department as any).fiscalyear25 > 0 ? 'text-success' : 
-                        (group.department as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage((group.department as any).fiscalyear25 || 0)}
-                      </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 border-r border-muted ${
+                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
+                          {formatCurrency(group.department.expenditures || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                          (group.department as any).fiscalyear24 > 0 ? 'text-success' : 
+                          (group.department as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage((group.department as any).fiscalyear24 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                          (group.department as any).fiscalyear25 > 0 ? 'text-success' : 
+                          (group.department as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage((group.department as any).fiscalyear25 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
                           (group.department as any).fiscalyear26 > 0 ? 'text-success' : 
                           (group.department as any).fiscalyear26 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
-                        {formatPercentage((group.department as any).fiscalyear26 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy2024 > 0 ? 'text-success' : 
-                        group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy2024 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 border-r border-muted ${
-                        group.department.fy2025 > 0 ? 'text-success' : 
-                        group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy2025 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy24VsFy25 > 0 ? 'text-success' : 
-                        group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy24VsFy25 || 0)}
-                      </TableCell>
-                      <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                        group.department.fy25VsFy26 > 0 ? 'text-success' : 
-                        group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                      }`}>
-                        {formatPercentage(group.department.fy25VsFy26 || 0)}
-                      </TableCell>
+                          {formatPercentage((group.department as any).fiscalyear26 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                          group.department.fy2024 > 0 ? 'text-success' : 
+                          group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(group.department.fy2024 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
+                          group.department.fy2025 > 0 ? 'text-success' : 
+                          group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(group.department.fy2025 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                          group.department.fy24VsFy25 > 0 ? 'text-success' : 
+                          group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(group.department.fy24VsFy25 || 0)}
+                        </TableCell>
+                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                          group.department.fy25VsFy26 > 0 ? 'text-success' : 
+                          group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(group.department.fy25VsFy26 || 0)}
+                        </TableCell>
                     </TableRow>
                     
                     {/* Subcategory Rows */}
                     {group.subcategories.map((row, subIndex) => (
-                      <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b border-muted">
-                        <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background border-r">
+                      <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b-2 border-muted">
+                        <TableCell className="font-medium text-foreground p-2 pl-6 sticky left-0 z-10 bg-background border-r-2 border-muted">
                           {row.account?.toString() || 'Subcategory'}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
                           {formatCurrency(row.adoptBudget || 0)}
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 border-r border-muted">
+                        <TableCell className="text-muted-foreground text-right p-2 border-r-2 border-muted">
                           {formatCurrency(row.expenditures || 0)}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
                           {formatCurrency(row.adoptBudget || 0)}
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 border-r border-muted">
+                        <TableCell className="text-muted-foreground text-right p-2 border-r-2 border-muted">
                           {formatCurrency(row.expenditures || 0)}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-right p-2">
                           {formatCurrency(row.adoptBudget || 0)}
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 border-r border-muted">
+                        <TableCell className="text-muted-foreground text-right p-2 border-r-2 border-muted">
                           {formatCurrency(row.expenditures || 0)}
                         </TableCell>
                         <TableCell className={`font-medium text-right p-2 text-xs ${
@@ -255,7 +255,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         }`}>
                           {formatPercentage((row as any).fiscalyear25 || 0)}
                         </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs border-r border-muted ${
+                        <TableCell className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
                           (row as any).fiscalyear26 > 0 ? 'text-success' : 
                           (row as any).fiscalyear26 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
@@ -267,7 +267,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         }`}>
                           {formatPercentage(row.fy2024 || 0)}
                         </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs border-r border-muted ${
+                        <TableCell className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
                           row.fy2025 > 0 ? 'text-success' : 
                           row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
