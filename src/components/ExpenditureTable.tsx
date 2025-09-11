@@ -129,7 +129,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     style={{ 
                       position: 'sticky', 
                       left: 0, 
-                      zIndex: 40, 
+                      top: 0,
+                      zIndex: 50, 
                       backgroundColor: 'hsl(var(--background))',
                       boxShadow: '2px 0 4px rgba(0,0,0,0.1)'
                     }}
