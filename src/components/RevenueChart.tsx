@@ -131,6 +131,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                    fontSize: '12px',
                    color: 'hsl(var(--foreground))'
                  }}
+                 formatter={(value) => value}
                />
                <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
                <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
