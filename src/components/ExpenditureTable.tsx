@@ -1,12 +1,4 @@
 import React, { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { ArrowUpDown } from "lucide-react";
@@ -103,294 +95,369 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full overflow-auto max-h-[600px] border border-border rounded-md">
-          <div className="min-w-[1800px]">
-            <Table className="w-full text-sm border-separate border-spacing-0 table-fixed">
-              <TableHeader className="sticky top-0 z-50" style={{ backgroundColor: 'hsl(var(--background))' }}>
-                <TableRow className="border-border">
-                  <TableHead 
-                    rowSpan={2} 
-                    className="align-bottom p-2 min-w-[140px] border-r-2 border-muted sticky left-0 z-50"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
-                      <span>Category</span>
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead 
-                    className="text-center p-1 min-w-[160px] border-r-2 border-muted" 
-                    colSpan={2}
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY2024
-                  </TableHead>
-                  <TableHead 
-                    className="text-center p-1 min-w-[160px] border-r-2 border-muted" 
-                    colSpan={2}
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY2025
-                  </TableHead>
-                  <TableHead 
-                    className="text-center p-1 min-w-[160px] border-r-2 border-muted" 
-                    colSpan={2}
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY2026
-                  </TableHead>
-                  <TableHead 
-                    className="text-center p-1 min-w-[180px] border-r-2 border-muted" 
-                    colSpan={3}
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Fiscal YTD % Budget Utilization
-                  </TableHead>
-                  <TableHead 
-                    className="text-center p-1 min-w-[120px] border-r-2 border-muted" 
-                    colSpan={2}
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Prior FY % Budget Utilization
-                  </TableHead>
-                  <TableHead 
-                    className="text-center p-1 min-w-[200px]" 
-                    colSpan={2}
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Y-o-Y Operating Budget Change
-                  </TableHead>
-                </TableRow>
-                <TableRow className="border-border sticky top-12 z-40" style={{ backgroundColor: 'hsl(var(--background))' }}>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[80px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Adopt Budget
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[80px] border-r-2 border-muted"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Expenditures
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[80px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Adopt Budget
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[80px] border-r-2 border-muted"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Expenditures
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[80px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Adopt Budget
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[80px] border-r-2 border-muted"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    Expenditures
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[60px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY24
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[60px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY25
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[60px] border-r-2 border-muted"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY26
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[60px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY2024
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[60px] border-r-2 border-muted"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY2025
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[100px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY24 vs FY25
-                  </TableHead>
-                  <TableHead 
-                    className="text-xs text-center p-1 min-w-[100px]"
-                    style={{ backgroundColor: 'hsl(var(--background))' }}
-                  >
-                    FY25 vs FY26
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sortedGroupedData.map((group, groupIndex) => (
-                  <React.Fragment key={group.department.id || groupIndex}>
-                    {/* Department Header Row */}
-                    <TableRow className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b-2 border-muted">
-                      <TableCell 
-                        className="font-bold text-foreground p-2 border-r-2 border-muted sticky left-0 z-20"
-                        style={{ backgroundColor: 'hsl(var(--background))' }}
-                      >
-                        {group.department.category}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
+        <div className="w-full overflow-auto max-h-[600px] border border-border rounded-md relative">
+          <table 
+            className="w-full text-sm border-separate border-spacing-0" 
+            style={{ minWidth: '1800px', tableLayout: 'fixed' }}
+          >
+            <thead>
+              <tr style={{ position: 'sticky', top: 0, zIndex: 100, backgroundColor: 'hsl(var(--background))' }}>
+                <th 
+                  rowSpan={2} 
+                  className="align-bottom p-2 border-r-2 border-muted text-left"
+                  style={{ 
+                    position: 'sticky', 
+                    left: 0, 
+                    zIndex: 101, 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '140px',
+                    width: '140px'
+                  }}
+                >
+                  <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleSort('category')}>
+                    <span>Category</span>
+                    <ArrowUpDown className="h-3 w-3" />
+                  </div>
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '160px'
+                  }}
+                >
+                  FY2024
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '160px'
+                  }}
+                >
+                  FY2025
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '160px'
+                  }}
+                >
+                  FY2026
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={3}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '180px'
+                  }}
+                >
+                  Fiscal YTD % Budget Utilization
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '120px'
+                  }}
+                >
+                  Prior FY % Budget Utilization
+                </th>
+                <th 
+                  className="text-center p-1" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '200px'
+                  }}
+                >
+                  Y-o-Y Operating Budget Change
+                </th>
+              </tr>
+              <tr style={{ position: 'sticky', top: '48px', zIndex: 99, backgroundColor: 'hsl(var(--background))' }}>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Adopt Budget
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Expenditures
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Adopt Budget
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Expenditures
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Adopt Budget
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Expenditures
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '60px'
+                  }}
+                >
+                  FY24
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '60px'
+                  }}
+                >
+                  FY25
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '60px'
+                  }}
+                >
+                  FY26
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '60px'
+                  }}
+                >
+                  FY2024
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '60px'
+                  }}
+                >
+                  FY2025
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '100px'
+                  }}
+                >
+                  FY24 vs FY25
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '100px'
+                  }}
+                >
+                  FY25 vs FY26
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedGroupedData.map((group, groupIndex) => (
+                <React.Fragment key={group.department.id || groupIndex}>
+                  {/* Department Header Row */}
+                  <tr className="border-border hover:bg-muted/30 transition-colors bg-muted/20 border-b-2 border-muted">
+                    <td 
+                      className="font-bold text-foreground p-2 border-r-2 border-muted"
+                      style={{ 
+                        position: 'sticky', 
+                        left: 0, 
+                        zIndex: 20, 
+                        backgroundColor: 'hsl(var(--background))'
+                      }}
+                    >
+                      {group.department.category}
+                    </td>
+                    <td className="text-muted-foreground text-right p-2 bg-muted/30">
+                      {formatCurrency(group.department.adoptBudget || 0)}
+                    </td>
+                      <td className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 bg-muted/30">
                         {formatCurrency(group.department.adoptBudget || 0)}
-                      </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
-                          {formatCurrency(group.department.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
-                          {formatCurrency(group.department.adoptBudget || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
-                          {formatCurrency(group.department.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30">
-                          {formatCurrency(group.department.adoptBudget || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
-                          {formatCurrency(group.department.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                          (group.department as any).fiscalyear24 > 0 ? 'text-success' : 
-                          (group.department as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage((group.department as any).fiscalyear24 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                          (group.department as any).fiscalyear25 > 0 ? 'text-success' : 
-                          (group.department as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage((group.department as any).fiscalyear25 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
-                          (group.department as any).fiscalyear26 > 0 ? 'text-success' : 
-                          (group.department as any).fiscalyear26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage((group.department as any).fiscalyear26 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                          group.department.fy2024 > 0 ? 'text-success' : 
-                          group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(group.department.fy2024 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
-                          group.department.fy2025 > 0 ? 'text-success' : 
-                          group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(group.department.fy2025 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                          group.department.fy24VsFy25 > 0 ? 'text-success' : 
-                          group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(group.department.fy24VsFy25 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs bg-muted/30 ${
-                          group.department.fy25VsFy26 > 0 ? 'text-success' : 
-                          group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(group.department.fy25VsFy26 || 0)}
-                        </TableCell>
-                    </TableRow>
-                    
-                    {/* Subcategory Rows */}
-                    {group.subcategories.map((row, subIndex) => (
-                      <TableRow key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b-2 border-muted">
-                        <TableCell 
-                          className="font-medium text-foreground p-2 pl-6 border-r-2 border-muted sticky left-0 z-20"
-                          style={{ backgroundColor: 'hsl(var(--background))' }}
-                        >
-                          {row.account?.toString() || 'Subcategory'}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2">
-                          {formatCurrency(row.adoptBudget || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 border-r-2 border-muted">
-                          {formatCurrency(row.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2">
-                          {formatCurrency(row.adoptBudget || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 border-r-2 border-muted">
-                          {formatCurrency(row.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2">
-                          {formatCurrency(row.adoptBudget || 0)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground text-right p-2 border-r-2 border-muted">
-                          {formatCurrency(row.expenditures || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          (row as any).fiscalyear24 > 0 ? 'text-success' : 
-                          (row as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage((row as any).fiscalyear24 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          (row as any).fiscalyear25 > 0 ? 'text-success' : 
-                          (row as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage((row as any).fiscalyear25 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
-                          (row as any).fiscalyear26 > 0 ? 'text-success' : 
-                          (row as any).fiscalyear26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage((row as any).fiscalyear26 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy2024 > 0 ? 'text-success' : 
-                          row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy2024 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
-                          row.fy2025 > 0 ? 'text-success' : 
-                          row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy2025 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy24VsFy25 > 0 ? 'text-success' : 
-                          row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy24VsFy25 || 0)}
-                        </TableCell>
-                        <TableCell className={`font-medium text-right p-2 text-xs ${
-                          row.fy25VsFy26 > 0 ? 'text-success' : 
-                          row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
-                        }`}>
-                          {formatPercentage(row.fy25VsFy26 || 0)}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </React.Fragment>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 bg-muted/30">
+                        {formatCurrency(group.department.adoptBudget || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
+                        {formatCurrency(group.department.expenditures || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        (group.department as any).fiscalyear24 > 0 ? 'text-success' : 
+                        (group.department as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage((group.department as any).fiscalyear24 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        (group.department as any).fiscalyear25 > 0 ? 'text-success' : 
+                        (group.department as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage((group.department as any).fiscalyear25 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
+                        (group.department as any).fiscalyear26 > 0 ? 'text-success' : 
+                        (group.department as any).fiscalyear26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage((group.department as any).fiscalyear26 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy2024 > 0 ? 'text-success' : 
+                        group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy2024 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
+                        group.department.fy2025 > 0 ? 'text-success' : 
+                        group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy2025 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy24VsFy25 > 0 ? 'text-success' : 
+                        group.department.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy24VsFy25 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs bg-muted/30 ${
+                        group.department.fy25VsFy26 > 0 ? 'text-success' : 
+                        group.department.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(group.department.fy25VsFy26 || 0)}
+                      </td>
+                  </tr>
+                  
+                  {/* Subcategory Rows */}
+                  {group.subcategories.map((row, subIndex) => (
+                    <tr key={`${groupIndex}-${subIndex}`} className="border-border hover:bg-muted/30 transition-colors border-b-2 border-muted">
+                      <td 
+                        className="font-medium text-foreground p-2 pl-6 border-r-2 border-muted"
+                        style={{ 
+                          position: 'sticky', 
+                          left: 0, 
+                          zIndex: 20, 
+                          backgroundColor: 'hsl(var(--background))'
+                        }}
+                      >
+                        {row.account?.toString() || 'Subcategory'}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2">
+                        {formatCurrency(row.adoptBudget || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 border-r-2 border-muted">
+                        {formatCurrency(row.expenditures || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2">
+                        {formatCurrency(row.adoptBudget || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 border-r-2 border-muted">
+                        {formatCurrency(row.expenditures || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2">
+                        {formatCurrency(row.adoptBudget || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2 border-r-2 border-muted">
+                        {formatCurrency(row.expenditures || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs ${
+                        (row as any).fiscalyear24 > 0 ? 'text-success' : 
+                        (row as any).fiscalyear24 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage((row as any).fiscalyear24 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs ${
+                        (row as any).fiscalyear25 > 0 ? 'text-success' : 
+                        (row as any).fiscalyear25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage((row as any).fiscalyear25 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
+                        (row as any).fiscalyear26 > 0 ? 'text-success' : 
+                        (row as any).fiscalyear26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage((row as any).fiscalyear26 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs ${
+                        row.fy2024 > 0 ? 'text-success' : 
+                        row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(row.fy2024 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
+                        row.fy2025 > 0 ? 'text-success' : 
+                        row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(row.fy2025 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs ${
+                        row.fy24VsFy25 > 0 ? 'text-success' : 
+                        row.fy24VsFy25 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(row.fy24VsFy25 || 0)}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs ${
+                        row.fy25VsFy26 > 0 ? 'text-success' : 
+                        row.fy25VsFy26 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(row.fy25VsFy26 || 0)}
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
         </div>
       </CardContent>
     </Card>
