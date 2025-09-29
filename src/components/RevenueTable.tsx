@@ -131,12 +131,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
                 <SortableHeader field="revenueType">Revenue Type</SortableHeader>
-                <SortableHeader field="august2023">August 2023</SortableHeader>
-                <SortableHeader field="august2024">August 2024</SortableHeader>
-                <SortableHeader field="august2025">August 2025</SortableHeader>
-                <SortableHeader field="august25VsAugust24Change">Aug25 vs Aug24</SortableHeader>
+                <SortableHeader field="july2023">July 2023</SortableHeader>
+                <SortableHeader field="july2024">July 2024</SortableHeader>
+                <SortableHeader field="july2025">July 2025</SortableHeader>
+                <SortableHeader field="july25VsJuly24Change">Jul25 vs Jul24</SortableHeader>
                 <SortableHeader field="%">YoY Change %</SortableHeader>
-                <SortableHeader field="august25RevAs %OfFy2026Budget">% of FY2026 Budget</SortableHeader>
+                <SortableHeader field="july25RevAs %OfFy2026Budget">% of FY2026 Budget</SortableHeader>
                 <SortableHeader field="fy2026
 adoptedBudget">FY2026 Adopted Budget</SortableHeader>
               </TableRow>
@@ -148,19 +148,19 @@ adoptedBudget">FY2026 Adopted Budget</SortableHeader>
                     {row.revenueType}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatCurrency(row.august2023)}
+                    {formatCurrency(row.july2023)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatCurrency(row.august2024)}
+                    {formatCurrency(row.july2024)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatCurrency(row.august2025)}
+                    {formatCurrency(row.july2025)}
                   </TableCell>
                   <TableCell className={`font-medium ${
-                    row.august25VsAugust24Change > 0 ? 'text-success' : 
-                    row.august25VsAugust24Change < 0 ? 'text-destructive' : 'text-muted-foreground'
+                    row.july25VsJuly24Change > 0 ? 'text-success' : 
+                    row.july25VsJuly24Change < 0 ? 'text-destructive' : 'text-muted-foreground'
                   }`}>
-                    {formatCurrency(row.august25VsAugust24Change)}
+                    {formatCurrency(row.july25VsJuly24Change)}
                   </TableCell>
                   <TableCell className={`font-medium ${
                     row["%"] > 0 ? 'text-success' : row["%"] < 0 ? 'text-destructive' : 'text-muted-foreground'
@@ -168,7 +168,7 @@ adoptedBudget">FY2026 Adopted Budget</SortableHeader>
                     {formatPercentage(row["%"])}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatPercentage(row["august25RevAs %OfFy2026Budget"])}
+                    {formatPercentage(row["july25RevAs %OfFy2026Budget"])}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatCurrency(row["fy2026\nadoptedBudget"])}

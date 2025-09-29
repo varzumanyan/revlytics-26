@@ -29,9 +29,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         item.revenueType.substring(0, 20) + '...' : 
         item.revenueType,
       fullName: item.revenueType,
-      august2023: item.august2023 / 1000000, // Convert to millions
-      august2024: item.august2024 / 1000000,
-      august2025: item.august2025 / 1000000,
+      july2023: item.july2023 / 1000000, // Convert to millions
+      july2024: item.july2024 / 1000000,
+      july2025: item.july2025 / 1000000,
     }));
 
 
@@ -138,9 +138,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                  }}
                  formatter={(value) => value}
                />
-                <Bar dataKey="august2023" fill="hsl(var(--chart-primary))" name="August 2023" />
-                <Bar dataKey="august2024" fill="hsl(var(--chart-secondary))" name="August 2024" />
-                <Bar dataKey="august2025" fill="hsl(var(--chart-tertiary))" name="August 2025" />
+               <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
+               <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
+               <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="July 2025" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
