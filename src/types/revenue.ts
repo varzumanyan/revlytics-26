@@ -1,12 +1,12 @@
 export interface RevenueData {
   revenueType: string;
-  july2023: number;
-  july2024: number;
-  july2025: number;
-  july24VsJuly23Change?: number;
+  august2023: number;
+  august2024: number;
+  august2025: number;
+  august24VsAugust23Change?: number;
   "%": number;
-  july25VsJuly24Change: number;
-  "july25RevAs %OfFy2026Budget": number;
+  august25VsAugust24Change: number;
+  "august25RevAs %OfFy2026Budget": number;
   "fy2026\nadoptedBudget": number;
   id: number;
 }
