@@ -1,3 +1,4 @@
+// Legacy interface - kept for backward compatibility
 export interface RevenueData {
   revenueType: string;
   august2023: number;
@@ -9,6 +10,8 @@ export interface RevenueData {
   "august25RevAs %OfFy2026Budget": number;
   "fy2026\nadoptedBudget": number;
   id: number;
+  // Allow any additional fields for dynamic API support
+  [key: string]: string | number | undefined;
 }
 
 export interface ApiResponse {

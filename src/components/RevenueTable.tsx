@@ -8,19 +8,30 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
+import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { ArrowUpDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 interface RevenueTableProps {
   data: RevenueData[];
 }
 
-type SortField = keyof RevenueData;
+type SortField = string; // Now dynamic instead of keyof RevenueData
 type SortDirection = 'asc' | 'desc';
 
 export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [sortField, setSortField] = useState<SortField>('revenueType');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+
+  // Generate dynamic field mappings based on actual API data
+  const fieldMappings = useMemo(() => {
+    return ApiFieldMapper.generateFieldMappings(data);
+  }, [data]);
+
+  // Get dynamic field references
+  const dateFields = useMemo(() => ApiFieldMapper.getDateFields(data), [data]);
+  const changeField = useMemo(() => ApiFieldMapper.getChangeField(data), [data]);
+  const budgetPercentageField = useMemo(() => ApiFieldMapper.getBudgetPercentageField(data), [data]);
 
   // Predefined order for revenue types
   const revenueTypeOrder = [
@@ -77,8 +88,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     }
     
     // For other fields, use the original sorting logic
-    const aValue = a[sortField];
-    const bValue = b[sortField];
+    const aValue = (a as any)[sortField];
+    const bValue = (b as any)[sortField];
     
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return sortDirection === 'asc' 
@@ -130,49 +141,53 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
-                <SortableHeader field="revenueType">Revenue Type</SortableHeader>
-                <SortableHeader field="august2023">August 2023</SortableHeader>
-                <SortableHeader field="august2024">August 2024</SortableHeader>
-                <SortableHeader field="august2025">August 2025</SortableHeader>
-                <SortableHeader field="august25VsAugust24Change">Aug25 vs Aug24</SortableHeader>
-                <SortableHeader field="%">YoY Change %</SortableHeader>
-                <SortableHeader field="august25RevAs %OfFy2026Budget">% of FY2026 Budget</SortableHeader>
-                <SortableHeader field="fy2026
-adoptedBudget">FY2026 Adopted Budget</SortableHeader>
+                {fieldMappings.map((mapping) => (
+                  <SortableHeader key={mapping.field} field={mapping.field}>
+                    {mapping.label}
+                  </SortableHeader>
+                ))}
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedData.map((row) => (
                 <TableRow key={row.id} className="border-border hover:bg-muted/30 transition-colors">
-                  <TableCell className="font-medium text-foreground">
-                    {row.revenueType}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatCurrency(row.august2023)}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatCurrency(row.august2024)}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatCurrency(row.august2025)}
-                  </TableCell>
-                  <TableCell className={`font-medium ${
-                    row.august25VsAugust24Change > 0 ? 'text-success' : 
-                    row.august25VsAugust24Change < 0 ? 'text-destructive' : 'text-muted-foreground'
-                  }`}>
-                    {formatCurrency(row.august25VsAugust24Change)}
-                  </TableCell>
-                  <TableCell className={`font-medium ${
-                    row["%"] > 0 ? 'text-success' : row["%"] < 0 ? 'text-destructive' : 'text-muted-foreground'
-                  }`}>
-                    {formatPercentage(row["%"])}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatPercentage(row["august25RevAs %OfFy2026Budget"])}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatCurrency(row["fy2026\nadoptedBudget"])}
-                  </TableCell>
+                  {fieldMappings.map((mapping) => {
+                    const value = (row as any)[mapping.field];
+                    let formattedValue: string;
+                    let cellClass = "text-muted-foreground";
+
+                    if (mapping.field === 'revenueType') {
+                      formattedValue = value;
+                      cellClass = "font-medium text-foreground";
+                    } else if (mapping.type === 'currency') {
+                      formattedValue = formatCurrency(value || 0);
+                      
+                      // Special styling for change fields
+                      if (changeField && mapping.field === changeField) {
+                        cellClass = `font-medium ${
+                          value > 0 ? 'text-success' : 
+                          value < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`;
+                      }
+                    } else if (mapping.type === 'percentage') {
+                      formattedValue = formatPercentage(value || 0);
+                      
+                      // Special styling for YoY change
+                      if (mapping.field === '%') {
+                        cellClass = `font-medium ${
+                          value > 0 ? 'text-success' : value < 0 ? 'text-destructive' : 'text-muted-foreground'
+                        }`;
+                      }
+                    } else {
+                      formattedValue = String(value || '');
+                    }
+
+                    return (
+                      <TableCell key={mapping.field} className={cellClass}>
+                        {formattedValue}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))}
             </TableBody>

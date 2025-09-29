@@ -1,11 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
+import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { cn } from "@/lib/utils";
 
 interface RevenueChartProps {
@@ -15,6 +16,10 @@ interface RevenueChartProps {
 export const RevenueChart = ({ data }: RevenueChartProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("Sales Tax");
   const [open, setOpen] = useState(false);
+
+  // Get dynamic field information
+  const dateFields = useMemo(() => ApiFieldMapper.getDateFields(data), [data]);
+  const fieldMappings = useMemo(() => ApiFieldMapper.generateFieldMappings(data), [data]);
   
   // Filter out Monthly Total and get available categories
   const availableCategories = data
@@ -22,17 +27,33 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     .map(item => item.revenueType);
 
   // Prepare data for the bar chart (selected category only)
-  const topRevenueData = data
-    .filter(item => item.revenueType === selectedCategory)
-    .map(item => ({
-      name: item.revenueType.length > 20 ? 
-        item.revenueType.substring(0, 20) + '...' : 
-        item.revenueType,
-      fullName: item.revenueType,
-      august2023: item.august2023 / 1000000, // Convert to millions
-      august2024: item.august2024 / 1000000,
-      august2025: item.august2025 / 1000000,
-    }));
+  const topRevenueData = useMemo(() => {
+    if (!dateFields) return [];
+    
+    return data
+      .filter(item => item.revenueType === selectedCategory)
+      .map(item => {
+        const chartData: any = {
+          name: item.revenueType.length > 20 ? 
+            item.revenueType.substring(0, 20) + '...' : 
+            item.revenueType,
+          fullName: item.revenueType,
+        };
+        
+        // Dynamically add year data
+        if (dateFields.year1) {
+          chartData.year1 = ((item as any)[dateFields.year1] || 0) / 1000000;
+        }
+        if (dateFields.year2) {
+          chartData.year2 = ((item as any)[dateFields.year2] || 0) / 1000000;
+        }
+        if (dateFields.year3) {
+          chartData.year3 = ((item as any)[dateFields.year3] || 0) / 1000000;
+        }
+        
+        return chartData;
+      });
+  }, [data, selectedCategory, dateFields]);
 
 
 
@@ -138,9 +159,27 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                  }}
                  formatter={(value) => value}
                />
-               <Bar dataKey="august2023" fill="hsl(var(--chart-primary))" name="August 2023" />
-               <Bar dataKey="august2024" fill="hsl(var(--chart-secondary))" name="August 2024" />
-               <Bar dataKey="august2025" fill="hsl(var(--chart-tertiary))" name="August 2025" />
+               {dateFields?.year1 && (
+                 <Bar 
+                   dataKey="year1" 
+                   fill="hsl(var(--chart-primary))" 
+                   name={ApiFieldMapper.getDisplayLabel(dateFields.year1, data)} 
+                 />
+               )}
+               {dateFields?.year2 && (
+                 <Bar 
+                   dataKey="year2" 
+                   fill="hsl(var(--chart-secondary))" 
+                   name={ApiFieldMapper.getDisplayLabel(dateFields.year2, data)} 
+                 />
+               )}
+               {dateFields?.year3 && (
+                 <Bar 
+                   dataKey="year3" 
+                   fill="hsl(var(--chart-tertiary))" 
+                   name={ApiFieldMapper.getDisplayLabel(dateFields.year3, data)} 
+                 />
+               )}
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

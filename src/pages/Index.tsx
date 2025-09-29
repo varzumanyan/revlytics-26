@@ -5,6 +5,7 @@ import { RevenueTable } from "@/components/RevenueTable";
 import { RevenueChart } from "@/components/RevenueChart";
 import { ExpenditureCard } from "@/components/ExpenditureCard";
 import { ExpenditureTable } from "@/components/ExpenditureTable";
+import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -68,9 +69,12 @@ const Index = () => {
   // Calculate summary metrics - use the Monthly Total row for accurate totals
   const monthlyTotalRow = revenueDataSheet.find(item => item.revenueType === "Monthly Total");
   
-  const totalRevenue2025 = monthlyTotalRow?.august2025 || 388104423.54;
-  const totalRevenue2024 = monthlyTotalRow?.august2024 || 331837031.22;
-  const totalRevenue2023 = monthlyTotalRow?.august2023 || 305194531.55;
+  // Get dynamic field references for calculations
+  const dateFields = ApiFieldMapper.getDateFields(revenueDataSheet);
+  
+  const totalRevenue2025 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year3] || 388104423.54 : 388104423.54;
+  const totalRevenue2024 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year2] || 331837031.22 : 331837031.22;
+  const totalRevenue2023 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year1] || 305194531.55 : 305194531.55;
   const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
