@@ -138,9 +138,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                  }}
                  formatter={(value) => value}
                />
-               <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="July 2023" />
-               <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="July 2024" />
-               <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="July 2025" />
+               <Bar dataKey="july2023" fill="hsl(var(--chart-primary))" name="August 2023" />
+               <Bar dataKey="july2024" fill="hsl(var(--chart-secondary))" name="August 2024" />
+               <Bar dataKey="july2025" fill="hsl(var(--chart-tertiary))" name="August 2025" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

@@ -131,10 +131,10 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
                 <SortableHeader field="revenueType">Revenue Type</SortableHeader>
-                <SortableHeader field="july2023">July 2023</SortableHeader>
-                <SortableHeader field="july2024">July 2024</SortableHeader>
-                <SortableHeader field="july2025">July 2025</SortableHeader>
-                <SortableHeader field="july25VsJuly24Change">Jul25 vs Jul24</SortableHeader>
+                <SortableHeader field="july2023">August 2023</SortableHeader>
+                <SortableHeader field="july2024">August 2024</SortableHeader>
+                <SortableHeader field="july2025">August 2025</SortableHeader>
+                <SortableHeader field="july25VsJuly24Change">Aug25 vs Aug24</SortableHeader>
                 <SortableHeader field="%">YoY Change %</SortableHeader>
                 <SortableHeader field="july25RevAs %OfFy2026Budget">% of FY2026 Budget</SortableHeader>
                 <SortableHeader field="fy2026
