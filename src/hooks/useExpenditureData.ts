@@ -14,7 +14,6 @@ export const useExpenditureData = () => {
       const data = await response.json();
       // Normalize the response to match ExpenditureApiResponse structure
       const sheetKey = Object.keys(data)[0]; // Get the first (and likely only) key
-      console.log('Expenditure API Response - First Item:', data[sheetKey]?.[0]);
       return {
         summary: data[sheetKey] || []
       };
