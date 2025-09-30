@@ -68,14 +68,14 @@ export class ApiFieldMapper {
     const year2Field = `${baseMonth}${years[1]}`;
     const year3Field = `${baseMonth}${years[2]}`;
     
-    // Look for change and percentage fields
-    const changePattern = new RegExp(`${baseMonth}\\d+Vs${capitalizedMonth}\\d+Change`, 'i');
+    // Look for change field that compares the two most recent years
+    const changeFieldPattern = `${baseMonth}${years[2]}Vs${capitalizedMonth}${years[1]}Change`;
     const budgetPercentagePattern = new RegExp(`${baseMonth}\\d+.*%.*budget`, 'i');
     
     const firstRow = data[0];
     const keys = Object.keys(firstRow);
     
-    const changeField = keys.find(key => changePattern.test(key)) || '';
+    const changeField = keys.find(key => key.toLowerCase() === changeFieldPattern.toLowerCase()) || '';
     const budgetPercentageField = keys.find(key => budgetPercentagePattern.test(key)) || '';
     const budgetField = keys.find(key => key.toLowerCase().includes('budget') && key.includes('\n')) || 'fy2026\nadoptedBudget';
     
