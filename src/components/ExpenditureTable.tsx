@@ -87,6 +87,15 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     return `${(value * 100).toFixed(2)}%`;
   };
 
+  // Calculate prior year budgets from FY2026 and year-over-year changes
+  const calculateFY2025Budget = (fy2026Budget: number, fy25VsFy26: number) => {
+    return fy2026Budget / (1 + fy25VsFy26);
+  };
+
+  const calculateFY2024Budget = (fy2025Budget: number, fy24VsFy25: number) => {
+    return fy2025Budget / (1 + fy24VsFy25);
+  };
+
   return (
     <Card className="bg-gradient-card border-border shadow-soft w-full resize-none">
       <CardHeader>
@@ -120,6 +129,26 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     <span>Category</span>
                     <ArrowUpDown className="h-3 w-3" />
                   </div>
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '160px'
+                  }}
+                >
+                  FY2024
+                </th>
+                <th 
+                  className="text-center p-1 border-r-2 border-muted" 
+                  colSpan={2}
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '160px'
+                  }}
+                >
+                  FY2025
                 </th>
                 <th 
                   className="text-center p-1 border-r-2 border-muted" 
@@ -163,6 +192,42 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                 </th>
               </tr>
               <tr style={{ position: 'sticky', top: '24px', zIndex: 99, backgroundColor: 'hsl(var(--background))', borderTop: 'none' }}>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Adopted Budget
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  YTD % Util
+                </th>
+                <th 
+                  className="text-xs text-center p-1"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  Adopted Budget
+                </th>
+                <th 
+                  className="text-xs text-center p-1 border-r-2 border-muted"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--background))',
+                    minWidth: '80px'
+                  }}
+                >
+                  YTD % Util
+                </th>
                 <th 
                   className="text-xs text-center p-1"
                   style={{ 
@@ -263,6 +328,27 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                       {group.department.category}
                     </td>
                     <td className="text-muted-foreground text-right p-2 bg-muted/30">
+                      {formatCurrency(calculateFY2024Budget(
+                        calculateFY2025Budget(group.department.adoptBudget || 0, group.department.fy25VsFy26 || 0),
+                        group.department.fy24VsFy25 || 0
+                      ))}
+                    </td>
+                    <td className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
+                      group.department.fy2024 > 0 ? 'text-success' : 
+                      group.department.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                    }`}>
+                      {formatPercentage(group.department.fy2024 || 0)}
+                    </td>
+                    <td className="text-muted-foreground text-right p-2 bg-muted/30">
+                      {formatCurrency(calculateFY2025Budget(group.department.adoptBudget || 0, group.department.fy25VsFy26 || 0))}
+                    </td>
+                    <td className={`font-medium text-right p-2 text-xs bg-muted/30 border-r-2 border-muted ${
+                      group.department.fy2025 > 0 ? 'text-success' : 
+                      group.department.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                    }`}>
+                      {formatPercentage(group.department.fy2025 || 0)}
+                    </td>
+                    <td className="text-muted-foreground text-right p-2 bg-muted/30">
                       {formatCurrency(group.department.adoptBudget || 0)}
                     </td>
                     <td className="text-muted-foreground text-right p-2 bg-muted/30 border-r-2 border-muted">
@@ -325,6 +411,27 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         }}
                       >
                         {row.account?.toString() || 'Subcategory'}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2">
+                        {formatCurrency(calculateFY2024Budget(
+                          calculateFY2025Budget(row.adoptBudget || 0, row.fy25VsFy26 || 0),
+                          row.fy24VsFy25 || 0
+                        ))}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
+                        row.fy2024 > 0 ? 'text-success' : 
+                        row.fy2024 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(row.fy2024 || 0)}
+                      </td>
+                      <td className="text-muted-foreground text-right p-2">
+                        {formatCurrency(calculateFY2025Budget(row.adoptBudget || 0, row.fy25VsFy26 || 0))}
+                      </td>
+                      <td className={`font-medium text-right p-2 text-xs border-r-2 border-muted ${
+                        row.fy2025 > 0 ? 'text-success' : 
+                        row.fy2025 < 0 ? 'text-destructive' : 'text-muted-foreground'
+                      }`}>
+                        {formatPercentage(row.fy2025 || 0)}
                       </td>
                       <td className="text-muted-foreground text-right p-2">
                         {formatCurrency(row.adoptBudget || 0)}
