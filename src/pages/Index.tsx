@@ -95,7 +95,7 @@ const Index = () => {
               FY2026 Financial Analysis
             </h1>
             <p className="text-xl max-w-2xl mx-auto text-slate-50">
-              Comprehensive revenue and expenditure overview for fiscal year 2026
+              General Fund Revenue and Expenditure Overview for Fiscal Year 2026
             </p>
           </div>
         </div>
