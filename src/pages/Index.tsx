@@ -92,7 +92,7 @@ const Index = () => {
         <div className="container mx-auto max-w-7xl px-6 py-12">
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold text-[#41ffca]">
-              FY2026 Financial Analysis
+              FY2026 General Fund Revenue &amp; Expense Analysis
             </h1>
             <p className="text-xl max-w-2xl mx-auto text-slate-50">
               General Fund Revenue and Expenditure Overview for Fiscal Year 2026
