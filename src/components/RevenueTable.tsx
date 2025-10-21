@@ -54,7 +54,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     'Residential Development Tax',
     'Special Parking Revenue Transfer',
     'Transfer from Budget Stabilization Fund',
-    'Monthly Total'
+    'Revenue to Date'
   ];
 
   const handleSort = (field: SortField) => {
