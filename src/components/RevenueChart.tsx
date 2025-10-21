@@ -121,15 +121,17 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                     const y = cy + radius * Math.sin(-midAngle * RADIAN);
                     const name = pieChartData[index].name;
                     const shortName = name.length > 20 ? name.substring(0, 20) + '...' : name;
+                    const color = COLORS[index % COLORS.length];
                     
                     return (
                       <text 
                         x={x} 
                         y={y} 
-                        fill="hsl(var(--foreground))"
+                        fill={color}
                         textAnchor={x > cx ? 'start' : 'end'} 
                         dominantBaseline="central"
                         fontSize="11"
+                        fontWeight="500"
                       >
                         {shortName}
                       </text>
