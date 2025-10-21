@@ -112,11 +112,30 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   data={pieChartData}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => 
-                    percent > 0.05 ? `${name.substring(0, 15)}${name.length > 15 ? '...' : ''} (${(percent * 100).toFixed(1)}%)` : ''
-                  }
-                  outerRadius={120}
+                  labelLine={true}
+                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+                    if (percent < 0.03) return null; // Hide labels for very small slices
+                    const RADIAN = Math.PI / 180;
+                    const radius = outerRadius + 30;
+                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                    const name = pieChartData[index].name;
+                    const shortName = name.length > 20 ? name.substring(0, 20) + '...' : name;
+                    
+                    return (
+                      <text 
+                        x={x} 
+                        y={y} 
+                        fill="hsl(var(--foreground))"
+                        textAnchor={x > cx ? 'start' : 'end'} 
+                        dominantBaseline="central"
+                        fontSize="11"
+                      >
+                        {shortName}
+                      </text>
+                    );
+                  }}
+                  outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
                 >
@@ -133,6 +152,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                           <p className="text-foreground font-medium">{item.name}</p>
                           <p className="text-foreground">
                             Value: <span className="font-semibold">{formatCurrency(item.value as number)}</span>
+                          </p>
+                          <p className="text-muted-foreground text-sm">
+                            {((item.value as number / pieChartData.reduce((sum, d) => sum + d.value, 0)) * 100).toFixed(1)}%
                           </p>
                         </div>
                       );
