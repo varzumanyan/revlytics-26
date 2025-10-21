@@ -102,7 +102,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         <Card className="bg-gradient-card border-border shadow-soft">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-foreground">
-              FY2026 Revenue Breakdown
+              FY2026 YTD Revenue Breakdown
             </CardTitle>
           </CardHeader>
           <CardContent>
