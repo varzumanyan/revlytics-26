@@ -133,7 +133,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
-          Revenue Analysis Details
+          YTD GF Revenue Analysis
         </CardTitle>
       </CardHeader>
       <CardContent>
