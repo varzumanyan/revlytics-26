@@ -174,7 +174,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold text-foreground">
-                Revenue Sources Comparison
+                Revenue Source by Year
               </CardTitle>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
