@@ -15,7 +15,7 @@ interface DateFieldSet {
 }
 
 export class ApiFieldMapper {
-  private static detectDatePattern(data: any[]): { baseMonth: string; years: string[] } | null {
+  private static detectDatePattern(data: any[]): { baseMonth: string; years: string[]; allFields: string[] } | null {
     if (!data || data.length === 0) return null;
     
     const firstRow = data[0];
@@ -39,45 +39,74 @@ export class ApiFieldMapper {
     if (dateFields.length === 0) return null;
     
     // Group by month and find the most common one
-    const monthGroups: { [key: string]: string[] } = {};
+    const monthGroups: { [key: string]: { years: string[]; fields: string[] } } = {};
     dateFields.forEach(df => {
-      if (!monthGroups[df.month]) monthGroups[df.month] = [];
-      monthGroups[df.month].push(df.year);
+      if (!monthGroups[df.month]) {
+        monthGroups[df.month] = { years: [], fields: [] };
+      }
+      monthGroups[df.month].years.push(df.year);
+      monthGroups[df.month].fields.push(df.field);
     });
     
     // Find the month with the most years
     const bestMonth = Object.keys(monthGroups).reduce((a, b) => 
-      monthGroups[a].length > monthGroups[b].length ? a : b
+      monthGroups[a].years.length > monthGroups[b].years.length ? a : b
     );
     
     return {
       baseMonth: bestMonth,
-      years: monthGroups[bestMonth].sort()
+      years: monthGroups[bestMonth].years.sort(),
+      allFields: monthGroups[bestMonth].fields
     };
   }
   
   static analyzeApiStructure(data: any[]): DateFieldSet | null {
     const dateInfo = this.detectDatePattern(data);
-    if (!dateInfo || dateInfo.years.length < 3) return null;
-    
-    const { baseMonth, years } = dateInfo;
-    const capitalizedMonth = baseMonth.charAt(0).toUpperCase() + baseMonth.slice(1);
-    
-    // Construct field names based on detected pattern
-    const year1Field = `${baseMonth}${years[0]}`;
-    const year2Field = `${baseMonth}${years[1]}`;
-    const year3Field = `${baseMonth}${years[2]}`;
-    
-    // Look for change field that compares the two most recent years
-    const changeFieldPattern = `${baseMonth}${years[2]}Vs${capitalizedMonth}${years[1]}Change`;
-    const budgetPercentagePattern = new RegExp(`${baseMonth}\\d+.*%.*budget`, 'i');
+    if (!dateInfo) return null;
     
     const firstRow = data[0];
     const keys = Object.keys(firstRow);
     
-    const changeField = keys.find(key => key.toLowerCase() === changeFieldPattern.toLowerCase()) || '';
-    const budgetPercentageField = keys.find(key => budgetPercentagePattern.test(key)) || '';
-    const budgetField = keys.find(key => key.toLowerCase().includes('budget') && key.includes('\n')) || 'fy2026\nadoptedBudget';
+    // Find all numeric fields that could be year data (but aren't percentages or changes)
+    const numericFields = keys.filter(key => {
+      const value = firstRow[key];
+      return typeof value === 'number' && 
+             value > 1000 && 
+             !key.toLowerCase().includes('change') &&
+             !key.toLowerCase().includes('%') &&
+             !key.toLowerCase().includes('budget') &&
+             key !== 'id';
+    });
+    
+    console.log('Detected numeric fields:', numericFields);
+    
+    // Use detected fields if we have at least 3, otherwise fall back to all numeric fields
+    let yearFields = dateInfo.allFields;
+    if (yearFields.length < 3 && numericFields.length >= 3) {
+      yearFields = numericFields.slice(0, 3);
+    }
+    
+    const year1Field = yearFields[0] || '';
+    const year2Field = yearFields[1] || '';
+    const year3Field = yearFields[2] || '';
+    
+    console.log('Year fields:', { year1Field, year2Field, year3Field });
+    
+    // Look for change fields
+    const changeField = keys.find(key => 
+      key.toLowerCase().includes('change') && 
+      !key.toLowerCase().includes('%')
+    ) || '';
+    
+    const budgetPercentageField = keys.find(key => 
+      key.toLowerCase().includes('%') && 
+      key.toLowerCase().includes('budget')
+    ) || '';
+    
+    const budgetField = keys.find(key => 
+      key.toLowerCase().includes('budget') && 
+      !key.toLowerCase().includes('%')
+    ) || 'fy2026\nadoptedBudget';
     
     return {
       year1: year1Field,
