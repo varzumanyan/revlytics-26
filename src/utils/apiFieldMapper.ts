@@ -61,9 +61,9 @@ export class ApiFieldMapper {
   }
   
   static analyzeApiStructure(data: any[]): DateFieldSet | null {
-    const dateInfo = this.detectDatePattern(data);
-    if (!dateInfo) return null;
+    if (!data || data.length === 0) return null;
     
+    const dateInfo = this.detectDatePattern(data);
     const firstRow = data[0];
     const keys = Object.keys(firstRow);
     
@@ -80,15 +80,22 @@ export class ApiFieldMapper {
     
     console.log('Detected numeric fields:', numericFields);
     
-    // Use detected fields if we have at least 3, otherwise fall back to all numeric fields
-    let yearFields = dateInfo.allFields;
-    if (yearFields.length < 3 && numericFields.length >= 3) {
+    // Determine year fields
+    let yearFields: string[] = [];
+    if (dateInfo && dateInfo.allFields.length >= 3) {
+      yearFields = dateInfo.allFields;
+    } else if (numericFields.length >= 3) {
       yearFields = numericFields.slice(0, 3);
     }
     
-    const year1Field = yearFields[0] || '';
-    const year2Field = yearFields[1] || '';
-    const year3Field = yearFields[2] || '';
+    if (yearFields.length < 3) {
+      console.log('Not enough year fields found');
+      return null;
+    }
+    
+    const year1Field = yearFields[0];
+    const year2Field = yearFields[1];
+    const year3Field = yearFields[2];
     
     console.log('Year fields:', { year1Field, year2Field, year3Field });
     
@@ -124,7 +131,21 @@ export class ApiFieldMapper {
     if (!fieldSet) return [];
     
     const dateInfo = this.detectDatePattern(data);
-    if (!dateInfo) return [];
+    
+    // If we can't detect standard date pattern, use generic labels
+    if (!dateInfo) {
+      const mappings: FieldMapping[] = [
+        { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
+        { field: fieldSet.year1, label: 'Year 1', type: 'currency' as const },
+        { field: fieldSet.year2, label: 'Year 2', type: 'currency' as const },
+        { field: fieldSet.year3, label: 'Year 3', type: 'currency' as const },
+        { field: fieldSet.changeField, label: 'Change', type: 'currency' as const },
+        { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
+        { field: fieldSet.budgetPercentageField, label: '% of Budget', type: 'percentage' as const },
+        { field: fieldSet.budgetField, label: 'Adopted Budget', type: 'currency' as const }
+      ];
+      return mappings.filter(mapping => mapping.field);
+    }
     
     const capitalizedMonth = dateInfo.baseMonth.charAt(0).toUpperCase() + dateInfo.baseMonth.slice(1);
     
