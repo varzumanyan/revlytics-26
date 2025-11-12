@@ -7,11 +7,16 @@ export const useRevenueData = () => {
   return useQuery<ApiResponse>({
     queryKey: ['revenueData'],
     queryFn: async () => {
+      console.log('Fetching revenue data from:', API_URL);
       const response = await fetch(API_URL);
+      console.log('Response status:', response.status);
       if (!response.ok) {
+        console.error('Failed to fetch revenue data:', response.statusText);
         throw new Error('Failed to fetch revenue data');
       }
-      return response.json();
+      const data = await response.json();
+      console.log('Revenue data received:', data);
+      return data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
