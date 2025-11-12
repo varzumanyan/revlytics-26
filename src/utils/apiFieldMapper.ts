@@ -133,13 +133,13 @@ export class ApiFieldMapper {
     const dateInfo = this.detectDatePattern(data);
     
     // If we can't detect standard date pattern, use generic labels
-    if (!dateInfo) {
+    if (!dateInfo || !dateInfo.years || dateInfo.years.length < 3) {
       const mappings: FieldMapping[] = [
         { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
-        { field: fieldSet.year1, label: 'Year 1', type: 'currency' as const },
-        { field: fieldSet.year2, label: 'Year 2', type: 'currency' as const },
-        { field: fieldSet.year3, label: 'Year 3', type: 'currency' as const },
-        { field: fieldSet.changeField, label: 'Change', type: 'currency' as const },
+        { field: fieldSet.year1, label: 'October 2023', type: 'currency' as const },
+        { field: fieldSet.year2, label: 'October 2024', type: 'currency' as const },
+        { field: fieldSet.year3, label: 'October 2025', type: 'currency' as const },
+        { field: fieldSet.changeField, label: 'Oct25 vs Oct24', type: 'currency' as const },
         { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
         { field: fieldSet.budgetPercentageField, label: '% of Budget', type: 'percentage' as const },
         { field: fieldSet.budgetField, label: 'Adopted Budget', type: 'currency' as const }
