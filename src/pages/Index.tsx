@@ -66,15 +66,22 @@ const Index = () => {
   const revenueDataSheet = revenueData?.sheet1 || [];
   const expenditureDataSheet = expenditureData?.summary || [];
 
+  console.log('Revenue data sheet:', revenueDataSheet);
+  console.log('Number of revenue items:', revenueDataSheet.length);
+
   // Calculate summary metrics - use the Monthly Total row for accurate totals
   const monthlyTotalRow = revenueDataSheet.find(item => item.revenueType === "Monthly Total");
+  console.log('Monthly Total Row:', monthlyTotalRow);
   
   // Get dynamic field references for calculations
   const dateFields = ApiFieldMapper.getDateFields(revenueDataSheet);
+  console.log('Date fields detected:', dateFields);
   
   const totalRevenue2025 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year3] || 388104423.54 : 388104423.54;
   const totalRevenue2024 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year2] || 331837031.22 : 331837031.22;
   const totalRevenue2023 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year1] || 305194531.55 : 305194531.55;
+  console.log('Total revenue values:', { totalRevenue2023, totalRevenue2024, totalRevenue2025 });
+  
   const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
   const budgetProgress = totalRevenue2025 / totalBudget;
