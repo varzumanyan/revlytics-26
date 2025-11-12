@@ -14,21 +14,36 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart = ({ data }: RevenueChartProps) => {
+  console.log('RevenueChart received data:', data);
+  console.log('Data length:', data?.length);
+  
   const [selectedCategory, setSelectedCategory] = useState<string>("Sales Tax");
   const [open, setOpen] = useState(false);
 
   // Get dynamic field information
-  const dateFields = useMemo(() => ApiFieldMapper.getDateFields(data), [data]);
+  const dateFields = useMemo(() => {
+    const fields = ApiFieldMapper.getDateFields(data);
+    console.log('RevenueChart dateFields:', fields);
+    return fields;
+  }, [data]);
+  
   const fieldMappings = useMemo(() => ApiFieldMapper.generateFieldMappings(data), [data]);
   
   // Filter out Monthly Total and get available categories
   const availableCategories = data
     .filter(item => item.revenueType !== "Monthly Total")
     .map(item => item.revenueType);
+  
+  console.log('Available categories:', availableCategories);
 
   // Prepare data for the pie chart (FY2026 revenue breakdown)
   const pieChartData = useMemo(() => {
-    if (!dateFields || !dateFields.year3) return [];
+    if (!dateFields || !dateFields.year3) {
+      console.log('No dateFields.year3, returning empty array');
+      return [];
+    }
+    
+    console.log('Building pie chart with year3 field:', dateFields.year3);
     
     return data
       .filter(item => item.revenueType !== "Monthly Total" && item.revenueType !== "Revenue to Date")
@@ -40,11 +55,16 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
       .sort((a, b) => b.value - a.value);
   }, [data, dateFields]);
 
+  console.log('Pie chart data:', pieChartData);
+
   // Prepare data for the bar chart (selected category only)
   const topRevenueData = useMemo(() => {
-    if (!dateFields) return [];
+    if (!dateFields) {
+      console.log('No dateFields for bar chart');
+      return [];
+    }
     
-    return data
+    const barData = data
       .filter(item => item.revenueType === selectedCategory)
       .map(item => {
         const chartData: any = {
@@ -67,6 +87,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
         
         return chartData;
       });
+    
+    console.log('Bar chart data for', selectedCategory, ':', barData);
+    return barData;
   }, [data, selectedCategory, dateFields]);
 
   // Colors for pie chart
