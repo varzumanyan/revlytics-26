@@ -69,22 +69,22 @@ const Index = () => {
   console.log('Revenue data sheet:', revenueDataSheet);
   console.log('Number of revenue items:', revenueDataSheet.length);
 
-  // Calculate summary metrics - use the Monthly Total row for accurate totals
-  const monthlyTotalRow = revenueDataSheet.find(item => item.revenueType === "Monthly Total");
-  console.log('Monthly Total Row:', monthlyTotalRow);
+  // Calculate summary metrics - use the Revenue to Date row for accurate totals
+  const monthlyTotalRow = revenueDataSheet.find(item => item.revenueType === "Revenue to Date");
+  console.log('Revenue to Date Row:', monthlyTotalRow);
   
   // Get dynamic field references for calculations
   const dateFields = ApiFieldMapper.getDateFields(revenueDataSheet);
   console.log('Date fields detected:', dateFields);
   
-  const totalRevenue2025 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year3] || 388104423.54 : 388104423.54;
-  const totalRevenue2024 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year2] || 331837031.22 : 331837031.22;
-  const totalRevenue2023 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year1] || 305194531.55 : 305194531.55;
+  const totalRevenue2025 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year3] || 0 : 0;
+  const totalRevenue2024 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year2] || 0 : 0;
+  const totalRevenue2023 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year1] || 0 : 0;
   console.log('Total revenue values:', { totalRevenue2023, totalRevenue2024, totalRevenue2025 });
   
-  const yearOverYearChange = (totalRevenue2025 - totalRevenue2024) / totalRevenue2024;
-  const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 8178255972; // Use budget from Monthly Total row
-  const budgetProgress = totalRevenue2025 / totalBudget;
+  const yearOverYearChange = totalRevenue2024 > 0 ? (totalRevenue2025 - totalRevenue2024) / totalRevenue2024 : 0;
+  const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 0;
+  const budgetProgress = totalBudget > 0 ? totalRevenue2025 / totalBudget : 0;
 
   // Calculate expenditure metrics for FY2026 only - filter to main categories only to avoid double counting
   const mainCategories = expenditureDataSheet.filter(item => item.category && item.category.trim() !== '');
