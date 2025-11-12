@@ -99,11 +99,27 @@ export class ApiFieldMapper {
     
     console.log('Year fields:', { year1Field, year2Field, year3Field });
     
-    // Look for change fields
-    const changeField = keys.find(key => 
-      key.toLowerCase().includes('change') && 
-      !key.toLowerCase().includes('%')
-    ) || '';
+    // Look for change fields - prioritize the most recent comparison (year3 vs year2)
+    // First try to find a field that mentions both recent years
+    let changeField = '';
+    if (dateInfo) {
+      const year2Short = dateInfo.years[1].slice(-2); // e.g., "24"
+      const year3Short = dateInfo.years[2].slice(-2); // e.g., "25"
+      // Look for pattern like "oct25VsOct24" or similar
+      changeField = keys.find(key => 
+        key.toLowerCase().includes('change') && 
+        !key.toLowerCase().includes('%') &&
+        (key.includes(year3Short) || key.includes(year2Short))
+      ) || '';
+    }
+    
+    // Fallback to any change field if specific pattern not found
+    if (!changeField) {
+      changeField = keys.find(key => 
+        key.toLowerCase().includes('change') && 
+        !key.toLowerCase().includes('%')
+      ) || '';
+    }
     
     const budgetPercentageField = keys.find(key => 
       key.toLowerCase().includes('%') && 
