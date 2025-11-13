@@ -114,9 +114,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
            lowerDept === 'general fund other expenses';
   };
 
-  const SortableHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
+  const SortableHeader = ({ field, children, className = "" }: { field: SortField; children: React.ReactNode; className?: string }) => (
     <th 
-      className="px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-muted/30 sticky top-0 z-10"
+      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-muted/30 sticky top-0 z-10 ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -140,13 +140,13 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
               <table className="min-w-full divide-y divide-border">
                 <thead className="sticky top-0 z-10 bg-background">
                   <tr>
-                    <SortableHeader field="generalFundDepartment">General Fund Department</SortableHeader>
+                    <SortableHeader field="generalFundDepartment" className="border-r-2 border-border">General Fund Department</SortableHeader>
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy24Budget">% of FY24 Budget</SortableHeader>
+                    <SortableHeader field="%OfFy24Budget" className="border-r-2 border-border">% of FY24 Budget</SortableHeader>
                     <SortableHeader field="october2024Ytd">October 2024 YTD</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy25Budget">% of FY25 Budget</SortableHeader>
+                    <SortableHeader field="%OfFy25Budget" className="border-r-2 border-border">% of FY25 Budget</SortableHeader>
                     <SortableHeader field="october2025Ytd">October 2025 YTD</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy26Budget">% of FY26 Budget</SortableHeader>
@@ -173,7 +173,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         key={row.id} 
                         className="transition-colors hover:bg-muted/30"
                       >
-                        <td className="px-3 py-2 text-sm whitespace-nowrap text-foreground">
+                        <td className="px-3 py-2 text-sm whitespace-nowrap text-foreground border-r-2 border-border">
                           {row.generalFundDepartment}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
@@ -182,7 +182,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
                           {fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '-'}
                         </td>
-                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap border-r-2 border-border">
                           {pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
@@ -191,7 +191,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
                           {fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '-'}
                         </td>
-                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap border-r-2 border-border">
                           {pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
