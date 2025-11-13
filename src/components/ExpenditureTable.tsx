@@ -114,9 +114,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
            lowerDept === 'general fund other expenses';
   };
 
-  const SortableHeader = ({ field, children, className = "" }: { field: SortField; children: React.ReactNode; className?: string }) => (
+  const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-muted/30 sticky top-0 z-10 ${className}`}
+      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-muted/30 sticky top-0 ${isFirstColumn ? 'left-0 z-20' : 'z-10'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -140,7 +140,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
               <table className="min-w-full divide-y divide-border">
                 <thead className="sticky top-0 z-10 bg-background">
                   <tr>
-                    <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30">General Fund Department</SortableHeader>
+                    <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% of FY24 Budget</SortableHeader>
@@ -173,7 +173,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         key={row.id} 
                         className="transition-colors hover:bg-muted/30"
                       >
-                        <td className="px-3 py-2 text-sm whitespace-nowrap text-foreground border-r-2 border-muted-foreground/30">
+                        <td className="px-3 py-2 text-sm whitespace-nowrap text-foreground border-r-2 border-muted-foreground/30 sticky left-0 bg-background z-10">
                           {row.generalFundDepartment}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
