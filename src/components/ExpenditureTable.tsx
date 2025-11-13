@@ -123,13 +123,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     return (
                       <tr 
                         key={row.id} 
-                        className={`transition-colors ${
-                          isTotal 
-                            ? 'bg-yellow-100 dark:bg-yellow-900/20 font-semibold hover:bg-yellow-200 dark:hover:bg-yellow-900/30' 
-                            : 'hover:bg-muted/30'
-                        }`}
+                        className="transition-colors hover:bg-muted/30"
                       >
-                        <td className={`px-3 py-2 text-sm whitespace-nowrap ${isTotal ? 'font-semibold text-foreground' : 'text-foreground'}`}>
+                        <td className="px-3 py-2 text-sm whitespace-nowrap text-foreground">
                           {row.generalFundDepartment}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
@@ -150,10 +146,10 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
                           {pctFy25 > 0 ? formatPercentage(pctFy25) : '-'}
                         </td>
-                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${isTotal ? 'font-bold text-foreground' : 'font-medium text-foreground'}`}>
+                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
                           {formatCurrency(oct2025)}
                         </td>
-                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${isTotal ? 'font-bold text-foreground' : 'font-medium text-foreground'}`}>
+                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
                           {formatCurrency(fy26Budget)}
                         </td>
                         <td className={`px-3 py-2 text-sm text-right font-medium whitespace-nowrap ${
