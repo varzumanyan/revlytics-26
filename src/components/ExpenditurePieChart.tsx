@@ -58,15 +58,15 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={500}>
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
-              cy="50%"
+              cy="40%"
               labelLine={true}
               label={renderCustomLabel}
-              outerRadius={120}
+              outerRadius={100}
               fill="#8884d8"
               dataKey="value"
             >
@@ -94,11 +94,21 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
               }}
             />
             <Legend 
-              wrapperStyle={{ color: 'hsl(var(--foreground))' }}
+              layout="vertical"
+              align="right"
+              verticalAlign="middle"
+              wrapperStyle={{ 
+                color: 'hsl(var(--foreground))',
+                fontSize: '12px',
+                maxHeight: '400px',
+                overflowY: 'auto',
+                paddingLeft: '10px'
+              }}
               formatter={(value, entry: any) => {
                 const item = chartData.find(d => d.name === value);
-                return `${value}: ${formatCurrency(item?.value || 0)}`;
+                return `${value}`;
               }}
+              iconSize={8}
             />
           </PieChart>
         </ResponsiveContainer>
