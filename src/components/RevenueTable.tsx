@@ -179,8 +179,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                         }`;
                       }
                       
-                      // Special styling for budget percentage over 33%
-                      if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.33) {
+                      // Special styling for budget percentage over 33.33%
+                      if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.3333) {
                         cellClass = 'font-medium text-success';
                       }
                     } else {
