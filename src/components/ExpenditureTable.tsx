@@ -26,7 +26,55 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     }
   };
 
+  // Custom ordering for expenditure data
+  const getRowOrder = (dept: string) => {
+    if (!dept) return 9999;
+    const lower = dept.toLowerCase();
+    
+    // Total Expenses should be last
+    if (lower === 'total expenses') return 10000;
+    
+    // Total Other should be second to last
+    if (lower === 'total other') return 9000;
+    
+    // General Fund Other Expenses and its items
+    if (lower === 'general fund other expenses') return 8000;
+    if (lower === 'capital finance administration') return 8001;
+    if (lower === 'capital improvement expense') return 8002;
+    if (lower === 'general') return 8003;
+    if (lower === 'general city purposes') return 8004;
+    if (lower === 'human resources benefits') return 8005;
+    if (lower === 'leasing') return 8006;
+    if (lower === 'liability claims') return 8007;
+    if (lower === 'petroleum products') return 8008;
+    if (lower === 'unappropriated balance') return 8009;
+    if (lower === 'water and electricity') return 8010;
+    
+    // Total Department after Zoo
+    if (lower === 'total department') return 7000;
+    
+    // All other departments come first
+    return 0;
+  };
+
   const sortedData = [...data].sort((a, b) => {
+    // If sorting by department name or default, use custom order
+    if (sortField === 'generalFundDepartment') {
+      const aOrder = getRowOrder(a.generalFundDepartment);
+      const bOrder = getRowOrder(b.generalFundDepartment);
+      
+      // If both have special ordering, use that
+      if (aOrder !== 0 || bOrder !== 0) {
+        return sortDirection === 'asc' ? aOrder - bOrder : bOrder - aOrder;
+      }
+      
+      // Otherwise alphabetical for regular departments
+      return sortDirection === 'asc'
+        ? a.generalFundDepartment.localeCompare(b.generalFundDepartment)
+        : b.generalFundDepartment.localeCompare(a.generalFundDepartment);
+    }
+    
+    // For other fields, use normal sorting
     const aValue = a[sortField];
     const bValue = b[sortField];
     
