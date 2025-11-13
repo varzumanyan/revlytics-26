@@ -8,7 +8,7 @@ interface ExpenditurePieChartProps {
 
 export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
   // Filter out total rows and prepare data for the pie chart
-  const chartData = data
+  const filteredData = data
     .filter(item => {
       const dept = item.generalFundDepartment?.toLowerCase() || '';
       return dept && 
@@ -16,21 +16,37 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
         !dept.includes('general fund other') &&
         item.october2025Ytd > 0;
     })
-    .sort((a, b) => b.october2025Ytd - a.october2025Ytd)
-    .map(item => ({
+    .sort((a, b) => b.october2025Ytd - a.october2025Ytd);
+  
+  // Take top 15 departments
+  const top15 = filteredData.slice(0, 15);
+  
+  // Group the rest as "Other"
+  const otherTotal = filteredData
+    .slice(15)
+    .reduce((sum, item) => sum + item.october2025Ytd, 0);
+  
+  const chartData = [
+    ...top15.map(item => ({
       name: item.generalFundDepartment.length > 25 
         ? item.generalFundDepartment.substring(0, 25) + '...' 
         : item.generalFundDepartment,
       value: item.october2025Ytd,
       budget: item.fy26AdoptedBudget,
-    }));
+    })),
+    ...(otherTotal > 0 ? [{
+      name: 'Other Departments',
+      value: otherTotal,
+      budget: 0,
+    }] : [])
+  ];
 
   // Generate a color palette for all departments
   const COLORS = [
     '#41ffca', '#FFCA41', '#FF6B6B', '#4ECDC4', '#45B7D1',
     '#96CEB4', '#FFEAA7', '#DFE6E9', '#74B9FF', '#A29BFE',
     '#FD79A8', '#FDCB6E', '#6C5CE7', '#00B894', '#E17055',
-    '#FFB6C1', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'
+    '#FFB6C1'
   ];
 
   const formatCurrency = (value: number) => {
