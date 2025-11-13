@@ -71,18 +71,24 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
               contentStyle={{
-                backgroundColor: 'hsl(var(--card))',
-                border: '2px solid hsl(var(--border))',
+                backgroundColor: '#ffffff',
+                border: '2px solid #333333',
                 borderRadius: '8px',
-                color: 'hsl(var(--card-foreground))',
+                color: '#000000',
                 padding: '12px',
                 fontSize: '14px',
-                fontWeight: '500'
+                fontWeight: '600',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'
               }}
               labelStyle={{
-                color: 'hsl(var(--card-foreground))',
-                fontWeight: '600',
-                marginBottom: '4px'
+                color: '#000000',
+                fontWeight: '700',
+                marginBottom: '6px',
+                fontSize: '15px'
+              }}
+              itemStyle={{
+                color: '#000000',
+                fontWeight: '600'
               }}
             />
             <Legend 
