@@ -52,12 +52,18 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
 
   const formatPercentage = (value: number | string) => {
     const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
-    return `${(numValue * 100).toFixed(1)}%`;
+    return `${Math.round(numValue * 100)}%`;
+  };
+
+  const isTotalRow = (department: string) => {
+    const lowerDept = department.toLowerCase();
+    return lowerDept.includes('total') || 
+           lowerDept.includes('general fund other expenses');
   };
 
   const SortableHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
     <th 
-      className="px-4 py-3 text-left text-sm font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border"
+      className="px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-muted/30 sticky top-0 z-10"
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -74,56 +80,89 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
           YTD GF Expenditure Analysis
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto rounded-md border border-border">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <SortableHeader field="generalFundDepartment">Department</SortableHeader>
-                <SortableHeader field="october2023Ytd">Oct 2023 YTD</SortableHeader>
-                <SortableHeader field="fy24AdoptedBudget">FY24 Budget</SortableHeader>
-                <SortableHeader field="%OfFy24Budget">% of FY24</SortableHeader>
-                <SortableHeader field="october2024Ytd">Oct 2024 YTD</SortableHeader>
-                <SortableHeader field="fy25AdoptedBudget">FY25 Budget</SortableHeader>
-                <SortableHeader field="%OfFy25Budget">% of FY25</SortableHeader>
-                <SortableHeader field="october2025Ytd">Oct 2025 YTD</SortableHeader>
-                <SortableHeader field="fy26AdoptedBudget">FY26 Budget</SortableHeader>
-                <SortableHeader field="%OfFy26Budget">% of FY26</SortableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedData.map((row) => {
-                const oct2023 = typeof row.october2023Ytd === 'string' && row.october2023Ytd === '' ? 0 : Number(row.october2023Ytd);
-                const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
-                const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
-                
-                const oct2024 = typeof row.october2024Ytd === 'string' && row.october2024Ytd === '' ? 0 : Number(row.october2024Ytd);
-                const fy25Budget = typeof row.fy25AdoptedBudget === 'string' && row.fy25AdoptedBudget === '' ? 0 : Number(row.fy25AdoptedBudget);
-                const pctFy25 = typeof row["%OfFy25Budget"] === 'string' && row["%OfFy25Budget"] === '' ? 0 : Number(row["%OfFy25Budget"]);
-                
-                const oct2025 = row.october2025Ytd;
-                const fy26Budget = row.fy26AdoptedBudget;
-                const pctFy26 = row["%OfFy26Budget"];
-                
-                return (
-                  <tr key={row.id} className="border-b border-border hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3 font-medium text-foreground">{row.generalFundDepartment}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{oct2023 > 0 ? formatCurrency(oct2023) : '-'}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{fy24Budget > 0 ? formatCurrency(fy24Budget) : '-'}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{pctFy24 > 0 ? formatPercentage(pctFy24) : '-'}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{oct2024 > 0 ? formatCurrency(oct2024) : '-'}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{fy25Budget > 0 ? formatCurrency(fy25Budget) : '-'}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{pctFy25 > 0 ? formatPercentage(pctFy25) : '-'}</td>
-                    <td className="px-4 py-3 text-foreground font-medium">{formatCurrency(oct2025)}</td>
-                    <td className="px-4 py-3 text-foreground font-medium">{formatCurrency(fy26Budget)}</td>
-                    <td className={`px-4 py-3 font-medium ${pctFy26 > 0.3333 ? 'text-success' : 'text-muted-foreground'}`}>
-                      {formatPercentage(pctFy26)}
-                    </td>
+      <CardContent className="p-0">
+        <div className="overflow-x-auto">
+          <div className="inline-block min-w-full align-middle">
+            <div className="overflow-hidden border border-border rounded-md">
+              <table className="min-w-full divide-y divide-border">
+                <thead>
+                  <tr>
+                    <SortableHeader field="generalFundDepartment">General Fund Department</SortableHeader>
+                    <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
+                    <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
+                    <SortableHeader field="%OfFy24Budget">% of FY24 Budget</SortableHeader>
+                    <SortableHeader field="october2024Ytd">October 2024 YTD</SortableHeader>
+                    <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
+                    <SortableHeader field="%OfFy25Budget">% of FY25 Budget</SortableHeader>
+                    <SortableHeader field="october2025Ytd">October 2025 YTD</SortableHeader>
+                    <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
+                    <SortableHeader field="%OfFy26Budget">% of FY26 Budget</SortableHeader>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {sortedData.map((row) => {
+                    const oct2023 = typeof row.october2023Ytd === 'string' && row.october2023Ytd === '' ? 0 : Number(row.october2023Ytd);
+                    const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
+                    const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
+                    
+                    const oct2024 = typeof row.october2024Ytd === 'string' && row.october2024Ytd === '' ? 0 : Number(row.october2024Ytd);
+                    const fy25Budget = typeof row.fy25AdoptedBudget === 'string' && row.fy25AdoptedBudget === '' ? 0 : Number(row.fy25AdoptedBudget);
+                    const pctFy25 = typeof row["%OfFy25Budget"] === 'string' && row["%OfFy25Budget"] === '' ? 0 : Number(row["%OfFy25Budget"]);
+                    
+                    const oct2025 = row.october2025Ytd;
+                    const fy26Budget = row.fy26AdoptedBudget;
+                    const pctFy26 = row["%OfFy26Budget"];
+                    
+                    const isTotal = isTotalRow(row.generalFundDepartment);
+                    
+                    return (
+                      <tr 
+                        key={row.id} 
+                        className={`transition-colors ${
+                          isTotal 
+                            ? 'bg-yellow-100 dark:bg-yellow-900/20 font-semibold hover:bg-yellow-200 dark:hover:bg-yellow-900/30' 
+                            : 'hover:bg-muted/30'
+                        }`}
+                      >
+                        <td className={`px-3 py-2 text-sm whitespace-nowrap ${isTotal ? 'font-semibold text-foreground' : 'text-foreground'}`}>
+                          {row.generalFundDepartment}
+                        </td>
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                          {oct2023 > 0 ? formatCurrency(oct2023) : '-'}
+                        </td>
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                          {fy24Budget > 0 ? formatCurrency(fy24Budget) : '-'}
+                        </td>
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                          {pctFy24 > 0 ? formatPercentage(pctFy24) : '-'}
+                        </td>
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                          {oct2024 > 0 ? formatCurrency(oct2024) : '-'}
+                        </td>
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                          {fy25Budget > 0 ? formatCurrency(fy25Budget) : '-'}
+                        </td>
+                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
+                          {pctFy25 > 0 ? formatPercentage(pctFy25) : '-'}
+                        </td>
+                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${isTotal ? 'font-bold text-foreground' : 'font-medium text-foreground'}`}>
+                          {formatCurrency(oct2025)}
+                        </td>
+                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${isTotal ? 'font-bold text-foreground' : 'font-medium text-foreground'}`}>
+                          {formatCurrency(fy26Budget)}
+                        </td>
+                        <td className={`px-3 py-2 text-sm text-right font-medium whitespace-nowrap ${
+                          pctFy26 > 0.3333 ? 'text-success' : 'text-muted-foreground'
+                        }`}>
+                          {formatPercentage(pctFy26)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
