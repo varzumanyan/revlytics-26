@@ -182,8 +182,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
                           {fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '-'}
                         </td>
-                        <td className={`px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                          pctFy24 > 0.3333 ? 'text-destructive font-medium' : ''
+                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          pctFy24 > 0.3333 ? 'text-destructive font-medium' : 'text-muted-foreground'
                         }`}>
                           {pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '-'}
                         </td>
@@ -193,8 +193,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
                           {fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '-'}
                         </td>
-                        <td className={`px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                          pctFy25 > 0.3333 ? 'text-destructive font-medium' : ''
+                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          pctFy25 > 0.3333 ? 'text-destructive font-medium' : 'text-muted-foreground'
                         }`}>
                           {pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '-'}
                         </td>
