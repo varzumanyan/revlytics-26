@@ -47,7 +47,7 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
             data={chartData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
+            margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis 
@@ -66,14 +66,27 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
               contentStyle={{
-                backgroundColor: 'hsl(var(--background))',
-                border: '1px solid hsl(var(--border))',
+                backgroundColor: 'hsl(var(--card))',
+                border: '2px solid hsl(var(--border))',
                 borderRadius: '8px',
-                color: 'hsl(var(--foreground))'
+                color: 'hsl(var(--card-foreground))',
+                padding: '12px',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+              labelStyle={{
+                color: 'hsl(var(--card-foreground))',
+                fontWeight: '600',
+                marginBottom: '4px'
               }}
             />
             <Legend 
-              wrapperStyle={{ color: 'hsl(var(--foreground))' }}
+              wrapperStyle={{ 
+                color: 'hsl(var(--foreground))',
+                paddingTop: '20px'
+              }}
+              verticalAlign="bottom"
+              height={36}
             />
             <Bar dataKey="YTD Spending" fill="#41ffca" />
             <Bar dataKey="Budget" fill="#FFCA41" />
