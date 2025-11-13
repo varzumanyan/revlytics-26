@@ -1,21 +1,17 @@
 export interface ExpenditureData {
   id: number;
-  category: string;
-  account: string | number;
-  adoptBudget: number;
-  expenditures: number;
-  "": string;
-  fiscalyear24: number;
-  fiscalyear25: number;
-  fiscalyear26: number;
-  fy2024: number;
-  fy2025: number;
-  fy2026: number;
-  notes: string;
-  fy24VsFy25: number;
-  fy25VsFy26: number;
+  generalFundDepartment: string;
+  october2023Ytd: string | number;
+  fy24AdoptedBudget: string | number;
+  "%OfFy24Budget": string | number;
+  october2024Ytd: string | number;
+  fy25AdoptedBudget: string | number;
+  "%OfFy25Budget": string | number;
+  october2025Ytd: number;
+  fy26AdoptedBudget: number;
+  "%OfFy26Budget": number;
 }
 
 export interface ExpenditureApiResponse {
-  summary: ExpenditureData[];
+  expenses: ExpenditureData[];
 }

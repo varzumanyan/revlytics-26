@@ -64,7 +64,7 @@ const Index = () => {
   }
 
   const revenueDataSheet = revenueData?.revenue || [];
-  const expenditureDataSheet = expenditureData?.summary || [];
+  const expenditureDataSheet = expenditureData?.expenses || [];
 
   console.log('Revenue data sheet:', revenueDataSheet);
   console.log('Number of revenue items:', revenueDataSheet.length);
@@ -86,12 +86,12 @@ const Index = () => {
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 0;
   const budgetProgress = totalBudget > 0 ? totalRevenue2025 / totalBudget : 0;
 
-  // Calculate expenditure metrics for FY2026 only - filter to main categories only to avoid double counting
-  const mainCategories = expenditureDataSheet.filter(item => item.category && item.category.trim() !== '');
-  const totalExpenditureBudget = mainCategories.length > 0 ? 
-    mainCategories.reduce((sum, item) => sum + (item.adoptBudget || 0), 0) : 0;
-  const totalExpenditures = mainCategories.length > 0 ? 
-    mainCategories.reduce((sum, item) => sum + (item.expenditures || 0), 0) : 0;
+  // Calculate expenditure metrics for FY2026 only - filter to main departments only to avoid double counting
+  const mainDepartments = expenditureDataSheet.filter(item => item.generalFundDepartment && item.generalFundDepartment.trim() !== '');
+  const totalExpenditureBudget = mainDepartments.length > 0 ? 
+    mainDepartments.reduce((sum, item) => sum + (item.fy26AdoptedBudget || 0), 0) : 0;
+  const totalExpenditures = mainDepartments.length > 0 ? 
+    mainDepartments.reduce((sum, item) => sum + (item.october2025Ytd || 0), 0) : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   return <div className="min-h-screen bg-background">
       {/* Header */}
