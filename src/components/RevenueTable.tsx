@@ -117,9 +117,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     return `${(value * 100).toFixed(2)}%`;
   };
 
-  const SortableHeader = ({ field, children, className = "" }: { field: SortField; children: React.ReactNode; className?: string }) => (
+  const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <TableHead 
-      className={`cursor-pointer hover:bg-muted/50 transition-colors ${className}`}
+      className={`cursor-pointer hover:bg-muted/50 transition-colors sticky top-0 bg-muted z-10 ${isFirstColumn ? 'left-0 z-20' : ''} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -137,7 +137,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border border-border overflow-hidden">
+        <div className="rounded-md border border-border overflow-auto max-h-[600px]">
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
@@ -145,12 +145,14 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   // Add dividers at strategic points based on the column structure
                   // After Revenue Type (0), after historical data (3), after comparisons (5)
                   const shouldAddDivider = index === 0 || index === 3 || index === 5;
+                  const isFirstColumn = index === 0;
                   
                   return (
                     <SortableHeader 
                       key={mapping.field} 
                       field={mapping.field}
                       className={shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""}
+                      isFirstColumn={isFirstColumn}
                     >
                       {mapping.label}
                     </SortableHeader>
@@ -200,10 +202,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     // Add dividers at strategic points - after Revenue Type (0), after historical data (3), after comparisons (5)
                     const shouldAddDivider = index === 0 || index === 3 || index === 5;
 
+                    const isFirstColumn = index === 0;
+                    
                     return (
                       <TableCell 
                         key={mapping.field} 
-                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""}`}
+                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? "sticky left-0 bg-background z-10" : ""}`}
                       >
                         {formattedValue}
                       </TableCell>
