@@ -15,5 +15,5 @@ export interface RevenueData {
 }
 
 export interface ApiResponse {
-  sheet1: RevenueData[];
+  revenue: RevenueData[];
 }
