@@ -117,9 +117,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     return `${(value * 100).toFixed(2)}%`;
   };
 
-  const SortableHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
+  const SortableHeader = ({ field, children, className = "" }: { field: SortField; children: React.ReactNode; className?: string }) => (
     <TableHead 
-      className="cursor-pointer hover:bg-muted/50 transition-colors"
+      className={`cursor-pointer hover:bg-muted/50 transition-colors ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -141,17 +141,29 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
-                {fieldMappings.map((mapping) => (
-                  <SortableHeader key={mapping.field} field={mapping.field}>
-                    {mapping.label}
-                  </SortableHeader>
-                ))}
+                {fieldMappings.map((mapping, index) => {
+                  // Add dividers after Revenue Type (index 0) and after each fiscal year group
+                  const shouldAddDivider = 
+                    index === 0 || // After Revenue Type
+                    (mapping.label.includes('FY24') && !fieldMappings[index + 1]?.label.includes('FY24')) || // After last FY24 column
+                    (mapping.label.includes('FY25') && !fieldMappings[index + 1]?.label.includes('FY25')); // After last FY25 column
+                  
+                  return (
+                    <SortableHeader 
+                      key={mapping.field} 
+                      field={mapping.field}
+                      className={shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""}
+                    >
+                      {mapping.label}
+                    </SortableHeader>
+                  );
+                })}
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedData.map((row) => (
                 <TableRow key={row.id} className="border-border hover:bg-muted/30 transition-colors">
-                  {fieldMappings.map((mapping) => {
+                  {fieldMappings.map((mapping, index) => {
                     const value = (row as any)[mapping.field];
                     let formattedValue: string;
                     let cellClass = "text-muted-foreground";
@@ -187,8 +199,17 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       formattedValue = String(value || '');
                     }
 
+                    // Add dividers after Revenue Type (index 0) and after each fiscal year group
+                    const shouldAddDivider = 
+                      index === 0 || // After Revenue Type
+                      (mapping.label.includes('FY24') && !fieldMappings[index + 1]?.label.includes('FY24')) || // After last FY24 column
+                      (mapping.label.includes('FY25') && !fieldMappings[index + 1]?.label.includes('FY25')); // After last FY25 column
+
                     return (
-                      <TableCell key={mapping.field} className={cellClass}>
+                      <TableCell 
+                        key={mapping.field} 
+                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""}`}
+                      >
                         {formattedValue}
                       </TableCell>
                     );
