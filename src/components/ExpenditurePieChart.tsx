@@ -7,28 +7,31 @@ interface ExpenditurePieChartProps {
 }
 
 export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
-  // Find the total rows for the pie chart
-  const totalDeptRow = data.find(item => 
-    item.generalFundDepartment?.toLowerCase() === 'total department'
-  );
-  const totalOtherRow = data.find(item => 
-    item.generalFundDepartment?.toLowerCase() === 'total other'
-  );
+  // Filter out total rows and prepare data for the pie chart
+  const chartData = data
+    .filter(item => {
+      const dept = item.generalFundDepartment?.toLowerCase() || '';
+      return dept && 
+        !dept.includes('total') && 
+        !dept.includes('general fund other') &&
+        item.october2025Ytd > 0;
+    })
+    .sort((a, b) => b.october2025Ytd - a.october2025Ytd)
+    .map(item => ({
+      name: item.generalFundDepartment.length > 25 
+        ? item.generalFundDepartment.substring(0, 25) + '...' 
+        : item.generalFundDepartment,
+      value: item.october2025Ytd,
+      budget: item.fy26AdoptedBudget,
+    }));
 
-  const chartData = [
-    {
-      name: 'Department Expenses',
-      value: totalDeptRow?.october2025Ytd || 0,
-      budget: totalDeptRow?.fy26AdoptedBudget || 0,
-    },
-    {
-      name: 'Other Expenses',
-      value: totalOtherRow?.october2025Ytd || 0,
-      budget: totalOtherRow?.fy26AdoptedBudget || 0,
-    }
+  // Generate a color palette for all departments
+  const COLORS = [
+    '#41ffca', '#FFCA41', '#FF6B6B', '#4ECDC4', '#45B7D1',
+    '#96CEB4', '#FFEAA7', '#DFE6E9', '#74B9FF', '#A29BFE',
+    '#FD79A8', '#FDCB6E', '#6C5CE7', '#00B894', '#E17055',
+    '#FFB6C1', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'
   ];
-
-  const COLORS = ['#41ffca', '#FFCA41'];
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -39,9 +42,12 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
     }).format(value);
   };
 
+  const totalValue = chartData.reduce((sum, item) => sum + item.value, 0);
+  
   const renderCustomLabel = (entry: any) => {
-    const percent = ((entry.value / (chartData[0].value + chartData[1].value)) * 100).toFixed(1);
-    return `${entry.name}: ${percent}%`;
+    const percent = ((entry.value / totalValue) * 100).toFixed(1);
+    // Only show label if percentage is significant enough
+    return parseFloat(percent) > 3 ? `${percent}%` : '';
   };
 
   return (
