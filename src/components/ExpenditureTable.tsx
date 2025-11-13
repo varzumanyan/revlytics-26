@@ -194,13 +194,13 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap border-r-2 border-border">
                           {pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '-'}
                         </td>
-                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
+                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap text-muted-foreground">
                           {!isNaN(oct2025) ? formatCurrency(oct2025) : '-'}
                         </td>
-                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
+                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap text-muted-foreground">
                           {!isNaN(fy26Budget) ? formatCurrency(fy26Budget) : '-'}
                         </td>
-                        <td className={`px-3 py-2 text-sm text-right font-medium whitespace-nowrap ${
+                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
                           !isNaN(pctFy26) && pctFy26 > 0.3333 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
                           {!isNaN(pctFy26) ? formatPercentage(pctFy26) : '-'}
