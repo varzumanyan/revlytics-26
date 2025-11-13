@@ -13,6 +13,9 @@ type SortDirection = 'asc' | 'desc';
 export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  
+  console.log('ExpenditureTable received data:', data.length, 'rows');
+  console.log('Sample rows:', data.slice(0, 5).map(d => d.generalFundDepartment));
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {

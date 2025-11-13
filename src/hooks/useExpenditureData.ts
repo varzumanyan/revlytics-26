@@ -12,6 +12,7 @@ export const useExpenditureData = () => {
         throw new Error('Failed to fetch expenditure data');
       }
       const data = await response.json();
+      console.log('Expenditure data received:', data);
       return data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
