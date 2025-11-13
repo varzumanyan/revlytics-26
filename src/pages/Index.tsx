@@ -163,7 +163,7 @@ const Index = () => {
                 description="Percentage of budget used"
               />
               <ExpenditureCard
-                title="Remaining Budget"
+                title="Remaining Adopted Budget"
                 value={totalExpenditureBudget - totalExpenditures}
                 isCurrency={true}
                 description="Available for remainder of FY"
