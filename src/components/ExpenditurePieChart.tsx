@@ -35,7 +35,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
       budget: item.fy26AdoptedBudget,
     })),
     ...(otherTotal > 0 ? [{
-      name: 'Other Departments',
+      name: 'Other',
       value: otherTotal,
       budget: 0,
     }] : [])
