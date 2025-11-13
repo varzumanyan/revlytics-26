@@ -59,7 +59,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     if (!department) return false;
     const lowerDept = department.toLowerCase();
     return lowerDept.includes('total') || 
-           lowerDept.includes('general fund other expenses');
+           lowerDept.includes('general fund other') ||
+           lowerDept === 'general fund other expenses';
   };
 
   const SortableHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
@@ -82,11 +83,11 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="overflow-x-auto">
+        <div className="max-h-[600px] overflow-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden border border-border rounded-md">
               <table className="min-w-full divide-y divide-border">
-                <thead>
+                <thead className="sticky top-0 z-10 bg-background">
                   <tr>
                     <SortableHeader field="generalFundDepartment">General Fund Department</SortableHeader>
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
