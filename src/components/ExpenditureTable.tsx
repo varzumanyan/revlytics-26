@@ -56,6 +56,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   };
 
   const isTotalRow = (department: string) => {
+    if (!department) return false;
     const lowerDept = department.toLowerCase();
     return lowerDept.includes('total') || 
            lowerDept.includes('general fund other expenses');
