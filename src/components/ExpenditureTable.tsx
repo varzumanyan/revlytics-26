@@ -106,12 +106,39 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     return `${Math.round(numValue * 100)}%`;
   };
 
+  // Helper functions to identify row types
+  const isGrandTotal = (department: string) => {
+    return department?.toLowerCase() === 'total expenses';
+  };
+
+  const isSubtotal = (department: string) => {
+    const lower = department?.toLowerCase() || '';
+    return lower === 'total department' || lower === 'total other';
+  };
+
+  const isSectionHeader = (department: string) => {
+    return department?.toLowerCase() === 'general fund other expenses';
+  };
+
+  const isSubItem = (department: string) => {
+    const lower = department?.toLowerCase() || '';
+    const subItems = [
+      'capital finance administration',
+      'capital improvement expense',
+      'general',
+      'general city purposes',
+      'human resources benefits',
+      'leasing',
+      'liability claims',
+      'petroleum products',
+      'unappropriated balance',
+      'water and electricity'
+    ];
+    return subItems.includes(lower);
+  };
+
   const isTotalRow = (department: string) => {
-    if (!department) return false;
-    const lowerDept = department.toLowerCase();
-    return lowerDept.includes('total') || 
-           lowerDept.includes('general fund other') ||
-           lowerDept === 'general fund other expenses';
+    return isGrandTotal(department) || isSubtotal(department) || isSectionHeader(department);
   };
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
@@ -153,7 +180,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {sortedData.map((row) => {
+                  {sortedData.map((row, index) => {
                     const oct2023 = typeof row.october2023Ytd === 'string' && row.october2023Ytd === '' ? 0 : Number(row.october2023Ytd);
                     const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
                     const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
@@ -167,49 +194,91 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                     const pctFy26 = row["%OfFy26Budget"];
                     
                     const isTotal = isTotalRow(row.generalFundDepartment);
+                    const isGrand = isGrandTotal(row.generalFundDepartment);
+                    const isSub = isSubtotal(row.generalFundDepartment);
+                    const isSection = isSectionHeader(row.generalFundDepartment);
+                    const isSubItemRow = isSubItem(row.generalFundDepartment);
+                    
+                    // Add spacing before section headers and totals
+                    const needsSpacingBefore = isSub || isSection || isGrand;
                     
                     return (
-                      <tr 
-                        key={row.id} 
-                        className="transition-colors hover:bg-muted/30"
-                      >
-                        <td className="px-3 py-2 text-sm whitespace-nowrap text-foreground border-r-2 border-muted-foreground/30 sticky left-0 bg-background z-10">
-                          {row.generalFundDepartment}
-                        </td>
-                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {oct2023 > 0 && !isNaN(oct2023) ? formatCurrency(oct2023) : '-'}
-                        </td>
-                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '-'}
-                        </td>
-                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                          pctFy24 > 0.3333 ? 'text-destructive font-medium' : 'text-muted-foreground'
-                        }`}>
-                          {pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '-'}
-                        </td>
-                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {oct2024 > 0 && !isNaN(oct2024) ? formatCurrency(oct2024) : '-'}
-                        </td>
-                        <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '-'}
-                        </td>
-                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                          pctFy25 > 0.3333 ? 'text-destructive font-medium' : 'text-muted-foreground'
-                        }`}>
-                          {pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '-'}
-                        </td>
-                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap text-muted-foreground">
-                          {!isNaN(oct2025) ? formatCurrency(oct2025) : '-'}
-                        </td>
-                        <td className="px-3 py-2 text-sm text-right whitespace-nowrap text-muted-foreground">
-                          {!isNaN(fy26Budget) ? formatCurrency(fy26Budget) : '-'}
-                        </td>
-                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
-                          !isNaN(pctFy26) && pctFy26 > 0.3333 ? 'text-destructive font-medium' : 'text-muted-foreground'
-                        }`}>
-                          {!isNaN(pctFy26) ? formatPercentage(pctFy26) : '-'}
-                        </td>
-                      </tr>
+                      <React.Fragment key={row.id}>
+                        {needsSpacingBefore && (
+                          <tr className="h-2 bg-muted/20">
+                            <td colSpan={10} className="border-0"></td>
+                          </tr>
+                        )}
+                        <tr 
+                          className={`transition-colors ${
+                            isGrand ? 'bg-primary/10 hover:bg-primary/15 font-bold border-t-2 border-primary' :
+                            isSub ? 'bg-muted/50 hover:bg-muted/60 font-semibold border-t border-border' :
+                            isSection ? 'bg-muted/30 hover:bg-muted/40 font-semibold' :
+                            'hover:bg-muted/30'
+                          }`}
+                        >
+                          <td className={`px-3 py-2 text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 ${
+                            isGrand ? 'bg-primary/10 text-foreground font-bold' :
+                            isSub ? 'bg-muted/50 text-foreground font-semibold' :
+                            isSection ? 'bg-muted/30 text-foreground font-semibold' :
+                            isSubItemRow ? 'text-foreground pl-8 bg-background' :
+                            'text-foreground bg-background'
+                          }`}>
+                            {row.generalFundDepartment}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                            {oct2023 > 0 && !isNaN(oct2023) ? formatCurrency(oct2023) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                            {fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${
+                            pctFy24 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                          }`}>
+                            {pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                            {oct2024 > 0 && !isNaN(oct2024) ? formatCurrency(oct2024) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                            {fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${
+                            pctFy25 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                          }`}>
+                            {pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                            {!isNaN(oct2025) ? formatCurrency(oct2025) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                            {!isNaN(fy26Budget) ? formatCurrency(fy26Budget) : '-'}
+                          </td>
+                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                            isGrand || isSub ? 'font-bold' : ''
+                          } ${
+                            !isNaN(pctFy26) && pctFy26 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                          }`}>
+                            {!isNaN(pctFy26) ? formatPercentage(pctFy26) : '-'}
+                          </td>
+                        </tr>
+                      </React.Fragment>
                     );
                   })}
                 </tbody>
