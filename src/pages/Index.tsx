@@ -87,12 +87,17 @@ const Index = () => {
   const budgetProgress = totalBudget > 0 ? totalRevenue2025 / totalBudget : 0;
 
   // Calculate expenditure metrics for FY2026 only - filter to main departments only to avoid double counting
-  const mainDepartments = expenditureDataSheet.filter(item => item.generalFundDepartment && item.generalFundDepartment.trim() !== '');
-  const totalExpenditureBudget = mainDepartments.length > 0 ? 
-    mainDepartments.reduce((sum, item) => sum + (item.fy26AdoptedBudget || 0), 0) : 0;
-  const totalExpenditures = mainDepartments.length > 0 ? 
-    mainDepartments.reduce((sum, item) => sum + (item.october2025Ytd || 0), 0) : 0;
+  // Find the Total Expenses row for accurate metrics
+  const totalExpensesRow = expenditureDataSheet.find(item => 
+    item.generalFundDepartment?.toLowerCase() === 'total expenses'
+  );
+  
+  const totalExpenditureBudget = totalExpensesRow?.fy26AdoptedBudget || 0;
+  const totalExpenditures = totalExpensesRow?.october2025Ytd || 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
+  
+  console.log('Total Expenses Row:', totalExpensesRow);
+  console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, expenditureBudgetUtilization });
   return <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="bg-gradient-header shadow-strong">
