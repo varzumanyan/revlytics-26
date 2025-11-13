@@ -74,60 +74,121 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={500}>
-          <PieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="40%"
-              labelLine={true}
-              label={renderCustomLabel}
-              outerRadius={100}
-              fill="#8884d8"
-              dataKey="value"
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip 
-              formatter={(value: number) => formatCurrency(value)}
-              contentStyle={{
-                backgroundColor: '#1a1a1a',
-                border: '2px solid #41ffca',
-                borderRadius: '8px',
-                padding: '12px',
-                fontSize: '14px',
-                fontWeight: '500'
-              }}
-              labelStyle={{
-                color: '#ffffff',
-                fontWeight: '600',
-                marginBottom: '4px'
-              }}
-              itemStyle={{
-                color: '#ffffff'
-              }}
-            />
-            <Legend 
-              layout="vertical"
-              align="right"
-              verticalAlign="middle"
-              wrapperStyle={{ 
-                color: 'hsl(var(--foreground))',
-                fontSize: '12px',
-                maxHeight: '400px',
-                overflowY: 'auto',
-                paddingLeft: '10px'
-              }}
-              formatter={(value, entry: any) => {
-                const item = chartData.find(d => d.name === value);
-                return `${value}`;
-              }}
-              iconSize={8}
-            />
-          </PieChart>
-        </ResponsiveContainer>
+        {/* Desktop view */}
+        <div className="hidden md:block">
+          <ResponsiveContainer width="100%" height={500}>
+            <PieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="40%"
+                labelLine={true}
+                label={renderCustomLabel}
+                outerRadius={100}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip 
+                formatter={(value: number) => formatCurrency(value)}
+                contentStyle={{
+                  backgroundColor: '#1a1a1a',
+                  border: '2px solid #41ffca',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}
+                labelStyle={{
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  marginBottom: '4px'
+                }}
+                itemStyle={{
+                  color: '#ffffff'
+                }}
+              />
+              <Legend 
+                layout="vertical"
+                align="right"
+                verticalAlign="middle"
+                wrapperStyle={{ 
+                  color: 'hsl(var(--foreground))',
+                  fontSize: '12px',
+                  maxHeight: '400px',
+                  overflowY: 'auto',
+                  paddingLeft: '10px'
+                }}
+                formatter={(value, entry: any) => {
+                  const item = chartData.find(d => d.name === value);
+                  return `${value}`;
+                }}
+                iconSize={8}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Mobile view */}
+        <div className="block md:hidden">
+          <ResponsiveContainer width="100%" height={600}>
+            <PieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="35%"
+                labelLine={false}
+                label={renderCustomLabel}
+                outerRadius={120}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip 
+                formatter={(value: number) => formatCurrency(value)}
+                contentStyle={{
+                  backgroundColor: '#1a1a1a',
+                  border: '2px solid #41ffca',
+                  borderRadius: '8px',
+                  padding: '8px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}
+                labelStyle={{
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  marginBottom: '4px'
+                }}
+                itemStyle={{
+                  color: '#ffffff'
+                }}
+              />
+              <Legend 
+                layout="horizontal"
+                align="center"
+                verticalAlign="bottom"
+                wrapperStyle={{ 
+                  color: 'hsl(var(--foreground))',
+                  fontSize: '11px',
+                  maxHeight: '250px',
+                  overflowY: 'auto',
+                  paddingTop: '20px'
+                }}
+                formatter={(value, entry: any) => {
+                  const item = chartData.find(d => d.name === value);
+                  return `${value}`;
+                }}
+                iconSize={8}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );
