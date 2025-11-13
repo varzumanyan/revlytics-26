@@ -178,6 +178,11 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                           value > 0 ? 'text-success' : value < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`;
                       }
+                      
+                      // Special styling for budget percentage over 33%
+                      if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.33) {
+                        cellClass = 'font-medium text-success';
+                      }
                     } else {
                       formattedValue = String(value || '');
                     }
