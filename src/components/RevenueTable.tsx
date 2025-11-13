@@ -142,11 +142,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
             <TableHeader>
               <TableRow className="border-border hover:bg-muted/50">
                 {fieldMappings.map((mapping, index) => {
-                  // Add dividers after Revenue Type (index 0) and after each fiscal year group
-                  const shouldAddDivider = 
-                    index === 0 || // After Revenue Type
-                    (mapping.label.includes('FY24') && !fieldMappings[index + 1]?.label.includes('FY24')) || // After last FY24 column
-                    (mapping.label.includes('FY25') && !fieldMappings[index + 1]?.label.includes('FY25')); // After last FY25 column
+                  // Add dividers at strategic points based on the column structure
+                  // After Revenue Type (0), after historical data (3), after comparisons (5)
+                  const shouldAddDivider = index === 0 || index === 3 || index === 5;
                   
                   return (
                     <SortableHeader 
@@ -199,11 +197,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       formattedValue = String(value || '');
                     }
 
-                    // Add dividers after Revenue Type (index 0) and after each fiscal year group
-                    const shouldAddDivider = 
-                      index === 0 || // After Revenue Type
-                      (mapping.label.includes('FY24') && !fieldMappings[index + 1]?.label.includes('FY24')) || // After last FY24 column
-                      (mapping.label.includes('FY25') && !fieldMappings[index + 1]?.label.includes('FY25')); // After last FY25 column
+                    // Add dividers at strategic points - after Revenue Type (0), after historical data (3), after comparisons (5)
+                    const shouldAddDivider = index === 0 || index === 3 || index === 5;
 
                     return (
                       <TableCell 
