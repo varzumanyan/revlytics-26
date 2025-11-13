@@ -75,8 +75,8 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
             <Legend 
               wrapperStyle={{ color: 'hsl(var(--foreground))' }}
             />
-            <Bar dataKey="YTD Spending" fill="hsl(var(--primary))" />
-            <Bar dataKey="Budget" fill="hsl(var(--muted))" />
+            <Bar dataKey="YTD Spending" fill="#41ffca" />
+            <Bar dataKey="Budget" fill="#FFCA41" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

@@ -6,6 +6,7 @@ import { RevenueChart } from "@/components/RevenueChart";
 import { ExpenditureCard } from "@/components/ExpenditureCard";
 import { ExpenditureTable } from "@/components/ExpenditureTable";
 import { ExpenditureChart } from "@/components/ExpenditureChart";
+import { ExpenditurePieChart } from "@/components/ExpenditurePieChart";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -169,11 +170,14 @@ const Index = () => {
               />
             </div>
 
-            {/* Expenditure Chart */}
-            <ExpenditureChart data={expenditureDataSheet} />
-
             {/* Expenditure Data Table */}
             <ExpenditureTable data={expenditureDataSheet} />
+
+            {/* Expenditure Charts */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <ExpenditureChart data={expenditureDataSheet} />
+              <ExpenditurePieChart data={expenditureDataSheet} />
+            </div>
           </TabsContent>
         </Tabs>
 
