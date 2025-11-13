@@ -63,7 +63,7 @@ const Index = () => {
       </div>;
   }
 
-  const revenueDataSheet = revenueData?.sheet1 || [];
+  const revenueDataSheet = revenueData?.revenue || [];
   const expenditureDataSheet = expenditureData?.summary || [];
 
   console.log('Revenue data sheet:', revenueDataSheet);
