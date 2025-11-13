@@ -40,7 +40,7 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
-          Top 10 Departments by YTD Spending
+          Top 10 Expenditures
         </CardTitle>
       </CardHeader>
       <CardContent>
