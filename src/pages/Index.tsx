@@ -5,6 +5,7 @@ import { RevenueTable } from "@/components/RevenueTable";
 import { RevenueChart } from "@/components/RevenueChart";
 import { ExpenditureCard } from "@/components/ExpenditureCard";
 import { ExpenditureTable } from "@/components/ExpenditureTable";
+import { ExpenditureChart } from "@/components/ExpenditureChart";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -167,6 +168,9 @@ const Index = () => {
                 description="Available for remainder of FY"
               />
             </div>
+
+            {/* Expenditure Chart */}
+            <ExpenditureChart data={expenditureDataSheet} />
 
             {/* Expenditure Data Table */}
             <ExpenditureTable data={expenditureDataSheet} />

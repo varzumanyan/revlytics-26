@@ -177,33 +177,33 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                           {row.generalFundDepartment}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {oct2023 > 0 ? formatCurrency(oct2023) : '-'}
+                          {oct2023 > 0 && !isNaN(oct2023) ? formatCurrency(oct2023) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {fy24Budget > 0 ? formatCurrency(fy24Budget) : '-'}
+                          {fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {pctFy24 > 0 ? formatPercentage(pctFy24) : '-'}
+                          {pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {oct2024 > 0 ? formatCurrency(oct2024) : '-'}
+                          {oct2024 > 0 && !isNaN(oct2024) ? formatCurrency(oct2024) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {fy25Budget > 0 ? formatCurrency(fy25Budget) : '-'}
+                          {fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right text-muted-foreground whitespace-nowrap">
-                          {pctFy25 > 0 ? formatPercentage(pctFy25) : '-'}
+                          {pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
-                          {formatCurrency(oct2025)}
+                          {!isNaN(oct2025) ? formatCurrency(oct2025) : '-'}
                         </td>
                         <td className="px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-foreground">
-                          {formatCurrency(fy26Budget)}
+                          {!isNaN(fy26Budget) ? formatCurrency(fy26Budget) : '-'}
                         </td>
                         <td className={`px-3 py-2 text-sm text-right font-medium whitespace-nowrap ${
-                          pctFy26 > 0.3333 ? 'text-success' : 'text-muted-foreground'
+                          !isNaN(pctFy26) && pctFy26 > 0.3333 ? 'text-destructive' : 'text-muted-foreground'
                         }`}>
-                          {formatPercentage(pctFy26)}
+                          {!isNaN(pctFy26) ? formatPercentage(pctFy26) : '-'}
                         </td>
                       </tr>
                     );
