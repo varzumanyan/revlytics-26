@@ -121,6 +121,32 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
     }
   };
 
+  const handleDepartmentClick = (department: string) => {
+    // Check if it's one of the General categories
+    const generalCategories = ["General", "General Services", "General Service", "General City Purposes"];
+    const isGeneralCategory = generalCategories.some(cat => department.includes(cat));
+    
+    if (isGeneralCategory) {
+      // Show combined popup for all General categories
+      const combinedDescription = `
+General Categories Descriptions:
+
+General: Spending includes the Tax Revenue Anticipatory Note, Accessible Housing Fund, Emergency Operations Fund, Rec & Park Fund, Library Fund, Arts & Cultural Fund, Sidewalk Repair Fund, Sewer and Construction Maintenance Fund, and more
+
+General Service: City Department that provides internal support for City programs in the delivery of services to City residents. Services include the following: fleet, building services, procurement and stores inventory, fuel, construction and alterations, custodial, real estate, mail and messenger, parking, emergency management and special event coordination, materials testing, and printing services
+
+General City Purposes: Spending includes the Homelessness Emergency Account, Medicare and Social Security Contributions, Council Projects, and Community Services Districts
+      `.trim();
+      
+      setDialogDepartment({ name: "General Categories", description: combinedDescription });
+    } else {
+      const description = getDepartmentDescription(department);
+      if (description) {
+        setDialogDepartment({ name: department, description });
+      }
+    }
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -169,7 +195,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
-                  onClick={handlePieClick}
+                  onClick={(data) => handleDepartmentClick(data.fullName)}
                   cursor="pointer"
                 >
                   {pieChartData.map((entry, index) => (
@@ -230,6 +256,8 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
                     <CommandGroup className="max-h-64 overflow-auto">
                       {availableDepartments.map((department) => {
                         const description = getDepartmentDescription(department);
+                        const generalCategories = ["General", "General Services", "General Service", "General City Purposes"];
+                        const hasDescription = description || generalCategories.some(cat => department.includes(cat));
                         
                         return (
                           <CommandItem
@@ -247,13 +275,26 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
                                 selectedDepartment === department ? "opacity-100" : "opacity-0"
                               )}
                             />
-                            <span className="flex-1">{department}</span>
-                            {description && (
+                            <span 
+                              className={cn(
+                                "flex-1",
+                                hasDescription && "cursor-pointer hover:text-primary transition-colors"
+                              )}
+                              onClick={(e) => {
+                                if (hasDescription) {
+                                  e.stopPropagation();
+                                  handleDepartmentClick(department);
+                                }
+                              }}
+                            >
+                              {department}
+                            </span>
+                            {hasDescription && (
                               <Info 
                                 className="h-4 w-4 ml-2 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  setDialogDepartment({ name: department, description });
+                                  handleDepartmentClick(department);
                                 }}
                               />
                             )}
@@ -318,10 +359,10 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
 
       {/* Department Description Dialog */}
       <Dialog open={!!dialogDepartment} onOpenChange={() => setDialogDepartment(null)}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>{dialogDepartment?.name}</DialogTitle>
-            <DialogDescription className="pt-4 text-foreground/90">
+            <DialogDescription className="pt-4 text-foreground/90 whitespace-pre-line">
               {dialogDepartment?.description}
             </DialogDescription>
           </DialogHeader>
