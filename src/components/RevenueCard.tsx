@@ -7,6 +7,7 @@ interface RevenueCardProps {
   change?: number;
   isPercentage?: boolean;
   isCurrency?: boolean;
+  description?: string;
 }
 
 export const RevenueCard = ({ 
@@ -14,7 +15,8 @@ export const RevenueCard = ({
   value, 
   change, 
   isPercentage = false, 
-  isCurrency = true 
+  isCurrency = true,
+  description
 }: RevenueCardProps) => {
   const formatValue = (val: number | string) => {
     if (typeof val === 'string') return val;
@@ -57,6 +59,11 @@ export const RevenueCard = ({
         <div className="text-2xl font-bold text-foreground">
           {formatValue(value)}
         </div>
+        {description && (
+          <p className="text-xs text-muted-foreground mt-1">
+            {description}
+          </p>
+        )}
         {change !== undefined && (
           <div className="flex items-center space-x-1 text-xs mt-1">
             {isPositiveChange && (
