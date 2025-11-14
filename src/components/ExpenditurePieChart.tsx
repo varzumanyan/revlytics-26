@@ -1,12 +1,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { getDepartmentDescription } from "@/utils/departmentDescriptions";
 
 interface ExpenditurePieChartProps {
   data: ExpenditureData[];
 }
 
 export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
+  const [selectedDepartment, setSelectedDepartment] = useState<{ name: string; description: string } | null>(null);
   // Filter out total rows and prepare data for the pie chart
   const filteredData = data
     .filter(item => {
@@ -31,11 +41,13 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
       name: item.generalFundDepartment.length > 25 
         ? item.generalFundDepartment.substring(0, 25) + '...' 
         : item.generalFundDepartment,
+      fullName: item.generalFundDepartment,
       value: item.october2025Ytd,
       budget: item.fy26AdoptedBudget,
     })),
     ...(otherTotal > 0 ? [{
       name: 'Other',
+      fullName: 'Other',
       value: otherTotal,
       budget: 0,
     }] : [])
@@ -48,6 +60,13 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
     '#FD79A8', '#FDCB6E', '#6C5CE7', '#00B894', '#E17055',
     '#FFB6C1'
   ];
+
+  const handlePieClick = (data: any) => {
+    const description = getDepartmentDescription(data.fullName);
+    if (description) {
+      setSelectedDepartment({ name: data.fullName, description });
+    }
+  };
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -87,6 +106,8 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
                 outerRadius={100}
                 fill="#8884d8"
                 dataKey="value"
+                onClick={handlePieClick}
+                cursor="pointer"
               >
                 {chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -145,6 +166,8 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
                 outerRadius={120}
                 fill="#8884d8"
                 dataKey="value"
+                onClick={handlePieClick}
+                cursor="pointer"
               >
                 {chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -190,6 +213,17 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
           </ResponsiveContainer>
         </div>
       </CardContent>
+
+      <Dialog open={!!selectedDepartment} onOpenChange={() => setSelectedDepartment(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{selectedDepartment?.name}</DialogTitle>
+            <DialogDescription className="text-base leading-relaxed pt-2">
+              {selectedDepartment?.description}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };
