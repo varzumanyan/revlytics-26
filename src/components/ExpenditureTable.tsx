@@ -22,7 +22,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
-  const [hideFirstColumn, setHideFirstColumn] = useState(false);
   
   console.log('ExpenditureTable received data:', data.length, 'rows');
   console.log('Sample rows:', data.slice(0, 5).map(d => d.generalFundDepartment));
@@ -192,12 +191,12 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
-        <span>{children}</span>
-        <ArrowUpDown className="h-3 w-3" />
+        <span className="leading-tight">{children}</span>
+        <ArrowUpDown className="h-2.5 w-2.5 lg:h-3 lg:w-3 flex-shrink-0" />
       </div>
     </th>
   );
@@ -206,17 +205,9 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
     <>
     <Card className="bg-gradient-card border-border shadow-soft w-full">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-semibold text-foreground">
-            YTD GF Expenditure Analysis
-          </CardTitle>
-          <button
-            onClick={() => setHideFirstColumn(!hideFirstColumn)}
-            className="lg:hidden px-3 py-1 text-xs bg-primary/20 hover:bg-primary/30 text-foreground rounded-md transition-colors"
-          >
-            {hideFirstColumn ? 'Show' : 'Hide'} Department
-          </button>
-        </div>
+        <CardTitle className="text-xl font-semibold text-foreground">
+          YTD GF Expenditure Analysis
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container">
@@ -224,9 +215,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
             <table className="min-w-full divide-y divide-border w-max lg:w-full">
             <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
-                    {!hideFirstColumn && (
-                      <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    )}
+                    <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">As of FY24 Budget (Oct 2023)</SortableHeader>
@@ -276,72 +265,70 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             'hover:bg-muted/30'
                           }`}
                         >
-                          {!hideFirstColumn && (
-                            <td className={`px-3 py-2 text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
-                              isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
-                              isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
-                              isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :
-                              isSubItemRow ? 'text-foreground pl-8 bg-background hover:bg-muted/30' :
-                              'text-foreground bg-background hover:bg-muted/30'
-                            }`}>
-                              <span
-                                className={`${
-                                  getDepartmentDescription(row.generalFundDepartment) || 
-                                  ["General", "General Services", "General Service", "General City Purposes"].some(cat => row.generalFundDepartment.includes(cat))
-                                    ? 'cursor-pointer hover:text-primary transition-colors'
-                                    : ''
-                                }`}
-                                onClick={() => handleDepartmentClick(row.generalFundDepartment)}
-                              >
-                                {row.generalFundDepartment}
-                              </span>
-                            </td>
-                          )}
-                        <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
+                            isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
+                            isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
+                            isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :
+                            isSubItemRow ? 'text-foreground pl-4 lg:pl-8 bg-background hover:bg-muted/30' :
+                            'text-foreground bg-background hover:bg-muted/30'
+                          }`}>
+                            <span
+                              className={`${
+                                getDepartmentDescription(row.generalFundDepartment) || 
+                                ["General", "General Services", "General Service", "General City Purposes"].some(cat => row.generalFundDepartment.includes(cat))
+                                  ? 'cursor-pointer hover:text-primary transition-colors'
+                                  : ''
+                              }`}
+                              onClick={() => handleDepartmentClick(row.generalFundDepartment)}
+                            >
+                              {row.generalFundDepartment}
+                            </span>
+                          </td>
+                        <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
                             {isSection ? '' : (oct2023 > 0 && !isNaN(oct2023) ? formatCurrency(oct2023) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
                             {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             pctFy24 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           }`}>
                             {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
                             {isSection ? '' : (oct2024 > 0 && !isNaN(oct2024) ? formatCurrency(oct2024) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
                             {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             pctFy25 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           }`}>
                             {isSection ? '' : (pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
                             {isSection ? '' : (!isNaN(oct2025) && oct2025 !== 0 ? formatCurrency(oct2025) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
-                          <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             !isNaN(pctFy26) && pctFy26 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'

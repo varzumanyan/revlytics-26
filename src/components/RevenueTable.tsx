@@ -14,7 +14,6 @@ type SortDirection = 'asc' | 'desc';
 export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [sortField, setSortField] = useState<SortField>('revenueType');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-  const [hideFirstColumn, setHideFirstColumn] = useState(false);
 
   // Generate dynamic field mappings based on actual API data
   const fieldMappings = useMemo(() => {
@@ -126,12 +125,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
-        <span>{children}</span>
-        <ArrowUpDown className="h-3 w-3" />
+        <span className="leading-tight">{children}</span>
+        <ArrowUpDown className="h-2.5 w-2.5 lg:h-3 lg:w-3 flex-shrink-0" />
       </div>
     </th>
   );
@@ -139,17 +138,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   return (
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-semibold text-foreground">
-            YTD GF Revenue Analysis
-          </CardTitle>
-          <button
-            onClick={() => setHideFirstColumn(!hideFirstColumn)}
-            className="lg:hidden px-3 py-1 text-xs bg-primary/20 hover:bg-primary/30 text-foreground rounded-md transition-colors"
-          >
-            {hideFirstColumn ? 'Show' : 'Hide'} Revenue Type
-          </button>
-        </div>
+        <CardTitle className="text-xl font-semibold text-foreground">
+          YTD GF Revenue Analysis
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container">
@@ -162,9 +153,6 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   // After Revenue Type (0), after historical data (3), after comparisons (5)
                   const shouldAddDivider = index === 0 || index === 3 || index === 5;
                   const isFirstColumn = index === 0;
-                  
-                  // Skip first column if hideFirstColumn is true
-                  if (isFirstColumn && hideFirstColumn) return null;
                   
                   return (
                     <SortableHeader 
@@ -188,29 +176,25 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   }`}
                 >
                   {fieldMappings.map((mapping, index) => {
-                    const isFirstColumn = index === 0;
-                    
-                    // Skip first column if hideFirstColumn is true
-                    if (isFirstColumn && hideFirstColumn) return null;
-                    
                     const value = (row as any)[mapping.field];
                     let formattedValue: string;
                     const isRevenueToDate = row.revenueType === 'Revenue to Date';
-                    let cellClass = `px-3 py-2 text-sm whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                    const isFirstColumn = index === 0;
+                    let cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
 
                     if (mapping.field === 'revenueType') {
                       formattedValue = value;
-                      cellClass = `px-3 py-2 text-sm whitespace-nowrap font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
+                      cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
                     } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
-                      cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                      cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
                       // Special styling for change fields
                       if (changeField && mapping.field === changeField) {
                         if (isRevenueToDate) {
-                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-bold text-foreground`;
+                          cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-bold text-foreground`;
                         } else {
-                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium ${
+                          cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-medium ${
                             value > 0 ? 'text-success' : 
                             value < 0 ? 'text-destructive' : 'text-muted-foreground'
                           }`;
@@ -218,14 +202,14 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       }
                     } else if (mapping.type === 'percentage') {
                       formattedValue = formatPercentage(value || 0);
-                      cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                      cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
                       // Special styling for YoY change
                       if (mapping.field === '%') {
                         if (isRevenueToDate) {
-                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-bold text-foreground`;
+                          cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-bold text-foreground`;
                         } else {
-                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium ${
+                          cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-medium ${
                             value > 0 ? 'text-success' : value < 0 ? 'text-destructive' : 'text-muted-foreground'
                           }`;
                         }
@@ -233,7 +217,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       
                       // Special styling for budget percentage over 33.33%
                       if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.3333) {
-                        cellClass = isRevenueToDate ? 'px-3 py-2 text-sm text-right whitespace-nowrap font-bold text-foreground' : 'px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-success';
+                        cellClass = isRevenueToDate ? 'px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-bold text-foreground' : 'px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-medium text-success';
                       }
                     } else {
                       formattedValue = String(value || '');
