@@ -154,7 +154,7 @@ const Index = () => {
               />
               <BudgetProgressGauge 
                 title="FY2026 YTD Budget Progress" 
-                subtitle="Through October 2025 (4 months)"
+                subtitle="July - Oct 2025"
                 actualProgress={budgetProgress}
                 monthsElapsed={4}
                 totalMonths={12}
