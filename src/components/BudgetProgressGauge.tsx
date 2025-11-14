@@ -50,9 +50,17 @@ export const BudgetProgressGauge = ({
   };
   
   const getStatusText = () => {
-    if (isAhead) return "Ahead of schedule";
-    if (isBehind) return "Behind schedule";
-    return "On track";
+    if (isExpenditure) {
+      // For expenditures: below expected = under budget (good), above expected = over budget (bad)
+      if (isAhead) return "Over Budget";
+      if (isBehind) return "Spending Under Budget";
+      return "On Track";
+    } else {
+      // For revenue
+      if (isAhead) return "Ahead of schedule";
+      if (isBehind) return "Behind schedule";
+      return "On track";
+    }
   };
 
   return (
