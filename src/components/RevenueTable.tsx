@@ -119,7 +119,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <TableHead 
-      className={`cursor-pointer hover:bg-muted/50 transition-colors sticky top-0 bg-muted z-10 ${isFirstColumn ? 'left-0 z-20' : ''} ${className}`}
+      className={`cursor-pointer hover:bg-muted/50 transition-colors sticky top-0 bg-background ${isFirstColumn ? 'left-0 z-30' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -136,10 +136,10 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
           YTD GF Revenue Analysis
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="rounded-md border border-border overflow-auto max-h-[600px]">
+      <CardContent className="p-0">
+        <div className="relative max-h-[600px] overflow-auto border border-border rounded-md">
           <Table>
-            <TableHeader>
+            <TableHeader className="sticky top-0 z-20 bg-background shadow-sm">
               <TableRow className="border-border hover:bg-muted/50">
                 {fieldMappings.map((mapping, index) => {
                   // Add dividers at strategic points based on the column structure
@@ -207,7 +207,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     return (
                       <TableCell 
                         key={mapping.field} 
-                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? "sticky left-0 bg-background z-10" : ""}`}
+                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? "sticky left-0 bg-background z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" : ""}`}
                       >
                         {formattedValue}
                       </TableCell>
