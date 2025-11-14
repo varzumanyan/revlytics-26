@@ -98,10 +98,16 @@ const Index = () => {
   
   const totalExpenditureBudget = totalExpensesRow?.fy26AdoptedBudget || 0;
   const totalExpenditures = totalExpensesRow?.october2025Ytd || 0;
+  const totalExpenditures2024 = typeof totalExpensesRow?.october2024Ytd === 'number' 
+    ? totalExpensesRow.october2024Ytd 
+    : parseFloat(String(totalExpensesRow?.october2024Ytd || 0));
+  const expenditureYearOverYearChange = totalExpenditures2024 > 0 
+    ? (totalExpenditures - totalExpenditures2024) / totalExpenditures2024 
+    : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   
   console.log('Total Expenses Row:', totalExpensesRow);
-  console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, expenditureBudgetUtilization });
+  console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, totalExpenditures2024, expenditureYearOverYearChange, expenditureBudgetUtilization });
   return <div className="min-h-screen bg-background">
       <Navbar />
       
@@ -177,30 +183,31 @@ const Index = () => {
             {/* Expenditure Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <ExpenditureCard
-                title="Total Budget"
-                value={totalExpenditureBudget}
-                isCurrency={true}
-                description="FY2026 adopted budget"
-              />
-              <ExpenditureCard
-                title="YTD Expenditures (July to Oct 2025)"
+                title="Total Expenditure FY2026 YTD"
                 value={totalExpenditures}
                 isCurrency={true}
-                description="Year-to-date spending"
+                description="July - Oct 2025"
+              />
+              <ExpenditureCard
+                title="Year-over-Year Change"
+                value={expenditureYearOverYearChange}
+                isPercentage={true}
+                change={`↑ ${(expenditureYearOverYearChange * 100).toFixed(2)}%`}
+                changeType={expenditureYearOverYearChange > 0 ? 'positive' : 'negative'}
               />
               <BudgetProgressGauge
-                title="Budget Utilization"
+                title="FY2026 YTD Budget Progress"
+                subtitle="July - Oct 2025"
                 actualProgress={expenditureBudgetUtilization}
                 monthsElapsed={4}
                 totalMonths={12}
-                subtitle="FY2026 adopted budget"
                 isExpenditure={true}
               />
               <ExpenditureCard
-                title="Remaining Adopted Budget"
-                value={totalExpenditureBudget - totalExpenditures}
+                title="FY2026 Adopted Budget"
+                value={totalExpenditureBudget}
                 isCurrency={true}
-                description="Available for remainder of FY"
+                description="Full year budget"
               />
             </div>
 
