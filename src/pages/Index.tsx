@@ -125,13 +125,13 @@ const Index = () => {
           <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50">
             <TabsTrigger 
               value="revenue" 
-              className="text-lg font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md"
+              className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
             >
               Revenue
             </TabsTrigger>
             <TabsTrigger 
               value="expenditures"
-              className="text-lg font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md"
+              className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
             >
               Expenditures
             </TabsTrigger>
