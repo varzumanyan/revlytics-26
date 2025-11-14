@@ -157,7 +157,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                 <tr 
                   key={row.id} 
                   className={`border-border hover:bg-muted/30 transition-colors ${
-                    row.revenueType === 'Revenue to Date' ? 'bg-primary/10 font-semibold' : ''
+                    row.revenueType === 'Revenue to Date' ? 'bg-accent/20 font-bold border-l-4 border-l-primary' : ''
                   }`}
                 >
                   {fieldMappings.map((mapping, index) => {
