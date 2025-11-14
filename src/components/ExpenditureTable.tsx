@@ -67,8 +67,12 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     .sort((a, b) => {
     // If sorting by department name or default, use custom order
     if (sortField === 'generalFundDepartment') {
-      const aOrder = getRowOrder(a.generalFundDepartment);
-      const bOrder = getRowOrder(b.generalFundDepartment);
+      // Add safety checks for undefined values
+      const aDept = a.generalFundDepartment || '';
+      const bDept = b.generalFundDepartment || '';
+      
+      const aOrder = getRowOrder(aDept);
+      const bOrder = getRowOrder(bDept);
       
       // If both have special ordering, use that
       if (aOrder !== 0 || bOrder !== 0) {
@@ -77,18 +81,22 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
       
       // Otherwise alphabetical for regular departments
       return sortDirection === 'asc'
-        ? a.generalFundDepartment.localeCompare(b.generalFundDepartment)
-        : b.generalFundDepartment.localeCompare(a.generalFundDepartment);
+        ? aDept.localeCompare(bDept)
+        : bDept.localeCompare(aDept);
     }
     
     // For other fields, use normal sorting
     const aValue = a[sortField];
     const bValue = b[sortField];
     
+    // Handle undefined/null values
+    if (aValue === undefined || aValue === null) return 1;
+    if (bValue === undefined || bValue === null) return -1;
+    
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return sortDirection === 'asc' 
-        ? (aValue as string).localeCompare(bValue as string)
-        : (bValue as string).localeCompare(aValue as string);
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     }
     
     if (typeof aValue === 'number' && typeof bValue === 'number') {
