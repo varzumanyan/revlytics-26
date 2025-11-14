@@ -120,7 +120,7 @@ const Index = () => {
               FY2026 General Fund Revenue &amp; Expense Analysis
             </h1>
             <p className="text-xl max-w-2xl mx-auto text-slate-50">
-              General Fund Revenue and Expenditure Overview for Fiscal Year 2026
+              City of Los Angeles General Fund Revenue and Expenditure Overview for Fiscal Year 2026
             </p>
           </div>
         </div>
