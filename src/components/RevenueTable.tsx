@@ -58,7 +58,13 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     }
   };
 
-  const sortedData = [...data].sort((a, b) => {
+  const sortedData = [...data]
+    .filter(item => {
+      // Only show rows up to and including "Revenue to Date"
+      const type = item.revenueType || '';
+      return revenueTypeOrder.includes(type);
+    })
+    .sort((a, b) => {
     // Special handling for revenueType to use predefined order
     if (sortField === 'revenueType') {
       // Safety checks for undefined values
