@@ -191,7 +191,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-40 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-30'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
