@@ -173,7 +173,7 @@ const Index = () => {
                 description="FY2026 adopted budget"
               />
               <ExpenditureCard
-                title="YTD Expenditures"
+                title="YTD Expenditures (July to Oct 2025)"
                 value={totalExpenditures}
                 isCurrency={true}
                 description="Year-to-date spending"
@@ -183,8 +183,7 @@ const Index = () => {
                 value={expenditureBudgetUtilization}
                 isPercentage={true}
                 change="of total budget"
-                changeType={expenditureBudgetUtilization > 0.5 ? 'negative' : expenditureBudgetUtilization < 0.2 ? 'positive' : 'neutral'}
-                description="Percentage of budget used"
+                changeType={expenditureBudgetUtilization < 0.3333 ? 'positive' : 'negative'}
               />
               <ExpenditureCard
                 title="Remaining Adopted Budget"
