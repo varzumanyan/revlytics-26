@@ -68,7 +68,7 @@ export const BudgetProgressGauge = ({
               <span className="text-muted-foreground">Actual Progress</span>
               <span className="font-medium">{progressPercentage.toFixed(1)}%</span>
             </div>
-            <Progress value={progressPercentage} className="h-2" />
+            <Progress value={progressPercentage} className="h-2 [&>div]:bg-destructive" />
           </div>
           
           {/* Expected Progress Indicator */}
