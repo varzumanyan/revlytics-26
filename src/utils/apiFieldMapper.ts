@@ -157,7 +157,7 @@ export class ApiFieldMapper {
         { field: fieldSet.year3, label: 'October 2025', type: 'currency' as const },
         { field: fieldSet.changeField, label: 'Oct25 vs Oct24', type: 'currency' as const },
         { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
-        { field: fieldSet.budgetPercentageField, label: 'As of FY2026 Budget (October 2025)', type: 'percentage' as const },
+        { field: fieldSet.budgetPercentageField, label: 'Oct 25 YTD as % of FY26 Budget', type: 'percentage' as const },
         { field: fieldSet.budgetField, label: 'Adopted Budget', type: 'currency' as const }
       ];
       return mappings.filter(mapping => mapping.field);
@@ -172,7 +172,7 @@ export class ApiFieldMapper {
       { field: fieldSet.year3, label: `${capitalizedMonth} ${dateInfo.years[2]}`, type: 'currency' as const },
       { field: fieldSet.changeField, label: `${capitalizedMonth.slice(0,3)}${dateInfo.years[2].slice(-2)} vs ${capitalizedMonth.slice(0,3)}${dateInfo.years[1].slice(-2)}`, type: 'currency' as const },
       { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
-      { field: fieldSet.budgetPercentageField, label: `As of FY2026 Budget (${capitalizedMonth} ${dateInfo.years[2]})`, type: 'percentage' as const },
+      { field: fieldSet.budgetPercentageField, label: 'Oct 25 YTD as % of FY26 Budget', type: 'percentage' as const },
       { field: fieldSet.budgetField, label: 'FY2026 Adopted Budget', type: 'currency' as const }
     ];
     
