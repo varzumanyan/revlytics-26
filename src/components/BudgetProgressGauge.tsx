@@ -108,15 +108,6 @@ export const BudgetProgressGauge = ({
             </div>
           </div>
         </div>
-        
-        {/* Status Indicator */}
-        <div className={`flex items-center space-x-2 text-sm ${getStatusColor()}`}>
-          {getStatusIcon()}
-          <span className="font-medium">{getStatusText()}</span>
-          <span className="text-xs">
-            ({difference > 0 ? '+' : ''}{(difference * 100).toFixed(1)}%)
-          </span>
-        </div>
       </CardContent>
     </Card>
   );
