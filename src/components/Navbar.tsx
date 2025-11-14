@@ -47,7 +47,7 @@ export const Navbar = () => {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>About This Dashboard</DialogTitle>
-                <DialogDescription className="space-y-4 pt-4 text-foreground/90">
+                <DialogDescription className="space-y-4 pt-4 text-foreground/90 text-left">
                   <p>
                     This dashboard provides a high-level overview of the City of LA's FY2026 General Fund Revenues and Expenditures. This will enable taxpayers and decisionmakers to analyze the City's financial health on a more real-time basis.
                   </p>
