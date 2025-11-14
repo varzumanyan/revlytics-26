@@ -49,24 +49,16 @@ export const Navbar = () => {
                 <DialogTitle>About This Dashboard</DialogTitle>
                 <DialogDescription className="space-y-4 pt-4 text-foreground/90">
                   <p>
-                    This dashboard provides a high-level view of the City of LA's FY2026 
-                    General Fund Revenues and Expenditures. FY2026 goes from July 1, 2025, to June 
-                    30, 2026.
+                    This dashboard provides a high-level overview of the City of LA's FY2026 General Fund Revenues and Expenditures. This will enable taxpayers and decisionmakers to analyze the City's financial health on a more real-time basis.
                   </p>
                   <p>
-                    The General Fund is the primary operating fund of the City. General 
-                    Fund revenues are derived from such sources as taxes, licenses, permits, fees, 
-                    fines, intergovernmental revenues, charges for services, special assessments, 
-                    interest income, and other resources available for discretionary funding. 
-                    Expenditures are made for functions of general government, protection of 
-                    persons and property, public works, health and sanitation, transportation, 
-                    cultural and recreational services, community development, capital outlay, and debt 
-                    service.
+                    The General Fund is the primary operating fund of the City AND is the fund that is most financially in trouble. General Fund revenues are derived from such sources as taxes, licenses, permits, fees, fines, intergovernmental revenues, charges for services, special assessments, interest income, and other resources available for discretionary funding. Expenditures are made for functions of general government, protection of persons and property, public works, health and sanitation, transportation, cultural and recreational services, community development, capital outlay, and debt service.
                   </p>
                   <p>
-                    <strong className="text-foreground">NOTE:</strong> General Fund Expenditures show a higher budget than Revenues due 
-                    to Special Fund transfers (~$1.38B) that will occur during the fiscal year to supplement 
-                    the General Fund Revenue budget of $8.178B.
+                    <strong className="text-foreground">NOTE:</strong> General Fund Expenditures show a higher budget than Revenues due to Special Fund transfers (~$1.38B) that will occur during the fiscal year to supplement the General Fund Revenue budget of $8.178B.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    (FY2026 goes from July 1, 2025, to June 30, 2026)
                   </p>
                 </DialogDescription>
               </DialogHeader>
