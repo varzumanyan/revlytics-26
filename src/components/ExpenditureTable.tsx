@@ -191,7 +191,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30' : 'z-20'} ${className}`}
+      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -210,8 +210,9 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="relative max-h-[600px] overflow-auto border border-border rounded-md">
-          <table className="min-w-full divide-y divide-border">
+        <div className="relative overflow-x-auto table-scroll-container">
+          <div className="max-h-[600px] overflow-y-auto border border-border rounded-md">
+            <table className="min-w-full divide-y divide-border w-max lg:w-full">
             <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
@@ -338,8 +339,9 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       </React.Fragment>
                     );
                   })}
-                </tbody>
-              </table>
+                 </tbody>
+          </table>
+          </div>
         </div>
       </CardContent>
     </Card>
