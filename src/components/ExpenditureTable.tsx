@@ -265,7 +265,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             'hover:bg-muted/30'
                           }`}
                         >
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
                             isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
                             isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
                             isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :
