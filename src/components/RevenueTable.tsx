@@ -125,7 +125,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-40 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-30'} ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -229,7 +229,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     return (
                       <td 
                         key={mapping.field} 
-                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `sticky left-0 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${isRevenueToDate ? 'bg-primary/10 hover:bg-primary/15' : 'bg-background hover:bg-muted/30'}` : ""}`}
+                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `${isRevenueToDate ? 'bg-primary/10 hover:bg-primary/15' : 'bg-background hover:bg-muted/30'}` : ""}`}
                       >
                         {formattedValue}
                       </td>
