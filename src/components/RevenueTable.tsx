@@ -1,11 +1,3 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
@@ -118,15 +110,15 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   };
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
-    <TableHead 
-      className={`cursor-pointer hover:bg-muted/50 transition-colors sticky top-0 bg-background shadow-sm ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
+    <th 
+      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
         <span>{children}</span>
         <ArrowUpDown className="h-3 w-3" />
       </div>
-    </TableHead>
+    </th>
   );
 
   return (
@@ -138,9 +130,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative max-h-[600px] overflow-auto border border-border rounded-md">
-          <Table>
-            <TableHeader>
-              <TableRow className="border-border">
+          <table className="min-w-full divide-y divide-border">
+            <thead className="sticky top-0 z-20 bg-background shadow-sm">
+              <tr>
                 {fieldMappings.map((mapping, index) => {
                   // Add dividers at strategic points based on the column structure
                   // After Revenue Type (0), after historical data (3), after comparisons (5)
@@ -158,42 +150,44 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     </SortableHeader>
                   );
                 })}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
               {sortedData.map((row) => (
-                <TableRow key={row.id} className="border-border hover:bg-muted/30 transition-colors">
+                <tr key={row.id} className="border-border hover:bg-muted/30 transition-colors">
                   {fieldMappings.map((mapping, index) => {
                     const value = (row as any)[mapping.field];
                     let formattedValue: string;
-                    let cellClass = "text-muted-foreground";
+                    let cellClass = "px-3 py-2 text-sm whitespace-nowrap text-muted-foreground";
 
                     if (mapping.field === 'revenueType') {
                       formattedValue = value;
-                      cellClass = "font-medium text-foreground";
+                      cellClass = "px-3 py-2 text-sm whitespace-nowrap font-medium text-foreground";
                     } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
+                      cellClass = "px-3 py-2 text-sm text-right whitespace-nowrap text-muted-foreground";
                       
                       // Special styling for change fields
                       if (changeField && mapping.field === changeField) {
-                        cellClass = `font-medium ${
+                        cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium ${
                           value > 0 ? 'text-success' : 
                           value < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`;
                       }
                     } else if (mapping.type === 'percentage') {
                       formattedValue = formatPercentage(value || 0);
+                      cellClass = "px-3 py-2 text-sm text-right whitespace-nowrap text-muted-foreground";
                       
                       // Special styling for YoY change
                       if (mapping.field === '%') {
-                        cellClass = `font-medium ${
+                        cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium ${
                           value > 0 ? 'text-success' : value < 0 ? 'text-destructive' : 'text-muted-foreground'
                         }`;
                       }
                       
                       // Special styling for budget percentage over 33.33%
                       if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.3333) {
-                        cellClass = 'font-medium text-success';
+                        cellClass = 'px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-success';
                       }
                     } else {
                       formattedValue = String(value || '');
@@ -205,18 +199,18 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     const isFirstColumn = index === 0;
                     
                     return (
-                      <TableCell 
+                      <td 
                         key={mapping.field} 
                         className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? "sticky left-0 bg-background z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" : ""}`}
                       >
                         {formattedValue}
-                      </TableCell>
+                      </td>
                     );
                   })}
-                </TableRow>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         </div>
       </CardContent>
     </Card>
