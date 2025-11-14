@@ -229,7 +229,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     return (
                       <td 
                         key={mapping.field} 
-                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${isRevenueToDate ? 'bg-yellow-400' : 'bg-background'}` : ""}`}
+                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${isRevenueToDate ? 'bg-primary/10' : 'bg-background'}` : ""}`}
                       >
                         {formattedValue}
                       </td>
