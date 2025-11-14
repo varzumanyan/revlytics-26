@@ -129,8 +129,6 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
     if (isGeneralCategory) {
       // Show combined popup for all General categories
       const combinedDescription = `
-General Categories Descriptions:
-
 General: Spending includes the Tax Revenue Anticipatory Note, Accessible Housing Fund, Emergency Operations Fund, Rec & Park Fund, Library Fund, Arts & Cultural Fund, Sidewalk Repair Fund, Sewer and Construction Maintenance Fund, and more
 
 General Service: City Department that provides internal support for City programs in the delivery of services to City residents. Services include the following: fleet, building services, procurement and stores inventory, fuel, construction and alterations, custodial, real estate, mail and messenger, parking, emergency management and special event coordination, materials testing, and printing services
