@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Info } from "lucide-react";
 import { useState, useMemo } from 'react';
 import { cn } from "@/lib/utils";
 import {
@@ -228,24 +228,38 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
                     <CommandInput placeholder="Search departments..." />
                     <CommandEmpty>No department found.</CommandEmpty>
                     <CommandGroup className="max-h-64 overflow-auto">
-                      {availableDepartments.map((department) => (
-                        <CommandItem
-                          key={department}
-                          value={department}
-                          onSelect={() => {
-                            setSelectedDepartment(department);
-                            setOpen(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              selectedDepartment === department ? "opacity-100" : "opacity-0"
+                      {availableDepartments.map((department) => {
+                        const description = getDepartmentDescription(department);
+                        
+                        return (
+                          <CommandItem
+                            key={department}
+                            value={department}
+                            onSelect={() => {
+                              setSelectedDepartment(department);
+                              setOpen(false);
+                            }}
+                            className="group"
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4 shrink-0",
+                                selectedDepartment === department ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            <span className="flex-1">{department}</span>
+                            {description && (
+                              <Info 
+                                className="h-4 w-4 ml-2 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setDialogDepartment({ name: department, description });
+                                }}
+                              />
                             )}
-                          />
-                          {department}
-                        </CommandItem>
-                      ))}
+                          </CommandItem>
+                        );
+                      })}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
