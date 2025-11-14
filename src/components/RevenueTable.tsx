@@ -61,8 +61,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   const sortedData = [...data].sort((a, b) => {
     // Special handling for revenueType to use predefined order
     if (sortField === 'revenueType') {
-      const aIndex = revenueTypeOrder.indexOf(a.revenueType);
-      const bIndex = revenueTypeOrder.indexOf(b.revenueType);
+      // Safety checks for undefined values
+      const aType = a.revenueType || '';
+      const bType = b.revenueType || '';
+      
+      const aIndex = revenueTypeOrder.indexOf(aType);
+      const bIndex = revenueTypeOrder.indexOf(bType);
       
       // If both items are in the predefined order, sort by their position
       if (aIndex !== -1 && bIndex !== -1) {
@@ -75,18 +79,22 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
       
       // If neither is in the predefined order, fall back to alphabetical
       return sortDirection === 'asc' 
-        ? a.revenueType.localeCompare(b.revenueType)
-        : b.revenueType.localeCompare(a.revenueType);
+        ? aType.localeCompare(bType)
+        : bType.localeCompare(aType);
     }
     
     // For other fields, use the original sorting logic
     const aValue = (a as any)[sortField];
     const bValue = (b as any)[sortField];
     
+    // Handle undefined/null values
+    if (aValue === undefined || aValue === null) return 1;
+    if (bValue === undefined || bValue === null) return -1;
+    
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return sortDirection === 'asc' 
-        ? (aValue as string).localeCompare(bValue as string)
-        : (bValue as string).localeCompare(aValue as string);
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     }
     
     if (typeof aValue === 'number' && typeof bValue === 'number') {
