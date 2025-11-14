@@ -119,7 +119,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <TableHead 
-      className={`cursor-pointer hover:bg-muted/50 transition-colors sticky top-0 bg-background ${isFirstColumn ? 'left-0 z-30' : 'z-20'} ${className}`}
+      className={`cursor-pointer hover:bg-muted/50 transition-colors sticky top-0 bg-background shadow-sm ${isFirstColumn ? 'left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -139,8 +139,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
       <CardContent className="p-0">
         <div className="relative max-h-[600px] overflow-auto border border-border rounded-md">
           <Table>
-            <TableHeader className="sticky top-0 z-20 bg-background shadow-sm">
-              <TableRow className="border-border hover:bg-muted/50">
+            <TableHeader>
+              <TableRow className="border-border">
                 {fieldMappings.map((mapping, index) => {
                   // Add dividers at strategic points based on the column structure
                   // After Revenue Type (0), after historical data (3), after comparisons (5)
