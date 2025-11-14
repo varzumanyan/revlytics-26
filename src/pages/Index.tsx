@@ -1,5 +1,6 @@
 import { useRevenueData } from "@/hooks/useRevenueData";
 import { useExpenditureData } from "@/hooks/useExpenditureData";
+import { Navbar } from "@/components/Navbar";
 import { RevenueCard } from "@/components/RevenueCard";
 import { BudgetProgressGauge } from "@/components/BudgetProgressGauge";
 import { RevenueTable } from "@/components/RevenueTable";
@@ -102,6 +103,8 @@ const Index = () => {
   console.log('Total Expenses Row:', totalExpensesRow);
   console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, expenditureBudgetUtilization });
   return <div className="min-h-screen bg-background">
+      <Navbar />
+      
       {/* Header */}
       <div className="bg-gradient-header shadow-strong">
         <div className="container mx-auto max-w-7xl px-6 py-12">
