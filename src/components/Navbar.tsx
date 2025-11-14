@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import kennethMejiaLogo from "@/assets/kenneth-mejia-logo.png";
 import { HelpCircle } from "lucide-react";
 import {
@@ -11,6 +11,16 @@ import {
 } from "@/components/ui/dialog";
 
 export const Navbar = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const hasSeenDialog = localStorage.getItem('hasSeenAboutDialog');
+    if (!hasSeenDialog) {
+      setIsDialogOpen(true);
+      localStorage.setItem('hasSeenAboutDialog', 'true');
+    }
+  }, []);
+
   return (
     <nav className="w-full bg-black border-b border-border/10">
       <div className="container mx-auto px-6 py-3">
@@ -28,7 +38,7 @@ export const Navbar = () => {
             />
           </a>
           
-          <Dialog>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <button className="text-white/70 hover:text-white transition-colors">
                 <HelpCircle className="h-6 w-6" />
@@ -37,37 +47,26 @@ export const Navbar = () => {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>About This Dashboard</DialogTitle>
-                <DialogDescription className="space-y-4 pt-4">
+                <DialogDescription className="space-y-4 pt-4 text-foreground/90">
                   <p>
-                    This dashboard provides a comprehensive view of the City of Los Angeles 
-                    FY2026 General Fund Revenue and Expenditure data.
+                    This dashboard provides a high-level view of the City of LA's FY2026 
+                    General Fund Revenues and Expenditures. FY2026 goes from July 1, 2025, to June 
+                    30, 2026.
                   </p>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-2">Key Features:</h4>
-                    <ul className="list-disc list-inside space-y-1">
-                      <li>Real-time revenue tracking and year-over-year comparisons</li>
-                      <li>Budget progress monitoring (July - Oct 2025)</li>
-                      <li>Detailed expenditure analysis by department</li>
-                      <li>Interactive charts and data tables</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-2">Data Source:</h4>
-                    <p>
-                      All data is sourced from the Los Angeles City Controller's Office 
-                      and updated regularly to reflect the most current financial information.
-                    </p>
-                  </div>
-                  <p className="text-sm">
-                    For more information, visit{" "}
-                    <a 
-                      href="https://controller.lacity.gov" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      controller.lacity.gov
-                    </a>
+                  <p>
+                    The General Fund is the primary operating fund of the City. General 
+                    Fund revenues are derived from such sources as taxes, licenses, permits, fees, 
+                    fines, intergovernmental revenues, charges for services, special assessments, 
+                    interest income, and other resources available for discretionary funding. 
+                    Expenditures are made for functions of general government, protection of 
+                    persons and property, public works, health and sanitation, transportation, 
+                    cultural and recreational services, community development, capital outlay, and debt 
+                    service.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">NOTE:</strong> General Fund Expenditures show a higher budget than Revenues due 
+                    to Special Fund transfers (~$1.38B) that will occur during the fiscal year to supplement 
+                    the General Fund Revenue budget of $8.178B.
                   </p>
                 </DialogDescription>
               </DialogHeader>
