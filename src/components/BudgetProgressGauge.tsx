@@ -8,6 +8,7 @@ interface BudgetProgressGaugeProps {
   monthsElapsed: number; // Number of months into fiscal year
   totalMonths: number; // Total months in fiscal year
   subtitle?: string;
+  isExpenditure?: boolean; // If true, inverts the color logic (below = good)
 }
 
 export const BudgetProgressGauge = ({ 
@@ -15,7 +16,8 @@ export const BudgetProgressGauge = ({
   actualProgress,
   monthsElapsed,
   totalMonths,
-  subtitle 
+  subtitle,
+  isExpenditure = false
 }: BudgetProgressGaugeProps) => {
   // Calculate expected progress based on time elapsed
   const expectedProgress = monthsElapsed / totalMonths;
@@ -29,8 +31,15 @@ export const BudgetProgressGauge = ({
   const isBehind = difference < -0.02;
   
   const getStatusColor = () => {
-    if (isAhead) return "text-destructive";
-    if (isBehind) return "text-success";
+    if (isExpenditure) {
+      // For expenditures: below expected = green (good), above expected = red (bad)
+      if (isAhead) return "text-destructive";
+      if (isBehind) return "text-success";
+    } else {
+      // For revenue: ahead = red (bad), behind = green (good) 
+      if (isAhead) return "text-destructive";
+      if (isBehind) return "text-success";
+    }
     return "text-warning";
   };
   

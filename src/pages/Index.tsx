@@ -178,12 +178,13 @@ const Index = () => {
                 isCurrency={true}
                 description="Year-to-date spending"
               />
-              <ExpenditureCard
+              <BudgetProgressGauge
                 title="Budget Utilization"
-                value={expenditureBudgetUtilization}
-                isPercentage={true}
-                change="of total budget"
-                changeType={expenditureBudgetUtilization < 0.3333 ? 'positive' : 'negative'}
+                actualProgress={expenditureBudgetUtilization}
+                monthsElapsed={4}
+                totalMonths={12}
+                subtitle="FY2026 adopted budget"
+                isExpenditure={true}
               />
               <ExpenditureCard
                 title="Remaining Adopted Budget"
