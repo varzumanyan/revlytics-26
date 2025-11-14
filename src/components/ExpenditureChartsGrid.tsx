@@ -7,6 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState, useMemo } from 'react';
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { getDepartmentDescription } from "@/utils/departmentDescriptions";
 
 interface ExpenditureChartsGridProps {
   data: ExpenditureData[];
@@ -15,6 +23,7 @@ interface ExpenditureChartsGridProps {
 export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
   const [selectedDepartment, setSelectedDepartment] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
 
   // Filter out total rows and get available departments
   const availableDepartments = useMemo(() => {
@@ -105,6 +114,13 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
     }).format(value);
   };
 
+  const handlePieClick = (data: any) => {
+    const description = getDepartmentDescription(data.fullName);
+    if (description) {
+      setDialogDepartment({ name: data.fullName, description });
+    }
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -153,6 +169,8 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
+                  onClick={handlePieClick}
+                  cursor="pointer"
                 >
                   {pieChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -283,6 +301,18 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Department Description Dialog */}
+      <Dialog open={!!dialogDepartment} onOpenChange={() => setDialogDepartment(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{dialogDepartment?.name}</DialogTitle>
+            <DialogDescription className="pt-4 text-foreground/90">
+              {dialogDepartment?.description}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
