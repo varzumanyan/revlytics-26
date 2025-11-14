@@ -143,7 +143,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-muted/30 sticky top-0 ${isFirstColumn ? 'left-0 z-20' : 'z-10'} ${className}`}
+      className={`px-3 py-2 text-left text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 ${isFirstColumn ? 'left-0 z-30' : 'z-20'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -161,11 +161,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="max-h-[600px] overflow-auto">
-          <div className="inline-block min-w-full align-middle">
-            <div className="overflow-hidden border border-border rounded-md">
-              <table className="min-w-full divide-y divide-border">
-                <thead className="sticky top-0 z-10 bg-background">
+        <div className="relative max-h-[600px] overflow-auto border border-border rounded-md">
+          <table className="min-w-full divide-y divide-border">
+            <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
@@ -217,7 +215,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                             'hover:bg-muted/30'
                           }`}
                         >
-                          <td className={`px-3 py-2 text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 ${
+                          <td className={`px-3 py-2 text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
                             isGrand ? 'bg-primary/10 text-foreground font-bold' :
                             isSub ? 'bg-muted/50 text-foreground font-semibold' :
                             isSection ? 'bg-muted/30 text-foreground font-semibold' :
@@ -283,8 +281,6 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                   })}
                 </tbody>
               </table>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>
