@@ -170,27 +170,27 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
               {sortedData.map((row) => (
                 <tr 
                   key={row.id} 
-                  className={`border-border hover:bg-muted/30 transition-colors ${
-                    row.revenueType === 'Revenue to Date' ? 'bg-yellow-400 font-bold' : ''
+                  className={`border-border transition-colors ${
+                    row.revenueType === 'Revenue to Date' ? 'bg-primary/10 hover:bg-primary/15 font-bold border-t-2 border-primary' : 'hover:bg-muted/30'
                   }`}
                 >
                   {fieldMappings.map((mapping, index) => {
                     const value = (row as any)[mapping.field];
                     let formattedValue: string;
                     const isRevenueToDate = row.revenueType === 'Revenue to Date';
-                    let cellClass = `px-3 py-2 text-sm whitespace-nowrap ${isRevenueToDate ? 'text-black' : 'text-muted-foreground'}`;
+                    let cellClass = `px-3 py-2 text-sm whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
 
                     if (mapping.field === 'revenueType') {
                       formattedValue = value;
-                      cellClass = `px-3 py-2 text-sm whitespace-nowrap font-medium ${isRevenueToDate ? 'text-black' : 'text-foreground'}`;
+                      cellClass = `px-3 py-2 text-sm whitespace-nowrap font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
                     } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
-                      cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-black' : 'text-muted-foreground'}`;
+                      cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
                       // Special styling for change fields
                       if (changeField && mapping.field === changeField) {
                         if (isRevenueToDate) {
-                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-black`;
+                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-bold text-foreground`;
                         } else {
                           cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium ${
                             value > 0 ? 'text-success' : 
@@ -200,12 +200,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       }
                     } else if (mapping.type === 'percentage') {
                       formattedValue = formatPercentage(value || 0);
-                      cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-black' : 'text-muted-foreground'}`;
+                      cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
                       // Special styling for YoY change
                       if (mapping.field === '%') {
                         if (isRevenueToDate) {
-                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-black`;
+                          cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-bold text-foreground`;
                         } else {
                           cellClass = `px-3 py-2 text-sm text-right whitespace-nowrap font-medium ${
                             value > 0 ? 'text-success' : value < 0 ? 'text-destructive' : 'text-muted-foreground'
@@ -215,7 +215,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       
                       // Special styling for budget percentage over 33.33%
                       if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.3333) {
-                        cellClass = isRevenueToDate ? 'px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-black' : 'px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-success';
+                        cellClass = isRevenueToDate ? 'px-3 py-2 text-sm text-right whitespace-nowrap font-bold text-foreground' : 'px-3 py-2 text-sm text-right whitespace-nowrap font-medium text-success';
                       }
                     } else {
                       formattedValue = String(value || '');
