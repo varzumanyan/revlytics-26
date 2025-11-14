@@ -22,6 +22,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
+  const [hideFirstColumn, setHideFirstColumn] = useState(false);
   
   console.log('ExpenditureTable received data:', data.length, 'rows');
   console.log('Sample rows:', data.slice(0, 5).map(d => d.generalFundDepartment));
@@ -205,9 +206,17 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
     <>
     <Card className="bg-gradient-card border-border shadow-soft w-full">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-foreground">
-          YTD GF Expenditure Analysis
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-semibold text-foreground">
+            YTD GF Expenditure Analysis
+          </CardTitle>
+          <button
+            onClick={() => setHideFirstColumn(!hideFirstColumn)}
+            className="lg:hidden px-3 py-1 text-xs bg-primary/20 hover:bg-primary/30 text-foreground rounded-md transition-colors"
+          >
+            {hideFirstColumn ? 'Show' : 'Hide'} Department
+          </button>
+        </div>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container">
@@ -215,7 +224,9 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
             <table className="min-w-full divide-y divide-border w-max lg:w-full">
             <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
-                    <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
+                    {!hideFirstColumn && (
+                      <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
+                    )}
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">As of FY24 Budget (Oct 2023)</SortableHeader>
@@ -265,25 +276,27 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             'hover:bg-muted/30'
                           }`}
                         >
-                          <td className={`px-3 py-2 text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
-                            isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
-                            isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
-                            isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :
-                            isSubItemRow ? 'text-foreground pl-8 bg-background hover:bg-muted/30' :
-                            'text-foreground bg-background hover:bg-muted/30'
-                          }`}>
-                            <span
-                              className={`${
-                                getDepartmentDescription(row.generalFundDepartment) || 
-                                ["General", "General Services", "General Service", "General City Purposes"].some(cat => row.generalFundDepartment.includes(cat))
-                                  ? 'cursor-pointer hover:text-primary transition-colors'
-                                  : ''
-                              }`}
-                              onClick={() => handleDepartmentClick(row.generalFundDepartment)}
-                            >
-                              {row.generalFundDepartment}
-                            </span>
-                          </td>
+                          {!hideFirstColumn && (
+                            <td className={`px-3 py-2 text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${
+                              isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
+                              isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
+                              isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :
+                              isSubItemRow ? 'text-foreground pl-8 bg-background hover:bg-muted/30' :
+                              'text-foreground bg-background hover:bg-muted/30'
+                            }`}>
+                              <span
+                                className={`${
+                                  getDepartmentDescription(row.generalFundDepartment) || 
+                                  ["General", "General Services", "General Service", "General City Purposes"].some(cat => row.generalFundDepartment.includes(cat))
+                                    ? 'cursor-pointer hover:text-primary transition-colors'
+                                    : ''
+                                }`}
+                                onClick={() => handleDepartmentClick(row.generalFundDepartment)}
+                              >
+                                {row.generalFundDepartment}
+                              </span>
+                            </td>
+                          )}
                         <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>

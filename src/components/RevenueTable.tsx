@@ -14,6 +14,7 @@ type SortDirection = 'asc' | 'desc';
 export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [sortField, setSortField] = useState<SortField>('revenueType');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [hideFirstColumn, setHideFirstColumn] = useState(false);
 
   // Generate dynamic field mappings based on actual API data
   const fieldMappings = useMemo(() => {
@@ -138,9 +139,17 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   return (
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-foreground">
-          YTD GF Revenue Analysis
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-semibold text-foreground">
+            YTD GF Revenue Analysis
+          </CardTitle>
+          <button
+            onClick={() => setHideFirstColumn(!hideFirstColumn)}
+            className="lg:hidden px-3 py-1 text-xs bg-primary/20 hover:bg-primary/30 text-foreground rounded-md transition-colors"
+          >
+            {hideFirstColumn ? 'Show' : 'Hide'} Revenue Type
+          </button>
+        </div>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container">
@@ -153,6 +162,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   // After Revenue Type (0), after historical data (3), after comparisons (5)
                   const shouldAddDivider = index === 0 || index === 3 || index === 5;
                   const isFirstColumn = index === 0;
+                  
+                  // Skip first column if hideFirstColumn is true
+                  if (isFirstColumn && hideFirstColumn) return null;
                   
                   return (
                     <SortableHeader 
@@ -176,6 +188,11 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   }`}
                 >
                   {fieldMappings.map((mapping, index) => {
+                    const isFirstColumn = index === 0;
+                    
+                    // Skip first column if hideFirstColumn is true
+                    if (isFirstColumn && hideFirstColumn) return null;
+                    
                     const value = (row as any)[mapping.field];
                     let formattedValue: string;
                     const isRevenueToDate = row.revenueType === 'Revenue to Date';
@@ -224,8 +241,6 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
                     // Add dividers at strategic points - after Revenue Type (0), after historical data (3), after comparisons (5)
                     const shouldAddDivider = index === 0 || index === 3 || index === 5;
-
-                    const isFirstColumn = index === 0;
                     
                     return (
                       <td 
