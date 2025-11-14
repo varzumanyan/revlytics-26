@@ -46,7 +46,7 @@ export const Navbar = () => {
                     <h4 className="font-semibold text-foreground mb-2">Key Features:</h4>
                     <ul className="list-disc list-inside space-y-1">
                       <li>Real-time revenue tracking and year-over-year comparisons</li>
-                      <li>Budget progress monitoring through October 2025</li>
+                      <li>Budget progress monitoring (July - Oct 2025)</li>
                       <li>Detailed expenditure analysis by department</li>
                       <li>Interactive charts and data tables</li>
                     </ul>
