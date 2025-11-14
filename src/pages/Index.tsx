@@ -193,7 +193,7 @@ const Index = () => {
                 value={expenditureYearOverYearChange}
                 isPercentage={true}
                 change={`↑ ${(expenditureYearOverYearChange * 100).toFixed(2)}%`}
-                changeType={expenditureYearOverYearChange > 0 ? 'positive' : 'negative'}
+                changeType={expenditureYearOverYearChange > 0 ? 'negative' : 'positive'}
               />
               <BudgetProgressGauge
                 title="FY2026 YTD Budget Progress"
