@@ -143,8 +143,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="relative max-h-[600px] overflow-auto border border-border rounded-md">
-          <table className="min-w-full divide-y divide-border">
+        <div className="relative overflow-x-auto table-scroll-container">
+          <div className="max-h-[600px] overflow-y-auto border border-border rounded-md">
+            <table className="min-w-full divide-y divide-border w-max lg:w-full">
             <thead className="sticky top-0 z-20 bg-background shadow-sm">
               <tr>
                 {fieldMappings.map((mapping, index) => {
@@ -239,6 +240,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </CardContent>
     </Card>

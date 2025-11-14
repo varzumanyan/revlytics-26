@@ -122,3 +122,17 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Responsive table scroll indicator */
+  .table-scroll-container {
+    background: 
+      linear-gradient(90deg, hsl(var(--background)) 30%, transparent),
+      linear-gradient(90deg, transparent, hsl(var(--background)) 70%) 100% 0,
+      linear-gradient(90deg, hsl(var(--border) / 0.3), transparent 10%) 0 0,
+      linear-gradient(-90deg, hsl(var(--border) / 0.3), transparent 10%) 100% 0;
+    background-repeat: no-repeat;
+    background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+    background-attachment: local, local, scroll, scroll;
+  }
+}
