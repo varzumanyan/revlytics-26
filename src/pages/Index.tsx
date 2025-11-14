@@ -7,6 +7,7 @@ import { RevenueTable } from "@/components/RevenueTable";
 import { RevenueChart } from "@/components/RevenueChart";
 import { ExpenditureCard } from "@/components/ExpenditureCard";
 import { ExpenditureTable } from "@/components/ExpenditureTable";
+import { ExpenditureChartsGrid } from "@/components/ExpenditureChartsGrid";
 import { ExpenditureChart } from "@/components/ExpenditureChart";
 import { ExpenditurePieChart } from "@/components/ExpenditurePieChart";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
@@ -213,10 +214,7 @@ const Index = () => {
             </div>
 
             {/* Expenditure Charts */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <ExpenditureChart data={expenditureDataSheet} />
-              <ExpenditurePieChart data={expenditureDataSheet} />
-            </div>
+            <ExpenditureChartsGrid data={expenditureDataSheet} />
 
             {/* Expenditure Data Table */}
             <ExpenditureTable data={expenditureDataSheet} />
