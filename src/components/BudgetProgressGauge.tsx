@@ -97,7 +97,7 @@ export const BudgetProgressGauge = ({
           {/* Expected Progress Indicator */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-muted-foreground">Expected ({monthsElapsed}/{totalMonths} months)</span>
+              <span className="text-muted-foreground">({monthsElapsed}/{totalMonths} months)</span>
               <span className="font-medium">{expectedPercentage.toFixed(1)}%</span>
             </div>
             <div className="relative h-2 bg-muted rounded-full overflow-hidden">
