@@ -19,6 +19,30 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
   
   const [selectedCategory, setSelectedCategory] = useState<string>("Sales Tax");
   const [open, setOpen] = useState(false);
+  const [clickedPieSegment, setClickedPieSegment] = useState<string | null>(null);
+
+  // Dynamic subtitle based on clicked pie segment
+  const getPieSubtitle = () => {
+    const baseText = "Through October 2025 (4 months)";
+    
+    if (!clickedPieSegment) {
+      return `${baseText} • Departmental Receipts includes fees, licenses, permits, fines, and charges for services`;
+    }
+    
+    const descriptions: Record<string, string> = {
+      "Sales Tax": "Primary revenue from retail sales and transactions",
+      "Property Tax": "Revenue from real estate and property assessments",
+      "Transient Occupancy Tax": "Hotel and short-term rental tax revenue",
+      "Utility Users Tax": "Tax on utility services (electricity, gas, water)",
+      "Business License Tax": "Fees from business permits and licenses",
+      "Departmental Receipts": "Fees, licenses, permits, fines, and charges for services",
+      "License and Permit Fee": "Revenue from permits and license applications",
+      "Parking Fines": "Citations and parking violation fees",
+      "Other": "Miscellaneous revenue sources"
+    };
+    
+    return `${baseText} • ${descriptions[clickedPieSegment] || clickedPieSegment}`;
+  };
 
   // Get dynamic field information
   const dateFields = useMemo(() => {
@@ -128,7 +152,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
               FY2026 YTD Revenue Breakdown
             </CardTitle>
             <p className="text-xs text-muted-foreground mt-2">
-              Through October 2025 (4 months) • Departmental Receipts includes fees, licenses, permits, fines, and charges for services
+              {getPieSubtitle()}
             </p>
           </CardHeader>
           <CardContent>
@@ -139,6 +163,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                   cx="50%"
                   cy="50%"
                   labelLine={true}
+                  onClick={(data) => setClickedPieSegment(data.name)}
                   label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
                     if (percent < 0.03) return null; // Hide labels for very small slices
                     const RADIAN = Math.PI / 180;
