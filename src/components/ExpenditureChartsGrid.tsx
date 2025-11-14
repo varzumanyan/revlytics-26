@@ -1,0 +1,288 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExpenditureData } from "@/types/expenditure";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useState, useMemo } from 'react';
+import { cn } from "@/lib/utils";
+
+interface ExpenditureChartsGridProps {
+  data: ExpenditureData[];
+}
+
+export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("");
+  const [open, setOpen] = useState(false);
+
+  // Filter out total rows and get available departments
+  const availableDepartments = useMemo(() => {
+    return data
+      .filter(item => {
+        const dept = item.generalFundDepartment?.toLowerCase() || '';
+        return dept && 
+          !dept.includes('total') && 
+          !dept.includes('general fund other') &&
+          item.october2025Ytd > 0;
+      })
+      .map(item => item.generalFundDepartment)
+      .sort();
+  }, [data]);
+
+  // Set initial department if not set
+  if (!selectedDepartment && availableDepartments.length > 0) {
+    setSelectedDepartment(availableDepartments[0]);
+  }
+
+  // Prepare data for the pie chart (FY2026 expenditure breakdown)
+  const pieChartData = useMemo(() => {
+    const filteredData = data
+      .filter(item => {
+        const dept = item.generalFundDepartment?.toLowerCase() || '';
+        return dept && 
+          !dept.includes('total') && 
+          !dept.includes('general fund other') &&
+          item.october2025Ytd > 0;
+      })
+      .sort((a, b) => b.october2025Ytd - a.october2025Ytd);
+    
+    // Take top 15 departments
+    const top15 = filteredData.slice(0, 15);
+    
+    // Group the rest as "Other"
+    const otherTotal = filteredData
+      .slice(15)
+      .reduce((sum, item) => sum + item.october2025Ytd, 0);
+    
+    return [
+      ...top15.map(item => ({
+        name: item.generalFundDepartment.length > 25 
+          ? item.generalFundDepartment.substring(0, 25) + '...' 
+          : item.generalFundDepartment,
+        fullName: item.generalFundDepartment,
+        value: item.october2025Ytd,
+      })),
+      ...(otherTotal > 0 ? [{
+        name: 'Other',
+        fullName: 'Other',
+        value: otherTotal,
+      }] : [])
+    ];
+  }, [data]);
+
+  // Prepare data for the bar chart (selected department across years)
+  const barChartData = useMemo(() => {
+    const selectedItem = data.find(item => item.generalFundDepartment === selectedDepartment);
+    
+    if (!selectedItem) return [];
+    
+    return [{
+      name: selectedDepartment.length > 20 ? 
+        selectedDepartment.substring(0, 20) + '...' : 
+        selectedDepartment,
+      fullName: selectedDepartment,
+      'Oct 23 YTD': Number(selectedItem.october2023Ytd) / 1000000,
+      'Oct 24 YTD': Number(selectedItem.october2024Ytd) / 1000000,
+      'Oct 25 YTD': selectedItem.october2025Ytd / 1000000,
+    }];
+  }, [data, selectedDepartment]);
+
+  // Colors for pie chart
+  const COLORS = [
+    '#41ffca', '#FFCA41', '#4169E1', '#4ECDC4', '#45B7D1',
+    '#96CEB4', '#FFEAA7', '#DFE6E9', '#74B9FF', '#A29BFE',
+    '#FD79A8', '#FDCB6E', '#6C5CE7', '#00B894', '#E17055',
+    '#FFB6C1'
+  ];
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  return (
+    <div className="w-full max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Pie Chart */}
+        <Card className="bg-gradient-card border-border shadow-soft">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-foreground">
+              FY2026 YTD Expenditure Breakdown
+            </CardTitle>
+            <p className="text-xs text-muted-foreground mt-2">
+              Through July - Oct 2025
+            </p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart>
+                <Pie
+                  data={pieChartData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={true}
+                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+                    if (percent < 0.03) return null;
+                    const RADIAN = Math.PI / 180;
+                    const radius = outerRadius + 30;
+                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                    const name = pieChartData[index].name;
+                    const shortName = name.length > 20 ? name.substring(0, 20) + '...' : name;
+                    const color = COLORS[index % COLORS.length];
+                    
+                    return (
+                      <text 
+                        x={x} 
+                        y={y} 
+                        fill={color}
+                        textAnchor={x > cx ? 'start' : 'end'} 
+                        dominantBaseline="central"
+                        fontSize="11"
+                        fontWeight="500"
+                      >
+                        {shortName}
+                      </text>
+                    );
+                  }}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length > 0) {
+                      const item = payload[0];
+                      return (
+                        <div className="bg-popover border border-border rounded-md p-3 shadow-md">
+                          <p className="text-foreground font-medium">{item.name}</p>
+                          <p className="text-foreground">
+                            Value: <span className="font-semibold">{formatCurrency(item.value as number)}</span>
+                          </p>
+                          <p className="text-muted-foreground text-sm">
+                            {((item.value as number / pieChartData.reduce((sum, d) => sum + d.value, 0)) * 100).toFixed(1)}%
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Bar Chart */}
+        <Card className="bg-gradient-card border-border shadow-soft">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Expenditure Category by Year
+              </CardTitle>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-48 justify-between bg-background"
+                  >
+                    {selectedDepartment 
+                      ? (selectedDepartment.length > 15 
+                          ? selectedDepartment.substring(0, 15) + '...' 
+                          : selectedDepartment)
+                      : "Select category..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-72 p-0 bg-popover">
+                  <Command>
+                    <CommandInput placeholder="Search departments..." />
+                    <CommandEmpty>No department found.</CommandEmpty>
+                    <CommandGroup className="max-h-64 overflow-auto">
+                      {availableDepartments.map((department) => (
+                        <CommandItem
+                          key={department}
+                          value={department}
+                          onSelect={() => {
+                            setSelectedDepartment(department);
+                            setOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              selectedDepartment === department ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {department}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={barChartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }} barCategoryGap="30%" maxBarSize={60}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis 
+                  dataKey="name" 
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                  fontSize={12}
+                  stroke="hsl(var(--muted-foreground))"
+                />
+                <YAxis 
+                  fontSize={12}
+                  stroke="hsl(var(--muted-foreground))"
+                  label={{ value: 'Expenditure (Millions $)', angle: -90, position: 'insideLeft' }}
+                />
+                <Tooltip 
+                  cursor={{ fill: 'transparent' }}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length > 0) {
+                      return (
+                        <div className="bg-popover border border-border rounded-md p-3 shadow-md">
+                          <p className="text-foreground font-medium mb-2">{payload[0].payload.fullName}</p>
+                          {payload.map((entry: any, index: number) => (
+                            <p key={index} className="text-foreground text-sm">
+                              {entry.name}: <span className="font-semibold">{formatCurrency(entry.value * 1000000)}</span>
+                            </p>
+                          ))}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend 
+                  wrapperStyle={{ 
+                    color: 'hsl(var(--foreground))',
+                    paddingTop: '10px'
+                  }}
+                />
+                <Bar dataKey="Oct 23 YTD" fill="hsl(var(--chart-primary))" />
+                <Bar dataKey="Oct 24 YTD" fill="hsl(var(--chart-secondary))" />
+                <Bar dataKey="Oct 25 YTD" fill="hsl(var(--chart-tertiary))" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
