@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { ArrowUpDown } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { getDepartmentDescription } from "@/utils/departmentDescriptions";
 
 interface ExpenditureTableProps {
   data: ExpenditureData[];
@@ -13,6 +21,7 @@ type SortDirection = 'asc' | 'desc';
 export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
   
   console.log('ExpenditureTable received data:', data.length, 'rows');
   console.log('Sample rows:', data.slice(0, 5).map(d => d.generalFundDepartment));
@@ -23,6 +32,30 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     } else {
       setSortField(field);
       setSortDirection('asc');
+    }
+  };
+
+  const handleDepartmentClick = (department: string) => {
+    // Check if it's one of the General categories
+    const generalCategories = ["General", "General Services", "General Service", "General City Purposes"];
+    const isGeneralCategory = generalCategories.some(cat => department.includes(cat));
+    
+    if (isGeneralCategory) {
+      // Show combined popup for all General categories
+      const combinedDescription = `
+General: Spending includes the Tax Revenue Anticipatory Note, Accessible Housing Fund, Emergency Operations Fund, Rec & Park Fund, Library Fund, Arts & Cultural Fund, Sidewalk Repair Fund, Sewer and Construction Maintenance Fund, and more
+
+General Service: City Department that provides internal support for City programs in the delivery of services to City residents. Services include the following: fleet, building services, procurement and stores inventory, fuel, construction and alterations, custodial, real estate, mail and messenger, parking, emergency management and special event coordination, materials testing, and printing services
+
+General City Purposes: Spending includes the Homelessness Emergency Account, Medicare and Social Security Contributions, Council Projects, and Community Services Districts
+      `.trim();
+      
+      setDialogDepartment({ name: "General Categories", description: combinedDescription });
+    } else {
+      const description = getDepartmentDescription(department);
+      if (description) {
+        setDialogDepartment({ name: department, description });
+      }
     }
   };
 
@@ -169,6 +202,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   );
 
   return (
+    <>
     <Card className="bg-gradient-card border-border shadow-soft w-full">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
@@ -237,7 +271,17 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
                             isSubItemRow ? 'text-foreground pl-8 bg-background' :
                             'text-foreground bg-background'
                           }`}>
-                            {row.generalFundDepartment}
+                            <span
+                              className={`${
+                                getDepartmentDescription(row.generalFundDepartment) || 
+                                ["General", "General Services", "General Service", "General City Purposes"].some(cat => row.generalFundDepartment.includes(cat))
+                                  ? 'cursor-pointer hover:text-primary transition-colors'
+                                  : ''
+                              }`}
+                              onClick={() => handleDepartmentClick(row.generalFundDepartment)}
+                            >
+                              {row.generalFundDepartment}
+                            </span>
                           </td>
                         <td className={`px-3 py-2 text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
@@ -299,5 +343,18 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
         </div>
       </CardContent>
     </Card>
+
+      {/* Department Description Dialog */}
+      <Dialog open={!!dialogDepartment} onOpenChange={() => setDialogDepartment(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{dialogDepartment?.name}</DialogTitle>
+            <DialogDescription className="pt-4 text-foreground/90 whitespace-pre-line">
+              {dialogDepartment?.description}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
