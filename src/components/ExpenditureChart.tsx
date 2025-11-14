@@ -1,12 +1,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { getDepartmentDescription } from "@/utils/departmentDescriptions";
 
 interface ExpenditureChartProps {
   data: ExpenditureData[];
 }
 
 export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
+  const [selectedDepartment, setSelectedDepartment] = useState<{ name: string; description: string } | null>(null);
   // Filter out total rows and prepare data for the chart
   const chartData = data
     .filter(item => {
@@ -22,10 +32,18 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
       name: item.generalFundDepartment.length > 20 
         ? item.generalFundDepartment.substring(0, 20) + '...' 
         : item.generalFundDepartment,
+      fullName: item.generalFundDepartment,
       'YTD Spending': item.october2025Ytd,
       'Budget': item.fy26AdoptedBudget,
       'Utilization %': (item["%OfFy26Budget"] * 100),
     }));
+
+  const handleBarClick = (data: any) => {
+    const description = getDepartmentDescription(data.fullName);
+    if (description) {
+      setSelectedDepartment({ name: data.fullName, description });
+    }
+  };
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -88,10 +106,26 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
               verticalAlign="bottom"
               height={36}
             />
-            <Bar dataKey="YTD Spending" fill="#41ffca" />
+            <Bar 
+              dataKey="YTD Spending" 
+              fill="#41ffca" 
+              onClick={handleBarClick}
+              cursor="pointer"
+            />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
+
+      <Dialog open={!!selectedDepartment} onOpenChange={() => setSelectedDepartment(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{selectedDepartment?.name}</DialogTitle>
+            <DialogDescription className="text-base leading-relaxed pt-2">
+              {selectedDepartment?.description}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };
