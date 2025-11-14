@@ -170,14 +170,14 @@ const Index = () => {
               />
             </div>
 
-            {/* Expenditure Data Table */}
-            <ExpenditureTable data={expenditureDataSheet} />
-
             {/* Expenditure Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <ExpenditureChart data={expenditureDataSheet} />
               <ExpenditurePieChart data={expenditureDataSheet} />
             </div>
+
+            {/* Expenditure Data Table */}
+            <ExpenditureTable data={expenditureDataSheet} />
           </TabsContent>
         </Tabs>
 
