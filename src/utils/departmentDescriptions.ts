@@ -3,6 +3,8 @@ export const departmentDescriptions: Record<string, string> = {
   
   "General Services": "City Department that provides internal support for City programs in the delivery of services to City residents. Services include the following: fleet, building services, procurement and stores inventory, fuel, construction and alterations, custodial, real estate, mail and messenger, parking, emergency management and special event coordination, materials testing, and printing services",
   
+  "General Service": "City Department that provides internal support for City programs in the delivery of services to City residents. Services include the following: fleet, building services, procurement and stores inventory, fuel, construction and alterations, custodial, real estate, mail and messenger, parking, emergency management and special event coordination, materials testing, and printing services",
+  
   "General City Purposes": "Spending includes the Homelessness Emergency Account, Medicare and Social Security Contributions, Council Projects, and Community Services Districts"
 };
 
