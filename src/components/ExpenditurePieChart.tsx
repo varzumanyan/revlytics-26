@@ -70,7 +70,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
-          GF Spend Distribution
+          GF Spend Distribution (July - Oct 2025)
         </CardTitle>
       </CardHeader>
       <CardContent>

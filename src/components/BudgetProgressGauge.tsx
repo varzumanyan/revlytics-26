@@ -29,8 +29,8 @@ export const BudgetProgressGauge = ({
   const isBehind = difference < -0.02;
   
   const getStatusColor = () => {
-    if (isAhead) return "text-success";
-    if (isBehind) return "text-destructive";
+    if (isAhead) return "text-destructive";
+    if (isBehind) return "text-success";
     return "text-warning";
   };
   

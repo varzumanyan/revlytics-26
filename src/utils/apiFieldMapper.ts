@@ -167,9 +167,9 @@ export class ApiFieldMapper {
     
     const mappings: FieldMapping[] = [
       { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
-      { field: fieldSet.year1, label: `${capitalizedMonth} ${dateInfo.years[0]}`, type: 'currency' as const },
-      { field: fieldSet.year2, label: `${capitalizedMonth} ${dateInfo.years[1]}`, type: 'currency' as const },
-      { field: fieldSet.year3, label: `${capitalizedMonth} ${dateInfo.years[2]}`, type: 'currency' as const },
+      { field: fieldSet.year1, label: `Oct ${dateInfo.years[0].slice(-2)} YTD`, type: 'currency' as const },
+      { field: fieldSet.year2, label: `Oct ${dateInfo.years[1].slice(-2)} YTD`, type: 'currency' as const },
+      { field: fieldSet.year3, label: `Oct ${dateInfo.years[2].slice(-2)} YTD`, type: 'currency' as const },
       { field: fieldSet.changeField, label: `${capitalizedMonth.slice(0,3)}${dateInfo.years[2].slice(-2)} vs ${capitalizedMonth.slice(0,3)}${dateInfo.years[1].slice(-2)}`, type: 'currency' as const },
       { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
       { field: fieldSet.budgetPercentageField, label: 'Oct 25 YTD as % of FY26 Budget', type: 'percentage' as const },

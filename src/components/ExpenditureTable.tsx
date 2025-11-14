@@ -57,7 +57,14 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     return 0;
   };
 
-  const sortedData = [...data].sort((a, b) => {
+  const sortedData = [...data]
+    .filter(item => {
+      // Remove rows with empty department names or rows that shouldn't be displayed
+      const dept = item.generalFundDepartment?.toLowerCase() || '';
+      // Filter out empty rows or any problematic rows between Total Other and Total Expenses
+      return dept && dept.trim().length > 0;
+    })
+    .sort((a, b) => {
     // If sorting by department name or default, use custom order
     if (sortField === 'generalFundDepartment') {
       const aOrder = getRowOrder(a.generalFundDepartment);

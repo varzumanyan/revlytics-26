@@ -154,7 +154,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
             </thead>
             <tbody className="divide-y divide-border">
               {sortedData.map((row) => (
-                <tr key={row.id} className="border-border hover:bg-muted/30 transition-colors">
+                <tr 
+                  key={row.id} 
+                  className={`border-border hover:bg-muted/30 transition-colors ${
+                    row.revenueType === 'Revenue to Date' ? 'bg-primary/10 font-semibold' : ''
+                  }`}
+                >
                   {fieldMappings.map((mapping, index) => {
                     const value = (row as any)[mapping.field];
                     let formattedValue: string;
