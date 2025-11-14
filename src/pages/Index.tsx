@@ -149,7 +149,8 @@ const Index = () => {
               <RevenueCard 
                 title="Total Revenue FY2026 YTD" 
                 value={totalRevenue2025} 
-                isCurrency={true} 
+                isCurrency={true}
+                description="July - Oct 2025"
               />
               <RevenueCard 
                 title="Year-over-Year Change" 
