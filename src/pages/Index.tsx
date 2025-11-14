@@ -1,6 +1,7 @@
 import { useRevenueData } from "@/hooks/useRevenueData";
 import { useExpenditureData } from "@/hooks/useExpenditureData";
 import { RevenueCard } from "@/components/RevenueCard";
+import { BudgetProgressGauge } from "@/components/BudgetProgressGauge";
 import { RevenueTable } from "@/components/RevenueTable";
 import { RevenueChart } from "@/components/RevenueChart";
 import { ExpenditureCard } from "@/components/ExpenditureCard";
@@ -126,10 +127,30 @@ const Index = () => {
           <TabsContent value="revenue" className="space-y-8">
             {/* Revenue Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <RevenueCard title="Total Revenue FY2026 YTD" value={totalRevenue2025} isCurrency={true} />
-              <RevenueCard title="Year-over-Year Change" value={yearOverYearChange} change={yearOverYearChange} isPercentage={true} isCurrency={false} />
-              <RevenueCard title="FY2026 YTD Budget Progress" value={budgetProgress} isPercentage={true} isCurrency={false} />
-              <RevenueCard title="FY2026 Adopted Budget" value={totalBudget} isCurrency={true} />
+              <RevenueCard 
+                title="Total Revenue FY2026 YTD" 
+                value={totalRevenue2025} 
+                isCurrency={true} 
+              />
+              <RevenueCard 
+                title="Year-over-Year Change" 
+                value={yearOverYearChange} 
+                change={yearOverYearChange} 
+                isPercentage={true} 
+                isCurrency={false} 
+              />
+              <BudgetProgressGauge 
+                title="FY2026 YTD Budget Progress" 
+                subtitle="Through October 2025 (4 months)"
+                actualProgress={budgetProgress}
+                monthsElapsed={4}
+                totalMonths={12}
+              />
+              <RevenueCard 
+                title="FY2026 Adopted Budget" 
+                value={totalBudget} 
+                isCurrency={true} 
+              />
             </div>
 
             {/* Charts */}

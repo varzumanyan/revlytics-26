@@ -127,6 +127,9 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             <CardTitle className="text-lg font-semibold text-foreground">
               FY2026 YTD Revenue Breakdown
             </CardTitle>
+            <p className="text-xs text-muted-foreground mt-2">
+              Through October 2025 (4 months) • Departmental Receipts includes fees, licenses, permits, fines, and charges for services
+            </p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
