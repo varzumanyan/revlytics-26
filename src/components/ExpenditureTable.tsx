@@ -218,13 +218,13 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
                     <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">As of FY24 Budget (Oct 2023)</SortableHeader>
+                    <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
                     <SortableHeader field="october2024Ytd">October 2024 YTD</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">As of FY25 Budget (Oct 2024)</SortableHeader>
+                    <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
                     <SortableHeader field="october2025Ytd">October 2025 YTD</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy26Budget">As of FY26 Budget (Oct 2025)</SortableHeader>
+                    <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
