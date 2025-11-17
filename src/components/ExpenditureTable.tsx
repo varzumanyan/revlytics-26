@@ -216,13 +216,13 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
             <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field="october2023Ytd">October 2023 YTD</SortableHeader>
+                    <SortableHeader field="october2023Ytd">Oct 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field="october2024Ytd">October 2024 YTD</SortableHeader>
+                    <SortableHeader field="october2024Ytd">Oct 2024 YTD</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
-                    <SortableHeader field="october2025Ytd">October 2025 YTD</SortableHeader>
+                    <SortableHeader field="october2025Ytd">Oct 2025 YTD</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
                   </tr>
