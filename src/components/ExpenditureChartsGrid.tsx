@@ -33,7 +33,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         return dept && 
           !dept.includes('total') && 
           !dept.includes('general fund other') &&
-          item.oct2025Ytd > 0;
+          item.october2025Ytd > 0;
       })
       .map(item => item.generalFundDepartment)
       .sort();
@@ -52,9 +52,9 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         return dept && 
           !dept.includes('total') && 
           !dept.includes('general fund other') &&
-          item.oct2025Ytd > 0;
+          item.october2025Ytd > 0;
       })
-      .sort((a, b) => b.oct2025Ytd - a.oct2025Ytd);
+      .sort((a, b) => b.october2025Ytd - a.october2025Ytd);
     
     // Take top 15 departments
     const top15 = filteredData.slice(0, 15);
@@ -62,7 +62,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
     // Group the rest as "Other"
     const otherTotal = filteredData
       .slice(15)
-      .reduce((sum, item) => sum + item.oct2025Ytd, 0);
+      .reduce((sum, item) => sum + item.october2025Ytd, 0);
     
     return [
       ...top15.map(item => ({
@@ -70,7 +70,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
           ? item.generalFundDepartment.substring(0, 25) + '...' 
           : item.generalFundDepartment,
         fullName: item.generalFundDepartment,
-        value: item.oct2025Ytd,
+        value: item.october2025Ytd,
       })),
       ...(otherTotal > 0 ? [{
         name: 'Other',
@@ -91,9 +91,9 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         selectedDepartment.substring(0, 20) + '...' : 
         selectedDepartment,
       fullName: selectedDepartment,
-      'Oct 23 YTD': Number(selectedItem.oct2023Ytd) / 1000000,
-      'Oct 24 YTD': Number(selectedItem.oct2024Ytd) / 1000000,
-      'Oct 25 YTD': selectedItem.oct2025Ytd / 1000000,
+      'Oct 23 YTD': Number(selectedItem.october2023Ytd) / 1000000,
+      'Oct 24 YTD': Number(selectedItem.october2024Ytd) / 1000000,
+      'Oct 25 YTD': selectedItem.october2025Ytd / 1000000,
     }];
   }, [data, selectedDepartment]);
 

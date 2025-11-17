@@ -213,31 +213,31 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
         <div className="relative overflow-x-auto table-scroll-container">
           <div className="max-h-[600px] overflow-y-auto border border-border rounded-md">
             <table className="min-w-full divide-y divide-border w-max lg:w-full">
-            <thead className="sticky top-0 z-20 bg-background shadow-sm">
+                <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field="oct2023Ytd">Oct 2023 YTD</SortableHeader>
+                    <SortableHeader field="october2023Ytd">Oct 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field="oct2024Ytd">Oct 2024 YTD</SortableHeader>
+                    <SortableHeader field="october2024Ytd">Oct 2024 YTD</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
-                    <SortableHeader field="oct2025Ytd">Oct 2025 YTD</SortableHeader>
+                    <SortableHeader field="october2025Ytd">Oct 2025 YTD</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
-                    const oct2023 = typeof row.oct2023Ytd === 'string' && row.oct2023Ytd === '' ? 0 : Number(row.oct2023Ytd);
+                    const oct2023 = typeof row.october2023Ytd === 'string' && row.october2023Ytd === '' ? 0 : Number(row.october2023Ytd);
                     const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
                     const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
                     
-                    const oct2024 = typeof row.oct2024Ytd === 'string' && row.oct2024Ytd === '' ? 0 : Number(row.oct2024Ytd);
+                    const oct2024 = typeof row.october2024Ytd === 'string' && row.october2024Ytd === '' ? 0 : Number(row.october2024Ytd);
                     const fy25Budget = typeof row.fy25AdoptedBudget === 'string' && row.fy25AdoptedBudget === '' ? 0 : Number(row.fy25AdoptedBudget);
                     const pctFy25 = typeof row["%OfFy25Budget"] === 'string' && row["%OfFy25Budget"] === '' ? 0 : Number(row["%OfFy25Budget"]);
                     
-                    const oct2025 = row.oct2025Ytd;
+                    const oct2025 = row.october2025Ytd;
                     const fy26Budget = row.fy26AdoptedBudget;
                     const pctFy26 = row["%OfFy26Budget"];
                     
