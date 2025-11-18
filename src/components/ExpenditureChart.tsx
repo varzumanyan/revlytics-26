@@ -82,20 +82,28 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
               tickFormatter={(value) => `$${(value / 1000000).toFixed(0)}M`}
             />
             <Tooltip 
-              formatter={(value: number) => formatCurrency(value)}
-              contentStyle={{
-                backgroundColor: 'hsl(var(--card))',
-                border: '2px solid hsl(var(--border))',
-                borderRadius: '8px',
-                color: 'hsl(var(--card-foreground))',
-                padding: '12px',
-                fontSize: '14px',
-                fontWeight: '500'
-              }}
-              labelStyle={{
-                color: 'hsl(var(--card-foreground))',
-                fontWeight: '600',
-                marginBottom: '4px'
+              cursor={{ fill: 'transparent' }}
+              content={({ active, payload }) => {
+                if (active && payload && payload.length > 0) {
+                  const item = payload[0];
+                  return (
+                    <div className="bg-popover border border-border rounded-md p-3 shadow-md">
+                      <p className="text-foreground font-medium mb-2">{item.payload.fullName}</p>
+                      <p className="text-foreground">
+                        <span 
+                          className="font-medium" 
+                          style={{ color: item.color }}
+                        >
+                          YTD Spending: 
+                        </span>
+                        <span className="ml-1 font-semibold" style={{ color: item.color }}>
+                          {formatCurrency(item.value as number)}
+                        </span>
+                      </p>
+                    </div>
+                  );
+                }
+                return null;
               }}
             />
             <Legend 
