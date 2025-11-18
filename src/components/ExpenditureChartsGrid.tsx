@@ -324,16 +324,24 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 />
                 <Tooltip 
                   cursor={{ fill: 'transparent' }}
+                  shared={false}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length > 0) {
+                      const item = payload[0];
                       return (
                         <div className="bg-popover border border-border rounded-md p-3 shadow-md">
-                          <p className="text-foreground font-medium mb-2">{payload[0].payload.fullName}</p>
-                          {payload.map((entry: any, index: number) => (
-                            <p key={index} className="text-foreground text-sm">
-                              {entry.name}: <span className="font-semibold">{formatCurrency(entry.value * 1000000)}</span>
-                            </p>
-                          ))}
+                          <p className="text-foreground font-medium mb-2">{item.payload.fullName}</p>
+                          <p className="text-foreground">
+                            <span 
+                              className="font-medium" 
+                              style={{ color: item.color }}
+                            >
+                              {item.name}: 
+                            </span>
+                            <span className="ml-1 font-semibold" style={{ color: item.color }}>
+                              {formatCurrency((item.value as number) * 1000000)}
+                            </span>
+                          </p>
                         </div>
                       );
                     }
