@@ -281,6 +281,8 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               onClick={(e) => {
                                 if (hasDescription) {
                                   e.stopPropagation();
+                                  setSelectedDepartment(department);
+                                  setOpen(false);
                                   handleDepartmentClick(department);
                                 }
                               }}
@@ -292,6 +294,8 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                                 className="h-4 w-4 ml-2 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                 onClick={(e) => {
                                   e.stopPropagation();
+                                  setSelectedDepartment(department);
+                                  setOpen(false);
                                   handleDepartmentClick(department);
                                 }}
                               />
