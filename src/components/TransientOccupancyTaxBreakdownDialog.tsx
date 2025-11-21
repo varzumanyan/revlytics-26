@@ -66,24 +66,28 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-background">
               <TableRow>
-                {columns.map((column, index) => (
-                  <TableHead 
-                    key={column}
-                    className={`bg-background ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
-                  >
-                    {formatColumnHeader(column)}
-                  </TableHead>
-                ))}
+                {columns.map((column, index) => {
+                  const isFirstColumn = index === 0;
+                  return (
+                    <TableHead 
+                      key={column}
+                      className={`bg-background ${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
+                    >
+                      {formatColumnHeader(column)}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map((row, index) => (
                 <TableRow key={row.id || index} className="border-b border-border">
-                  {columns.map((column) => {
+                  {columns.map((column, columnIndex) => {
                     const value = row[column];
                     const type = getColumnType(column, value);
                     let formattedValue: string;
                     let cellClass = '';
+                    const isFirstColumn = columnIndex === 0;
 
                     if (type === 'currency' && typeof value === 'number') {
                       formattedValue = formatCurrency(value);
@@ -95,11 +99,10 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
                       formattedValue = String(value || '');
                     }
 
-                    const columnIndex = columns.indexOf(column);
                     const borderClass = shouldHaveRightBorder(column, columnIndex) ? 'border-r-2 border-border' : '';
                     
                     return (
-                      <TableCell key={column} className={`${cellClass} ${borderClass}`}>
+                      <TableCell key={column} className={`${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${cellClass} ${borderClass}`}>
                         {formattedValue}
                       </TableCell>
                     );
