@@ -3,6 +3,8 @@ import { RevenueData } from "@/types/revenue";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { ArrowUpDown } from "lucide-react";
 import { useState, useMemo } from "react";
+import { useUtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
+import { UtilityTaxBreakdownDialog } from "./UtilityTaxBreakdownDialog";
 
 interface RevenueTableProps {
   data: RevenueData[];
@@ -14,6 +16,9 @@ type SortDirection = 'asc' | 'desc';
 export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [sortField, setSortField] = useState<SortField>('revenueType');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  
+  const { data: utilityTaxData } = useUtilityUsersTaxData();
 
   // Generate dynamic field mappings based on actual API data
   const fieldMappings = useMemo(() => {
@@ -225,11 +230,18 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
                     // Add dividers at strategic points - after Revenue Type (0), after historical data (3), after comparisons (5)
                     const shouldAddDivider = index === 0 || index === 3 || index === 5;
+                    const isUtilityUsersTax = row.revenueType === "Utility Users' Tax";
+                    const isCurrencyField = mapping.type === 'currency' && mapping.field !== 'revenueType';
                     
                     return (
                       <td 
                         key={mapping.field} 
-                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `${isRevenueToDate ? 'bg-primary/10 hover:bg-primary/15' : 'bg-background hover:bg-muted/30'}` : ""}`}
+                        className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `${isRevenueToDate ? 'bg-primary/10 hover:bg-primary/15' : 'bg-background hover:bg-muted/30'}` : ""} ${isUtilityUsersTax && isCurrencyField ? 'cursor-pointer hover:underline' : ''}`}
+                        onClick={() => {
+                          if (isUtilityUsersTax && isCurrencyField) {
+                            setDialogOpen(true);
+                          }
+                        }}
                       >
                         {formattedValue}
                       </td>
@@ -242,6 +254,14 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
           </div>
         </div>
       </CardContent>
+      
+      {utilityTaxData && (
+        <UtilityTaxBreakdownDialog 
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          data={utilityTaxData["utilityUsers'Tax"] || []}
+        />
+      )}
     </Card>
   );
 };

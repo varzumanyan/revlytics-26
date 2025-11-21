@@ -1,0 +1,69 @@
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { UtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
+
+interface UtilityTaxBreakdownDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  data: UtilityUsersTaxData[];
+}
+
+export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityTaxBreakdownDialogProps) => {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const formatPercentage = (value: number) => {
+    return `${(value * 100).toFixed(2)}%`;
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Utility Users' Tax Breakdown</DialogTitle>
+        </DialogHeader>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Combined Category</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Sub Category</TableHead>
+                <TableHead className="text-right">Oct 23 YTD</TableHead>
+                <TableHead className="text-right">Oct 24 YTD</TableHead>
+                <TableHead className="text-right">Oct 25 YTD</TableHead>
+                <TableHead className="text-right">Oct25 vs Oct24</TableHead>
+                <TableHead className="text-right">YoY Change %</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.combinedCategory}</TableCell>
+                  <TableCell>{row.category}</TableCell>
+                  <TableCell>{row.subCategory}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(row.oct23Ytd)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(row.oct24Ytd)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(row.oct25Ytd)}</TableCell>
+                  <TableCell className={`text-right ${row.oct25VsOct24 >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {row.oct25VsOct24 >= 0 ? '' : '('}
+                    {formatCurrency(Math.abs(row.oct25VsOct24))}
+                    {row.oct25VsOct24 < 0 ? ')' : ''}
+                  </TableCell>
+                  <TableCell className={`text-right ${row["yoYChange %"] >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {formatPercentage(row["yoYChange %"])}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
