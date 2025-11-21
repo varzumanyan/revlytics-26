@@ -138,7 +138,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -197,7 +197,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
                      if (mapping.field === 'revenueType') {
                        formattedValue = value;
-                       cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm w-48 min-w-[12rem] font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
+                       cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
                      } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
                       cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
