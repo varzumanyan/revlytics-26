@@ -94,14 +94,19 @@ export const ExpenditureDepartmentBreakdownDialog = ({
           <table className="min-w-full divide-y divide-border">
             <thead className="bg-background sticky top-0 z-10">
               <tr>
-                {columns.map((column) => (
-                  <th
-                    key={column}
-                    className={`px-3 py-2 text-left text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
-                  >
-                    {formatColumnHeader(column)}
-                  </th>
-                ))}
+                  {columns.map((column) => {
+                    const columnType = getColumnType(column);
+                    const isFirstColumn = column === columns[0];
+                    
+                    return (
+                      <th
+                        key={column}
+                        className={`px-3 py-2 ${isFirstColumn ? 'text-left max-w-[200px]' : 'text-left'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
+                      >
+                        {formatColumnHeader(column)}
+                      </th>
+                    );
+                  })}
               </tr>
             </thead>
             <tbody className="divide-y divide-border bg-background">
@@ -110,6 +115,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                   {columns.map((column) => {
                     const value = row[column];
                     const columnType = getColumnType(column);
+                    const isFirstColumn = column === columns[0];
                     
                     let displayValue = value;
                     if (columnType === "currency" && typeof value === "number") {
@@ -123,7 +129,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     return (
                       <td
                         key={column}
-                        className={`px-3 py-2 text-sm whitespace-nowrap ${
+                        className={`px-3 py-2 text-sm ${isFirstColumn ? 'max-w-[200px] break-words' : 'whitespace-nowrap'} ${
                           columnType === "text" ? "text-left" : "text-right"
                         } text-muted-foreground ${borderClass}`}
                       >
