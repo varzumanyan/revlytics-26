@@ -71,7 +71,7 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
             </TableHeader>
             <TableBody>
               {data.map((row, index) => (
-                <TableRow key={row.id || index}>
+                <TableRow key={row.id || index} className="border-b border-border">
                   {columns.map((column) => {
                     const value = row[column];
                     const type = getColumnType(column, value);

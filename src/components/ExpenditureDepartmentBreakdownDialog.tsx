@@ -97,7 +97,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
             </thead>
             <tbody className="divide-y divide-border bg-background">
               {data.map((row, index) => (
-                <tr key={row.id || index} className="hover:bg-muted/50">
+                <tr key={row.id || index} className="hover:bg-muted/50 border-b border-border">
                   {columns.map((column) => {
                     const value = row[column];
                     const columnType = getColumnType(column);
