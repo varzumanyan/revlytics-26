@@ -35,8 +35,8 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                 <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">Category</TableHead>
                 <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">Sub Category</TableHead>
                 <TableHead className="text-right bg-background">Oct 23 YTD</TableHead>
-                <TableHead className="text-right bg-background border-r-2 border-border">Oct 24 YTD</TableHead>
-                <TableHead className="text-right bg-background">Oct 25 YTD</TableHead>
+                <TableHead className="text-right bg-background">Oct 24 YTD</TableHead>
+                <TableHead className="text-right bg-background border-r-2 border-border">Oct 25 YTD</TableHead>
                 <TableHead className="text-right bg-background">Oct25 vs Oct24</TableHead>
                 <TableHead className="text-right bg-background">YoY Change %</TableHead>
               </TableRow>
@@ -48,8 +48,8 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   <TableCell className="border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">{row.category}</TableCell>
                   <TableCell className="border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">{row.subCategory}</TableCell>
                   <TableCell className="text-right">{formatCurrency(row.oct23Ytd)}</TableCell>
-                  <TableCell className="text-right border-r-2 border-border">{formatCurrency(row.oct24Ytd)}</TableCell>
-                  <TableCell className="text-right">{formatCurrency(row.oct25Ytd)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(row.oct24Ytd)}</TableCell>
+                  <TableCell className="text-right border-r-2 border-border">{formatCurrency(row.oct25Ytd)}</TableCell>
                   <TableCell className={`text-right ${row.oct25VsOct24 >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {row.oct25VsOct24 >= 0 ? '' : '('}
                     {formatCurrency(Math.abs(row.oct25VsOct24))}
