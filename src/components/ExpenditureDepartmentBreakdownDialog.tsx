@@ -66,13 +66,18 @@ export const ExpenditureDepartmentBreakdownDialog = ({
            (lowerColumn.includes('fy') || lowerColumn.includes('budget'));
   };
 
+  console.log('ExpenditureDepartmentBreakdownDialog - departmentName:', departmentName, 'data:', data?.length);
+  
   if (!data || data.length === 0) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{departmentName} - Detailed Breakdown</DialogTitle>
-            <DialogDescription>No data available for this department.</DialogDescription>
+            <DialogDescription>
+              No detailed breakdown data is currently available for this department. 
+              This may be because the department doesn't have itemized expense data in the API.
+            </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
