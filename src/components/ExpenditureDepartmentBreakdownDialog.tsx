@@ -101,7 +101,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     return (
                       <th
                         key={column}
-                        className={`px-3 py-2 ${isFirstColumn ? 'text-left w-48 min-w-[12rem]' : 'text-left'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
+                        className={`px-3 py-2 ${isFirstColumn ? 'text-left w-48 min-w-[12rem] break-words' : 'text-left'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
                       >
                         {formatColumnHeader(column)}
                       </th>
@@ -129,7 +129,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     return (
                       <td
                         key={column}
-                        className={`px-3 py-2 text-sm ${isFirstColumn ? 'w-48 min-w-[12rem]' : 'whitespace-nowrap'} ${
+                        className={`px-3 py-2 text-sm ${isFirstColumn ? 'w-48 min-w-[12rem] break-words' : 'whitespace-nowrap'} ${
                           columnType === "text" ? "text-left" : "text-right"
                         } text-muted-foreground ${borderClass}`}
                       >
