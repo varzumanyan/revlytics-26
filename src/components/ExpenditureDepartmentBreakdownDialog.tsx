@@ -83,7 +83,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
         </DialogHeader>
         <div className="overflow-auto flex-1">
           <table className="min-w-full divide-y divide-border">
-            <thead className="bg-muted sticky top-0 z-10">
+            <thead className="bg-background sticky top-0 z-10">
               <tr>
                 {columns.map((column) => (
                   <th

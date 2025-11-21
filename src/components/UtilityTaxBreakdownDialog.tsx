@@ -23,22 +23,22 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle>Utility Users' Tax Breakdown</DialogTitle>
         </DialogHeader>
-        <div className="overflow-x-auto">
+        <div className="overflow-auto flex-1">
           <Table>
-            <TableHeader>
+            <TableHeader className="sticky top-0 z-10 bg-background">
               <TableRow>
-                <TableHead>Combined Category</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Sub Category</TableHead>
-                <TableHead className="text-right">Oct 23 YTD</TableHead>
-                <TableHead className="text-right">Oct 24 YTD</TableHead>
-                <TableHead className="text-right">Oct 25 YTD</TableHead>
-                <TableHead className="text-right">Oct25 vs Oct24</TableHead>
-                <TableHead className="text-right">YoY Change %</TableHead>
+                <TableHead className="bg-background">Combined Category</TableHead>
+                <TableHead className="bg-background">Category</TableHead>
+                <TableHead className="bg-background">Sub Category</TableHead>
+                <TableHead className="text-right bg-background">Oct 23 YTD</TableHead>
+                <TableHead className="text-right bg-background">Oct 24 YTD</TableHead>
+                <TableHead className="text-right bg-background">Oct 25 YTD</TableHead>
+                <TableHead className="text-right bg-background">Oct25 vs Oct24</TableHead>
+                <TableHead className="text-right bg-background">YoY Change %</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
