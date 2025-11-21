@@ -57,6 +57,15 @@ export const ExpenditureDepartmentBreakdownDialog = ({
       .trim();
   };
 
+  const shouldHaveRightBorder = (column: string): boolean => {
+    // Add vertical separator after % columns (end of fiscal year sections)
+    const isPercentageColumn = column.toLowerCase().includes('%') || 
+                                column.toLowerCase().includes('percent') ||
+                                column.toLowerCase().includes('pct') ||
+                                column.toLowerCase().includes('budget');
+    return isPercentageColumn;
+  };
+
   if (!data || data.length === 0) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -88,7 +97,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                 {columns.map((column) => (
                   <th
                     key={column}
-                    className="px-3 py-2 text-left text-xs font-semibold text-foreground"
+                    className={`px-3 py-2 text-left text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
                   >
                     {formatColumnHeader(column)}
                   </th>
@@ -109,12 +118,14 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                       displayValue = formatPercentage(value);
                     }
 
+                    const borderClass = shouldHaveRightBorder(column) ? 'border-r-2 border-border' : '';
+                    
                     return (
                       <td
                         key={column}
                         className={`px-3 py-2 text-sm whitespace-nowrap ${
                           columnType === "text" ? "text-left" : "text-right"
-                        } text-muted-foreground`}
+                        } text-muted-foreground ${borderClass}`}
                       >
                         {displayValue}
                       </td>

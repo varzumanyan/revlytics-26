@@ -49,6 +49,14 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
       .trim();
   };
 
+  const shouldHaveRightBorder = (column: string, index: number) => {
+    // Add vertical separator after % columns (end of fiscal year sections)
+    const isPercentageColumn = column.toLowerCase().includes('%') || 
+                                column.toLowerCase().includes('percent') ||
+                                column.toLowerCase().includes('pct');
+    return isPercentageColumn;
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[90vw] max-h-[80vh] overflow-hidden flex flex-col">
@@ -59,10 +67,10 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-background">
               <TableRow>
-                {columns.map((column) => (
+                {columns.map((column, index) => (
                   <TableHead 
                     key={column}
-                    className={`bg-background ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''}`}
+                    className={`bg-background ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
                   >
                     {formatColumnHeader(column)}
                   </TableHead>
@@ -88,8 +96,11 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
                       formattedValue = String(value || '');
                     }
 
+                    const columnIndex = columns.indexOf(column);
+                    const borderClass = shouldHaveRightBorder(column, columnIndex) ? 'border-r-2 border-border' : '';
+                    
                     return (
-                      <TableCell key={column} className={cellClass}>
+                      <TableCell key={column} className={`${cellClass} ${borderClass}`}>
                         {formattedValue}
                       </TableCell>
                     );
