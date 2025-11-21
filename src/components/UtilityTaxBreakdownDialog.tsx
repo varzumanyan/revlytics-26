@@ -31,9 +31,9 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-background">
               <TableRow>
-                <TableHead className="bg-background border-r-2 border-border">Combined Category</TableHead>
-                <TableHead className="bg-background border-r-2 border-border">Category</TableHead>
-                <TableHead className="bg-background border-r-2 border-border">Sub Category</TableHead>
+                <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem]">Combined Category</TableHead>
+                <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem]">Category</TableHead>
+                <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem]">Sub Category</TableHead>
                 <TableHead className="text-right bg-background">Oct 23 YTD</TableHead>
                 <TableHead className="text-right bg-background border-r-2 border-border">Oct 24 YTD</TableHead>
                 <TableHead className="text-right bg-background">Oct 25 YTD</TableHead>
@@ -44,9 +44,9 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
             <TableBody>
               {data.map((row) => (
                 <TableRow key={row.id} className="border-b border-border">
-                  <TableCell className="border-r-2 border-border">{row.combinedCategory}</TableCell>
-                  <TableCell className="border-r-2 border-border">{row.category}</TableCell>
-                  <TableCell className="border-r-2 border-border">{row.subCategory}</TableCell>
+                  <TableCell className="border-r-2 border-border w-48 min-w-[12rem]">{row.combinedCategory}</TableCell>
+                  <TableCell className="border-r-2 border-border w-48 min-w-[12rem]">{row.category}</TableCell>
+                  <TableCell className="border-r-2 border-border w-48 min-w-[12rem]">{row.subCategory}</TableCell>
                   <TableCell className="text-right">{formatCurrency(row.oct23Ytd)}</TableCell>
                   <TableCell className="text-right border-r-2 border-border">{formatCurrency(row.oct24Ytd)}</TableCell>
                   <TableCell className="text-right">{formatCurrency(row.oct25Ytd)}</TableCell>
