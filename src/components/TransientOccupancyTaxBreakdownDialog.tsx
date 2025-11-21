@@ -71,7 +71,7 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
                   return (
                     <TableHead 
                       key={column}
-                      className={`bg-background ${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
+                      className={`bg-background ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
                     >
                       {formatColumnHeader(column)}
                     </TableHead>
@@ -102,7 +102,7 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
                     const borderClass = shouldHaveRightBorder(column, columnIndex) ? 'border-r-2 border-border' : '';
                     
                     return (
-                      <TableCell key={column} className={`${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${cellClass} ${borderClass}`}>
+                      <TableCell key={column} className={`${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${cellClass} ${borderClass}`}>
                         {formattedValue}
                       </TableCell>
                     );
