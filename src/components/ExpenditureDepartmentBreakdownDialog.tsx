@@ -54,7 +54,9 @@ export const ExpenditureDepartmentBreakdownDialog = ({
     return key
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase())
-      .trim();
+      .trim()
+      .replace(/\bfy\b/gi, "FY")
+      .replace(/\bytd\b/gi, "YTD");
   };
 
   const shouldHaveRightBorder = (column: string): boolean => {
