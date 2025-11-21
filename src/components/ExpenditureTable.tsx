@@ -213,7 +213,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -287,7 +287,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             'hover:bg-muted/30'
                           }`}
                         >
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm w-48 min-w-[12rem] border-r-2 border-muted-foreground/30 ${
                             isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
                             isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
                             isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :

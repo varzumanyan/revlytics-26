@@ -138,7 +138,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${className}`}
+      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-48 min-w-[12rem]' : ''} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -189,16 +189,16 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                   }`}
                 >
                   {fieldMappings.map((mapping, index) => {
-                    const value = (row as any)[mapping.field];
-                    let formattedValue: string;
-                    const isRevenueToDate = row.revenueType === 'Revenue to Date';
-                    const isFirstColumn = index === 0;
-                    let cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                     const value = (row as any)[mapping.field];
+                     let formattedValue: string;
+                     const isRevenueToDate = row.revenueType === 'Revenue to Date';
+                     const isFirstColumn = index === 0;
+                     let cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
 
-                    if (mapping.field === 'revenueType') {
-                      formattedValue = value;
-                      cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm whitespace-nowrap font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
-                    } else if (mapping.type === 'currency') {
+                     if (mapping.field === 'revenueType') {
+                       formattedValue = value;
+                       cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm w-48 min-w-[12rem] font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
+                     } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
                       cellClass = `px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
