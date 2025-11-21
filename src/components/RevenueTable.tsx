@@ -7,6 +7,8 @@ import { useUtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
 import { UtilityTaxBreakdownDialog } from "./UtilityTaxBreakdownDialog";
 import { useDepartmentalReceiptsData } from "@/hooks/useDepartmentalReceiptsData";
 import { DepartmentalReceiptsBreakdownDialog } from "./DepartmentalReceiptsBreakdownDialog";
+import { useTransientOccupancyTaxData } from "@/hooks/useTransientOccupancyTaxData";
+import { TransientOccupancyTaxBreakdownDialog } from "./TransientOccupancyTaxBreakdownDialog";
 
 interface RevenueTableProps {
   data: RevenueData[];
@@ -20,9 +22,11 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [utilityDialogOpen, setUtilityDialogOpen] = useState(false);
   const [deptReceiptsDialogOpen, setDeptReceiptsDialogOpen] = useState(false);
+  const [totDialogOpen, setTotDialogOpen] = useState(false);
   
   const { data: utilityTaxData } = useUtilityUsersTaxData();
   const { data: deptReceiptsData } = useDepartmentalReceiptsData();
+  const { data: totData } = useTransientOccupancyTaxData();
 
   // Generate dynamic field mappings based on actual API data
   const fieldMappings = useMemo(() => {
@@ -236,8 +240,9 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     const shouldAddDivider = index === 0 || index === 3 || index === 5;
                     const isUtilityUsersTax = row.revenueType === "Utility Users' Tax";
                     const isDeptReceipts = row.revenueType === "Departmental Receipts";
+                    const isTOT = row.revenueType === "Transient Occupancy Tax";
                     const isCurrencyField = mapping.type === 'currency' && mapping.field !== 'revenueType';
-                    const isClickable = (isUtilityUsersTax || isDeptReceipts) && isCurrencyField;
+                    const isClickable = (isUtilityUsersTax || isDeptReceipts || isTOT) && isCurrencyField;
                     
                     return (
                       <td 
@@ -248,6 +253,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                             setUtilityDialogOpen(true);
                           } else if (isDeptReceipts && isCurrencyField) {
                             setDeptReceiptsDialogOpen(true);
+                          } else if (isTOT && isCurrencyField) {
+                            setTotDialogOpen(true);
                           }
                         }}
                       >
@@ -276,6 +283,14 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
           open={deptReceiptsDialogOpen}
           onOpenChange={setDeptReceiptsDialogOpen}
           data={deptReceiptsData.departmentalReceipts || []}
+        />
+      )}
+      
+      {totData && (
+        <TransientOccupancyTaxBreakdownDialog 
+          open={totDialogOpen}
+          onOpenChange={setTotDialogOpen}
+          data={totData.transientOccupancyTax || []}
         />
       )}
     </Card>
