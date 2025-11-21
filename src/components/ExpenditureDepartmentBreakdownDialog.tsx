@@ -58,12 +58,10 @@ export const ExpenditureDepartmentBreakdownDialog = ({
   };
 
   const shouldHaveRightBorder = (column: string): boolean => {
-    // Add vertical separator after % columns (end of fiscal year sections)
-    const isPercentageColumn = column.toLowerCase().includes('%') || 
-                                column.toLowerCase().includes('percent') ||
-                                column.toLowerCase().includes('pct') ||
-                                column.toLowerCase().includes('budget');
-    return isPercentageColumn;
+    // Add vertical separator after percentage columns that end fiscal year sections
+    const lowerColumn = column.toLowerCase();
+    return lowerColumn.includes('%') && 
+           (lowerColumn.includes('fy') || lowerColumn.includes('budget'));
   };
 
   if (!data || data.length === 0) {
