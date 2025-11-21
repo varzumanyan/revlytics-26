@@ -51,9 +51,9 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
   };
 
   const shouldHaveRightBorder = (column: string, index: number) => {
-    // Add vertical separator after YTD columns (end of fiscal year sections)
+    // Add vertical separator after Sub Category column (index 2) and after YTD columns
     const lowerColumn = column.toLowerCase();
-    return lowerColumn.includes('ytd');
+    return lowerColumn.includes('subcategory') || lowerColumn.includes('ytd');
   };
 
   return (
