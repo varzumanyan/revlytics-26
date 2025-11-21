@@ -51,18 +51,18 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[90vw] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-[90vw] max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle>Departmental Receipts Breakdown</DialogTitle>
         </DialogHeader>
-        <div className="overflow-x-auto">
+        <div className="overflow-auto flex-1">
           <Table>
-            <TableHeader>
+            <TableHeader className="sticky top-0 z-10 bg-background">
               <TableRow>
                 {columns.map((column) => (
                   <TableHead 
                     key={column}
-                    className={getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''}
+                    className={`bg-background ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''}`}
                   >
                     {formatColumnHeader(column)}
                   </TableHead>
