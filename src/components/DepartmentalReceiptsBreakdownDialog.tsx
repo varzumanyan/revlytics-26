@@ -46,15 +46,15 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
     return key
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, str => str.toUpperCase())
-      .trim();
+      .trim()
+      .replace(/\bfy\b/gi, "FY")
+      .replace(/\bytd\b/gi, "YTD");
   };
 
   const shouldHaveRightBorder = (column: string, index: number) => {
-    // Add vertical separator after % columns (end of fiscal year sections)
-    const isPercentageColumn = column.toLowerCase().includes('%') || 
-                                column.toLowerCase().includes('percent') ||
-                                column.toLowerCase().includes('pct');
-    return isPercentageColumn;
+    // Add vertical separator after YTD columns (end of fiscal year sections)
+    const lowerColumn = column.toLowerCase();
+    return lowerColumn.includes('ytd');
   };
 
   return (
