@@ -43,7 +43,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
             </TableHeader>
             <TableBody>
               {data.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} className="border-b border-border">
                   <TableCell>{row.combinedCategory}</TableCell>
                   <TableCell>{row.category}</TableCell>
                   <TableCell>{row.subCategory}</TableCell>
