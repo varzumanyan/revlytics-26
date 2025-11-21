@@ -16,7 +16,7 @@ export interface UtilityUsersTaxApiResponse {
   "utilityUsers'Tax": UtilityUsersTaxData[];
 }
 
-const API_URL = 'https://api.sheety.co/2996d79e2117ff0d746768a9b29ec03c/utilityUsersTaxBreakdown/utilityUsers%27Tax';
+const API_URL = 'https://api.sheety.co/2996d79e2117ff0d746768a9b29ec03c/gfRevenueDetailBreakdown/utilityUsers%27Tax';
 
 export const useUtilityUsersTaxData = () => {
   return useQuery<UtilityUsersTaxApiResponse>({
