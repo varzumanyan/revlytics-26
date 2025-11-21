@@ -10,6 +10,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { getDepartmentDescription } from "@/utils/departmentDescriptions";
+import { getEndpointForDepartment } from "@/utils/expenditureDepartmentMapping";
+import { useExpenditureDepartmentBreakdown } from "@/hooks/useExpenditureDepartmentBreakdown";
+import { ExpenditureDepartmentBreakdownDialog } from "@/components/ExpenditureDepartmentBreakdownDialog";
 
 interface ExpenditureTableProps {
   data: ExpenditureData[];
@@ -22,6 +25,11 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
+  const [breakdownDialogOpen, setBreakdownDialogOpen] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
+  
+  const departmentEndpoint = selectedDepartment ? getEndpointForDepartment(selectedDepartment) : null;
+  const { data: breakdownData = [] } = useExpenditureDepartmentBreakdown(departmentEndpoint);
   
   console.log('ExpenditureTable received data:', data.length, 'rows');
   console.log('Sample rows:', data.slice(0, 5).map(d => d.generalFundDepartment));
@@ -35,8 +43,22 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
     }
   };
 
-  const handleDepartmentClick = (department: string) => {
-    // Check if it's one of the General categories
+  const handleDepartmentClick = (department: string, event: React.MouseEvent) => {
+    // Check if clicked element or its parent has data-breakdown-click attribute
+    const target = event.target as HTMLElement;
+    const isBreakdownClick = target.closest('[data-breakdown-click]');
+    
+    if (isBreakdownClick) {
+      // Handle breakdown dialog
+      const endpoint = getEndpointForDepartment(department);
+      if (endpoint) {
+        setSelectedDepartment(department);
+        setBreakdownDialogOpen(true);
+      }
+      return;
+    }
+    
+    // Check if it's one of the General categories for description dialog
     const generalCategories = ["General", "General Services", "General Service", "General City Purposes"];
     const isGeneralCategory = generalCategories.some(cat => department.includes(cat));
     
@@ -279,60 +301,132 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                                   ? 'cursor-pointer hover:text-primary transition-colors'
                                   : ''
                               }`}
-                              onClick={() => handleDepartmentClick(row.generalFundDepartment)}
+                              onClick={(e) => handleDepartmentClick(row.generalFundDepartment, e)}
                             >
                               {row.generalFundDepartment}
                             </span>
                           </td>
-                        <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                        <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (oct2023 > 0 && !isNaN(oct2023) ? formatCurrency(oct2023) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             pctFy24 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          }`}>
+                          } ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (oct2024 > 0 && !isNaN(oct2024) ? formatCurrency(oct2024) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             pctFy25 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          }`}>
+                          } ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (!isNaN(oct2025) && oct2025 !== 0 ? formatCurrency(oct2025) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'}`}>
+                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                          <td 
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             !isNaN(pctFy26) && pctFy26 > 0.3333 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          }`}>
+                          } ${
+                            !isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) 
+                              ? 'cursor-pointer hover:underline' 
+                              : ''
+                          }`}
+                            data-breakdown-click={!isTotal && !isSubItemRow && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                            onClick={(e) => !isTotal && !isSubItemRow && handleDepartmentClick(row.generalFundDepartment, e)}
+                          >
                             {isSection ? '' : (!isNaN(pctFy26) && pctFy26 !== 0 ? formatPercentage(pctFy26) : '')}
                           </td>
                         </tr>
@@ -357,6 +451,14 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
           </DialogHeader>
         </DialogContent>
       </Dialog>
+
+      {/* Department Breakdown Dialog */}
+      <ExpenditureDepartmentBreakdownDialog
+        open={breakdownDialogOpen}
+        onOpenChange={setBreakdownDialogOpen}
+        data={breakdownData}
+        departmentName={selectedDepartment || ""}
+      />
     </>
   );
 };
