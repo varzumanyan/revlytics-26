@@ -132,13 +132,14 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     }
  
                     const borderClass = shouldHaveRightBorder(column) ? 'border-r-2 border-border' : '';
+                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > 0.3333;
                     
                     return (
                       <td
                         key={column}
                         className={`px-3 py-2 text-sm ${isFirstColumn || isAccountColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : 'whitespace-nowrap'} ${
                           columnType === "text" ? "text-left" : "text-right"
-                        } text-muted-foreground ${borderClass}`}
+                        } ${isHighPercentage ? 'text-destructive font-semibold' : 'text-muted-foreground'} ${borderClass}`}
                       >
                         {displayValue}
                       </td>
