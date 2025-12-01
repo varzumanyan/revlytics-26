@@ -109,7 +109,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                 </TableHead>
                 <TableHead 
                   onClick={() => handleSort("oct23Ytd")}
-                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50"
+                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
                 >
                   <div className="flex items-center justify-end gap-1">
                     Oct 23 YTD
@@ -122,7 +122,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                 </TableHead>
                 <TableHead 
                   onClick={() => handleSort("oct24Ytd")}
-                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50"
+                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
                 >
                   <div className="flex items-center justify-end gap-1">
                     Oct 24 YTD
@@ -135,7 +135,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                 </TableHead>
                 <TableHead 
                   onClick={() => handleSort("oct25Ytd")}
-                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50 border-r-2 border-border"
+                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50 border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
                 >
                   <div className="flex items-center justify-end gap-1">
                     Oct 25 YTD
@@ -148,7 +148,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                 </TableHead>
                 <TableHead 
                   onClick={() => handleSort("oct25VsOct24")}
-                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50"
+                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
                 >
                   <div className="flex items-center justify-end gap-1">
                     Oct25 vs Oct24
@@ -161,7 +161,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                 </TableHead>
                 <TableHead 
                   onClick={() => handleSort("yoYChange %")}
-                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50"
+                  className="text-right sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
                 >
                   <div className="flex items-center justify-end gap-1">
                     YoY Change %
