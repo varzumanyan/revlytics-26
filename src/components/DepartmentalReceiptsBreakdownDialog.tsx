@@ -1,7 +1,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DepartmentalReceiptsData } from "@/hooks/useDepartmentalReceiptsData";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 
 interface DepartmentalReceiptsBreakdownDialogProps {
   open: boolean;
@@ -10,6 +11,9 @@ interface DepartmentalReceiptsBreakdownDialogProps {
 }
 
 export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }: DepartmentalReceiptsBreakdownDialogProps) => {
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'decimal',
@@ -57,6 +61,38 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
     return lowerColumn.includes('subcategory') || lowerColumn.includes('ytd');
   };
 
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("desc");
+    }
+  };
+
+  const sortedData = useMemo(() => {
+    if (!sortColumn || !data) return data;
+
+    return [...data].sort((a, b) => {
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
+
+      // Handle null/undefined values
+      if (aValue === null || aValue === undefined) return 1;
+      if (bValue === null || bValue === undefined) return -1;
+
+      // Compare based on type
+      let comparison = 0;
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        comparison = aValue - bValue;
+      } else {
+        comparison = String(aValue).localeCompare(String(bValue));
+      }
+
+      return sortDirection === "asc" ? comparison : -comparison;
+    });
+  }, [data, sortColumn, sortDirection]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[90vw] max-h-[80vh] overflow-hidden flex flex-col">
@@ -72,16 +108,28 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
                   return (
                     <TableHead 
                       key={column}
-                      className={`bg-background ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
+                      onClick={() => handleSort(column)}
+                      className={`bg-background cursor-pointer hover:bg-muted/50 ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
                     >
-                      {formatColumnHeader(column)}
+                      <div className="flex items-center gap-1">
+                        {formatColumnHeader(column)}
+                        {sortColumn === column ? (
+                          sortDirection === "asc" ? (
+                            <ArrowUp className="h-3 w-3" />
+                          ) : (
+                            <ArrowDown className="h-3 w-3" />
+                          )
+                        ) : (
+                          <ArrowUpDown className="h-3 w-3 opacity-50" />
+                        )}
+                      </div>
                     </TableHead>
                   );
                 })}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((row, index) => (
+              {sortedData.map((row, index) => (
                 <TableRow key={row.id || index} className="border-b border-border">
                   {columns.map((column, columnIndex) => {
                     const value = row[column];
