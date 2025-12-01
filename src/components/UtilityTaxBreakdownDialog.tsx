@@ -1,6 +1,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { UtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
+import { useState, useMemo } from "react";
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 
 interface UtilityTaxBreakdownDialogProps {
   open: boolean;
@@ -9,6 +11,9 @@ interface UtilityTaxBreakdownDialogProps {
 }
 
 export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityTaxBreakdownDialogProps) => {
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'decimal',
@@ -21,6 +26,38 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
     return `${(value * 100).toFixed(2)}%`;
   };
 
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("desc");
+    }
+  };
+
+  const sortedData = useMemo(() => {
+    if (!sortColumn || !data) return data;
+
+    return [...data].sort((a, b) => {
+      const aValue = a[sortColumn as keyof UtilityUsersTaxData];
+      const bValue = b[sortColumn as keyof UtilityUsersTaxData];
+
+      // Handle null/undefined values
+      if (aValue === null || aValue === undefined) return 1;
+      if (bValue === null || bValue === undefined) return -1;
+
+      // Compare based on type
+      let comparison = 0;
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        comparison = aValue - bValue;
+      } else {
+        comparison = String(aValue).localeCompare(String(bValue));
+      }
+
+      return sortDirection === "asc" ? comparison : -comparison;
+    });
+  }, [data, sortColumn, sortDirection]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-6xl max-h-[80vh] overflow-hidden flex flex-col">
@@ -31,18 +68,114 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-background">
               <TableRow>
-                <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">Combined Category</TableHead>
-                <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">Category</TableHead>
-                <TableHead className="bg-background border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">Sub Category</TableHead>
-                <TableHead className="text-right bg-background">Oct 23 YTD</TableHead>
-                <TableHead className="text-right bg-background">Oct 24 YTD</TableHead>
-                <TableHead className="text-right bg-background border-r-2 border-border">Oct 25 YTD</TableHead>
-                <TableHead className="text-right bg-background">Oct25 vs Oct24</TableHead>
-                <TableHead className="text-right bg-background">YoY Change %</TableHead>
+                <TableHead 
+                  onClick={() => handleSort("combinedCategory")}
+                  className="bg-background cursor-pointer hover:bg-muted/50 border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
+                >
+                  <div className="flex items-center gap-1">
+                    Combined Category
+                    {sortColumn === "combinedCategory" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("category")}
+                  className="bg-background cursor-pointer hover:bg-muted/50 border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
+                >
+                  <div className="flex items-center gap-1">
+                    Category
+                    {sortColumn === "category" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("subCategory")}
+                  className="bg-background cursor-pointer hover:bg-muted/50 border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words"
+                >
+                  <div className="flex items-center gap-1">
+                    Sub Category
+                    {sortColumn === "subCategory" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("oct23Ytd")}
+                  className="text-right bg-background cursor-pointer hover:bg-muted/50"
+                >
+                  <div className="flex items-center justify-end gap-1">
+                    Oct 23 YTD
+                    {sortColumn === "oct23Ytd" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("oct24Ytd")}
+                  className="text-right bg-background cursor-pointer hover:bg-muted/50"
+                >
+                  <div className="flex items-center justify-end gap-1">
+                    Oct 24 YTD
+                    {sortColumn === "oct24Ytd" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("oct25Ytd")}
+                  className="text-right bg-background cursor-pointer hover:bg-muted/50 border-r-2 border-border"
+                >
+                  <div className="flex items-center justify-end gap-1">
+                    Oct 25 YTD
+                    {sortColumn === "oct25Ytd" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("oct25VsOct24")}
+                  className="text-right bg-background cursor-pointer hover:bg-muted/50"
+                >
+                  <div className="flex items-center justify-end gap-1">
+                    Oct25 vs Oct24
+                    {sortColumn === "oct25VsOct24" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  onClick={() => handleSort("yoYChange %")}
+                  className="text-right bg-background cursor-pointer hover:bg-muted/50"
+                >
+                  <div className="flex items-center justify-end gap-1">
+                    YoY Change %
+                    {sortColumn === "yoYChange %" ? (
+                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                    ) : (
+                      <ArrowUpDown className="h-3 w-3 opacity-50" />
+                    )}
+                  </div>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((row) => (
+              {sortedData.map((row) => (
                 <TableRow key={row.id} className="border-b border-border">
                   <TableCell className="border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">{row.combinedCategory}</TableCell>
                   <TableCell className="border-r-2 border-border w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words">{row.category}</TableCell>

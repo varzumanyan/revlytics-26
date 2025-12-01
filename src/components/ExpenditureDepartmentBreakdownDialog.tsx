@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ExpenditureDepartmentBreakdownData } from "@/hooks/useExpenditureDepartmentBreakdown";
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 
 interface ExpenditureDepartmentBreakdownDialogProps {
   open: boolean;
@@ -20,6 +22,9 @@ export const ExpenditureDepartmentBreakdownDialog = ({
   data,
   departmentName,
 }: ExpenditureDepartmentBreakdownDialogProps) => {
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
   const formatCurrency = (value: number | string) => {
     const numValue = typeof value === "string" ? parseFloat(value) || 0 : value;
     return new Intl.NumberFormat("en-US", {
@@ -66,6 +71,38 @@ export const ExpenditureDepartmentBreakdownDialog = ({
            (lowerColumn.includes('fy') || lowerColumn.includes('budget'));
   };
 
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("desc");
+    }
+  };
+
+  const sortedData = useMemo(() => {
+    if (!sortColumn || !data) return data;
+
+    return [...data].sort((a, b) => {
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
+
+      // Handle null/undefined values
+      if (aValue === null || aValue === undefined) return 1;
+      if (bValue === null || bValue === undefined) return -1;
+
+      // Compare based on type
+      let comparison = 0;
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        comparison = aValue - bValue;
+      } else {
+        comparison = String(aValue).localeCompare(String(bValue));
+      }
+
+      return sortDirection === "asc" ? comparison : -comparison;
+    });
+  }, [data, sortColumn, sortDirection]);
+
   console.log('ExpenditureDepartmentBreakdownDialog - departmentName:', departmentName, 'data:', data?.length);
   
   if (!data || data.length === 0) {
@@ -107,16 +144,28 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     return (
                       <th
                         key={column}
-                        className={`px-3 py-2 ${isFirstColumn || isAccountColumn ? 'text-left w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : 'text-left whitespace-nowrap'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
+                        onClick={() => handleSort(column)}
+                        className={`px-3 py-2 cursor-pointer hover:bg-muted/50 ${isFirstColumn || isAccountColumn ? 'text-left w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : 'text-left whitespace-nowrap'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
                       >
-                        {formatColumnHeader(column)}
+                        <div className="flex items-center gap-1">
+                          {formatColumnHeader(column)}
+                          {sortColumn === column ? (
+                            sortDirection === "asc" ? (
+                              <ArrowUp className="h-3 w-3" />
+                            ) : (
+                              <ArrowDown className="h-3 w-3" />
+                            )
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
                       </th>
                     );
                   })}
               </tr>
             </thead>
             <tbody className="divide-y divide-border bg-background">
-              {data.map((row, index) => (
+              {sortedData.map((row, index) => (
                 <tr key={row.id || index} className="hover:bg-muted/50 border-b border-border">
                   {columns.map((column) => {
                     const value = row[column];
