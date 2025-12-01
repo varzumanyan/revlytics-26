@@ -138,13 +138,12 @@ export const ExpenditureDepartmentBreakdownDialog = ({
               <tr>
                   {columns.map((column) => {
                     const columnType = getColumnType(column);
-                    const isTextColumn = columnType === "text";
                     
                     return (
                       <th
                         key={column}
                         onClick={() => handleSort(column)}
-                        className={`px-3 py-2 cursor-pointer hover:bg-muted/50 ${isTextColumn ? 'text-left w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : 'text-right whitespace-nowrap'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
+                        className={`px-3 py-2 cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${columnType === "text" ? 'text-left' : 'text-right'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
                       >
                         <div className="flex items-center gap-1">
                           {formatColumnHeader(column)}
@@ -169,7 +168,6 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                   {columns.map((column) => {
                     const value = row[column];
                     const columnType = getColumnType(column);
-                    const isTextColumn = columnType === "text";
                     
                     let displayValue = value;
                     if (columnType === "currency" && typeof value === "number") {
@@ -184,7 +182,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     return (
                       <td
                         key={column}
-                        className={`px-3 py-2 text-sm ${isTextColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : 'whitespace-nowrap'} ${
+                        className={`px-3 py-2 text-sm w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${
                           columnType === "text" ? "text-left" : "text-right"
                         } ${isHighPercentage ? 'text-destructive font-semibold' : 'text-muted-foreground'} ${borderClass}`}
                       >

@@ -105,12 +105,11 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
               <TableRow className="bg-background">
                 {columns.map((column, index) => {
                   const columnType = getColumnType(column, data[0]?.[column]);
-                  const isTextColumn = columnType === 'text';
                   return (
                     <TableHead 
                       key={column}
                       onClick={() => handleSort(column)}
-                      className={`sticky top-0 bg-background cursor-pointer hover:bg-muted/50 ${isTextColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${columnType !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
+                      className={`sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${columnType !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
                     >
                       <div className="flex items-center gap-1">
                         {formatColumnHeader(column)}
@@ -137,7 +136,6 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
                     const type = getColumnType(column, value);
                     let formattedValue: string;
                     let cellClass = '';
-                    const isTextColumn = type === 'text';
 
                     if (type === 'currency' && typeof value === 'number') {
                       formattedValue = formatCurrency(value);
@@ -152,7 +150,7 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
                     const borderClass = shouldHaveRightBorder(column, columnIndex) ? 'border-r-2 border-border' : '';
                     
                     return (
-                      <TableCell key={column} className={`${isTextColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${cellClass} ${borderClass}`}>
+                      <TableCell key={column} className={`w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${cellClass} ${borderClass}`}>
                         {formattedValue}
                       </TableCell>
                     );
