@@ -100,15 +100,15 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
         </DialogHeader>
         <div className="overflow-auto flex-1">
           <Table>
-            <TableHeader className="sticky top-0 z-10 bg-background">
-              <TableRow>
+            <TableHeader className="sticky top-0 z-20 bg-background">
+              <TableRow className="bg-background">
                 {columns.map((column, index) => {
                   const isFirstColumn = index === 0;
                   return (
                     <TableHead 
                       key={column}
                       onClick={() => handleSort(column)}
-                      className={`bg-background cursor-pointer hover:bg-muted/50 ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
+                      className={`sticky top-0 bg-background cursor-pointer hover:bg-muted/50 ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${getColumnType(column, data[0]?.[column]) !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
                     >
                       <div className="flex items-center gap-1">
                         {formatColumnHeader(column)}
