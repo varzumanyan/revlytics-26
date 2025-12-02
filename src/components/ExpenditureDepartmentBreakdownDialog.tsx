@@ -40,10 +40,15 @@ export const ExpenditureDepartmentBreakdownDialog = ({
     return `${(numValue * 100).toFixed(1)}%`;
   };
 
-  const getColumnType = (key: string): "currency" | "percentage" | "text" => {
+  const getColumnType = (key: string, value?: any): "currency" | "percentage" | "text" => {
     const lowerKey = key.toLowerCase();
     // Check for percentage columns - including "% as of" patterns
     if (lowerKey.includes("%") || lowerKey.includes("percent") || lowerKey.includes("as of")) {
+      return "percentage";
+    }
+    // Handle empty column keys (API sometimes returns "" for percentage columns)
+    // Check if value looks like a decimal percentage (between -1 and 1)
+    if (key === "" && typeof value === "number" && value >= -1 && value <= 1) {
       return "percentage";
     }
     if (
@@ -58,6 +63,10 @@ export const ExpenditureDepartmentBreakdownDialog = ({
   };
 
   const formatColumnHeader = (key: string): string => {
+    // Handle empty column key (API returns "" for % As Of FY25 Budget)
+    if (key === "") {
+      return "% As Of FY25 Budget";
+    }
     return key
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase())
@@ -138,8 +147,8 @@ export const ExpenditureDepartmentBreakdownDialog = ({
           <table className="min-w-full divide-y divide-border">
             <thead className="bg-background sticky top-0 z-10">
               <tr>
-                  {columns.map((column) => {
-                    const columnType = getColumnType(column);
+              {columns.map((column) => {
+                    const columnType = getColumnType(column, data[0]?.[column]);
                     
                     return (
                       <th
@@ -169,7 +178,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                 <tr key={row.id || index} className="hover:bg-muted/50 border-b border-border">
                   {columns.map((column) => {
                     const value = row[column];
-                    const columnType = getColumnType(column);
+                    const columnType = getColumnType(column, value);
                     
                     let displayValue = value;
                     if (columnType === "currency" && typeof value === "number") {
