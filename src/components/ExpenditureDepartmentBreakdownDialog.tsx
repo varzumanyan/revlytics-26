@@ -143,7 +143,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                       <th
                         key={column}
                         onClick={() => handleSort(column)}
-                        className={`px-3 py-2 cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${columnType === "text" ? 'text-left' : 'text-right'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
+                        className={`px-3 py-2 cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words ${columnType === "text" ? 'text-left' : 'text-right'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
                       >
                         <div className="flex items-center gap-1">
                           {formatColumnHeader(column)}
@@ -182,7 +182,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     return (
                       <td
                         key={column}
-                        className={`px-3 py-2 text-sm w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${
+                        className={`px-3 py-2 text-sm w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words ${
                           columnType === "text" ? "text-left" : "text-right"
                         } ${isHighPercentage ? 'text-destructive font-semibold' : 'text-muted-foreground'} ${borderClass}`}
                       >

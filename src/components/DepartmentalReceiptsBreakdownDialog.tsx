@@ -109,7 +109,7 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
                     <TableHead 
                       key={column}
                       onClick={() => handleSort(column)}
-                      className={`sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${columnType !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
+                      className={`sticky top-0 bg-background cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words ${columnType !== 'text' ? 'text-right' : ''} ${shouldHaveRightBorder(column, index) ? 'border-r-2 border-border' : ''}`}
                     >
                       <div className="flex items-center gap-1">
                         {formatColumnHeader(column)}
@@ -150,7 +150,7 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
                     const borderClass = shouldHaveRightBorder(column, columnIndex) ? 'border-r-2 border-border' : '';
                     
                     return (
-                      <TableCell key={column} className={`w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words ${cellClass} ${borderClass}`}>
+                      <TableCell key={column} className={`w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words ${cellClass} ${borderClass}`}>
                         {formattedValue}
                       </TableCell>
                     );
