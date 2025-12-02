@@ -41,14 +41,16 @@ export const ExpenditureDepartmentBreakdownDialog = ({
   };
 
   const getColumnType = (key: string): "currency" | "percentage" | "text" => {
-    if (key.toLowerCase().includes("%") || key.toLowerCase().includes("percent")) {
+    const lowerKey = key.toLowerCase();
+    // Check for percentage columns - including "% as of" patterns
+    if (lowerKey.includes("%") || lowerKey.includes("percent") || lowerKey.includes("as of")) {
       return "percentage";
     }
     if (
-      key.toLowerCase().includes("ytd") ||
-      key.toLowerCase().includes("budget") ||
-      key.toLowerCase().includes("amount") ||
-      key.toLowerCase().includes("total")
+      lowerKey.includes("ytd") ||
+      lowerKey.includes("budget") ||
+      lowerKey.includes("amount") ||
+      lowerKey.includes("total")
     ) {
       return "currency";
     }
