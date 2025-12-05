@@ -14,6 +14,7 @@ interface ExpenditureDepartmentBreakdownDialogProps {
   onOpenChange: (open: boolean) => void;
   data: ExpenditureDepartmentBreakdownData[];
   departmentName: string;
+  isLoading?: boolean;
 }
 
 export const ExpenditureDepartmentBreakdownDialog = ({
@@ -21,6 +22,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
   onOpenChange,
   data,
   departmentName,
+  isLoading = false,
 }: ExpenditureDepartmentBreakdownDialogProps) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
@@ -114,7 +116,25 @@ export const ExpenditureDepartmentBreakdownDialog = ({
     });
   }, [data, sortColumn, sortDirection]);
 
-  console.log('ExpenditureDepartmentBreakdownDialog - departmentName:', departmentName, 'data:', data?.length);
+  console.log('ExpenditureDepartmentBreakdownDialog - departmentName:', departmentName, 'data:', data?.length, 'isLoading:', isLoading);
+  
+  if (isLoading) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{departmentName} - Detailed Breakdown</DialogTitle>
+            <DialogDescription>
+              Loading breakdown data...
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
   
   if (!data || data.length === 0) {
     return (

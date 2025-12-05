@@ -29,7 +29,7 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   
   const departmentEndpoint = selectedDepartment ? getEndpointForDepartment(selectedDepartment) : null;
-  const { data: breakdownData = [] } = useExpenditureDepartmentBreakdown(departmentEndpoint);
+  const { data: breakdownData = [], isLoading: breakdownLoading } = useExpenditureDepartmentBreakdown(departmentEndpoint);
   
   console.log('ExpenditureTable received data:', data.length, 'rows');
   console.log('Sample rows:', data.slice(0, 5).map(d => d.generalFundDepartment));
@@ -458,6 +458,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
         onOpenChange={setBreakdownDialogOpen}
         data={breakdownData}
         departmentName={selectedDepartment || ""}
+        isLoading={breakdownLoading}
       />
     </>
   );
