@@ -138,7 +138,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-1.5 lg:px-2 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-40 min-w-[10rem] max-w-[10rem] whitespace-normal break-words' : 'w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words'} ${className}`}
+      className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-36 min-w-[9rem] max-w-[9rem] whitespace-normal break-words' : 'w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words'} ${className}`}
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center space-x-1">
@@ -193,21 +193,21 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                      let formattedValue: string;
                      const isRevenueToDate = row.revenueType === 'Revenue to Date';
                      const isFirstColumn = index === 0;
-                     let cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                     let cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
 
                      if (mapping.field === 'revenueType') {
                        formattedValue = value;
-                       cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm w-40 min-w-[10rem] max-w-[10rem] whitespace-normal break-words font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
+                       cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-36 min-w-[9rem] max-w-[9rem] whitespace-normal break-words font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
                      } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
-                      cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                      cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
                       // Special styling for change fields
                       if (changeField && mapping.field === changeField) {
                         if (isRevenueToDate) {
-                          cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words font-bold text-foreground`;
+                          cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-bold text-foreground`;
                         } else {
-                          cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words font-medium ${
+                          cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-medium ${
                             value > 0 ? 'text-success' : 
                             value < 0 ? 'text-destructive' : 'text-muted-foreground'
                           }`;
@@ -215,14 +215,14 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       }
                     } else if (mapping.type === 'percentage') {
                       formattedValue = formatPercentage(value || 0);
-                      cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
+                      cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
                       
                       // Special styling for YoY change
                       if (mapping.field === '%') {
                         if (isRevenueToDate) {
-                          cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words font-bold text-foreground`;
+                          cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-bold text-foreground`;
                         } else {
-                          cellClass = `px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words font-medium ${
+                          cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-medium ${
                             value > 0 ? 'text-success' : value < 0 ? 'text-destructive' : 'text-muted-foreground'
                           }`;
                         }
@@ -230,7 +230,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                       
                       // Special styling for budget percentage over 41.67%
                       if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.4167) {
-                        cellClass = isRevenueToDate ? 'px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words font-bold text-foreground' : 'px-1.5 lg:px-2 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-24 min-w-[6rem] max-w-[6rem] whitespace-normal break-words font-medium text-success';
+                        cellClass = isRevenueToDate ? 'px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-bold text-foreground' : 'px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-medium text-success';
                       }
                     } else {
                       formattedValue = String(value || '');
