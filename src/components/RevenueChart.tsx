@@ -23,7 +23,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
 
   // Dynamic subtitle based on clicked pie segment
   const getPieSubtitle = () => {
-    const baseText = "Through July - Oct 2025";
+    const baseText = "Through July - Nov 2025";
     
     if (!clickedPieSegment) {
       return `${baseText} • Departmental Receipts includes fees, licenses, permits, fines, and charges for services`;
