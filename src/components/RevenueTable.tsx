@@ -228,8 +228,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                         }
                       }
                       
-                      // Special styling for budget percentage over 33.33%
-                      if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.3333) {
+                      // Special styling for budget percentage over 41.67%
+                      if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.4167) {
                         cellClass = isRevenueToDate ? 'px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-bold text-foreground' : 'px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap font-medium text-success';
                       }
                     } else {
