@@ -152,10 +152,10 @@ export class ApiFieldMapper {
     if (!dateInfo || !dateInfo.years || dateInfo.years.length < 3) {
       const mappings: FieldMapping[] = [
         { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
-        { field: fieldSet.year1, label: 'October 2023', type: 'currency' as const },
-        { field: fieldSet.year2, label: 'October 2024', type: 'currency' as const },
-        { field: fieldSet.year3, label: 'October 2025', type: 'currency' as const },
-        { field: fieldSet.changeField, label: 'Oct25 vs Oct24', type: 'currency' as const },
+        { field: fieldSet.year1, label: 'November 2023', type: 'currency' as const },
+        { field: fieldSet.year2, label: 'November 2024', type: 'currency' as const },
+        { field: fieldSet.year3, label: 'November 2025', type: 'currency' as const },
+        { field: fieldSet.changeField, label: 'Nov25 vs Nov24', type: 'currency' as const },
         { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
         { field: fieldSet.budgetPercentageField, label: 'Oct 25 YTD as % of FY26 Budget', type: 'percentage' as const },
         { field: fieldSet.budgetField, label: 'Adopted Budget', type: 'currency' as const }

@@ -208,7 +208,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     }
  
                     const borderClass = shouldHaveRightBorder(column) ? 'border-r-2 border-border' : '';
-                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > 0.3333;
+                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > 0.4167;
                     
                     return (
                       <td
