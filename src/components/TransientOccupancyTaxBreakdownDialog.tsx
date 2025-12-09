@@ -50,7 +50,9 @@ export const TransientOccupancyTaxBreakdownDialog = ({ open, onOpenChange, data 
       .replace(/^./, str => str.toUpperCase())
       .trim()
       .replace(/\bfy\b/gi, "FY")
-      .replace(/\bytd\b/gi, "YTD");
+      .replace(/\bytd\b/gi, "YTD")
+      .replace(/\boct\b/gi, "Nov")
+      .replace(/\bOct\b/g, "Nov");
   };
 
   const shouldHaveRightBorder = (column: string, index: number) => {

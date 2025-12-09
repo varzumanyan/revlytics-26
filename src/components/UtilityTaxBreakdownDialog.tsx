@@ -107,12 +107,12 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   </div>
                 </th>
                 <th 
-                  onClick={() => handleSort("oct23Ytd")}
+                  onClick={() => handleSort("nov23Ytd")}
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Oct 23 YTD
-                    {sortColumn === "oct23Ytd" ? (
+                    Nov 23 YTD
+                    {sortColumn === "nov23Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
                       <ArrowUpDown className="h-3 w-3 opacity-50" />
@@ -120,12 +120,12 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   </div>
                 </th>
                 <th 
-                  onClick={() => handleSort("oct24Ytd")}
+                  onClick={() => handleSort("nov24Ytd")}
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Oct 24 YTD
-                    {sortColumn === "oct24Ytd" ? (
+                    Nov 24 YTD
+                    {sortColumn === "nov24Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
                       <ArrowUpDown className="h-3 w-3 opacity-50" />
@@ -133,12 +133,12 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   </div>
                 </th>
                 <th 
-                  onClick={() => handleSort("oct25Ytd")}
+                  onClick={() => handleSort("nov25Ytd")}
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Oct 25 YTD
-                    {sortColumn === "oct25Ytd" ? (
+                    Nov 25 YTD
+                    {sortColumn === "nov25Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
                       <ArrowUpDown className="h-3 w-3 opacity-50" />
@@ -146,12 +146,12 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   </div>
                 </th>
                 <th 
-                  onClick={() => handleSort("oct25VsOct24")}
+                  onClick={() => handleSort("nov25VsNov24")}
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Oct25 vs Oct24
-                    {sortColumn === "oct25VsOct24" ? (
+                    Nov25 vs Nov24
+                    {sortColumn === "nov25VsNov24" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
                       <ArrowUpDown className="h-3 w-3 opacity-50" />
@@ -179,13 +179,13 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   <td className="px-3 py-2 text-sm border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-muted-foreground">{row.combinedCategory}</td>
                   <td className="px-3 py-2 text-sm border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-muted-foreground">{row.category}</td>
                   <td className="px-3 py-2 text-sm border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-muted-foreground">{row.subCategory}</td>
-                  <td className="px-3 py-2 text-sm text-right text-muted-foreground">{formatCurrency(row.oct23Ytd)}</td>
-                  <td className="px-3 py-2 text-sm text-right text-muted-foreground">{formatCurrency(row.oct24Ytd)}</td>
-                  <td className="px-3 py-2 text-sm text-right border-r-2 border-border text-muted-foreground">{formatCurrency(row.oct25Ytd)}</td>
-                  <td className={`px-3 py-2 text-sm text-right ${row.oct25VsOct24 >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {row.oct25VsOct24 >= 0 ? '' : '('}
-                    {formatCurrency(Math.abs(row.oct25VsOct24))}
-                    {row.oct25VsOct24 < 0 ? ')' : ''}
+                  <td className="px-3 py-2 text-sm text-right text-muted-foreground">{formatCurrency(row.nov23Ytd)}</td>
+                  <td className="px-3 py-2 text-sm text-right text-muted-foreground">{formatCurrency(row.nov24Ytd)}</td>
+                  <td className="px-3 py-2 text-sm text-right border-r-2 border-border text-muted-foreground">{formatCurrency(row.nov25Ytd)}</td>
+                  <td className={`px-3 py-2 text-sm text-right ${row.nov25VsNov24 >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {row.nov25VsNov24 >= 0 ? '' : '('}
+                    {formatCurrency(Math.abs(row.nov25VsNov24))}
+                    {row.nov25VsNov24 < 0 ? ')' : ''}
                   </td>
                   <td className={`px-3 py-2 text-sm text-right ${row["yoYChange %"] >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {formatPercentage(row["yoYChange %"])}
