@@ -4,10 +4,10 @@ export interface UtilityUsersTaxData {
   combinedCategory: string;
   category: string;
   subCategory: string;
-  oct23Ytd: number;
-  oct24Ytd: number;
-  oct25Ytd: number;
-  oct25VsOct24: number;
+  nov23Ytd: number;
+  nov24Ytd: number;
+  nov25Ytd: number;
+  nov25VsNov24: number;
   "yoYChange %": number;
   id: number;
 }
