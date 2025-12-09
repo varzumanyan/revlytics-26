@@ -151,7 +151,7 @@ const Index = () => {
                 title="Total Revenue FY2026 YTD" 
                 value={totalRevenue2025} 
                 isCurrency={true}
-                description="July - Oct 2025"
+                description="July - Nov 2025"
               />
               <RevenueCard 
                 title="Year-over-Year Change" 
@@ -162,9 +162,9 @@ const Index = () => {
               />
               <BudgetProgressGauge 
                 title="FY2026 YTD Budget Progress" 
-                subtitle="July - Oct 2025"
+                subtitle="July - Nov 2025"
                 actualProgress={budgetProgress}
-                monthsElapsed={4}
+                monthsElapsed={5}
                 totalMonths={12}
               />
               <RevenueCard 
@@ -188,7 +188,7 @@ const Index = () => {
                 title="Total Expenditure FY2026 YTD"
                 value={totalExpenditures}
                 isCurrency={true}
-                description="July - Oct 2025"
+                description="July - Nov 2025"
               />
               <ExpenditureCard
                 title="Year-over-Year Change"
@@ -199,9 +199,9 @@ const Index = () => {
               />
               <BudgetProgressGauge
                 title="FY2026 YTD Budget Progress"
-                subtitle="July - Oct 2025"
+                subtitle="July - Nov 2025"
                 actualProgress={expenditureBudgetUtilization}
-                monthsElapsed={4}
+                monthsElapsed={5}
                 totalMonths={12}
                 isExpenditure={true}
               />
