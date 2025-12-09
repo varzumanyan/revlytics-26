@@ -24,9 +24,9 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
       return dept && 
         !dept.includes('total') && 
         !dept.includes('general fund other') &&
-        item.october2025Ytd > 0;
+        item.november2025Ytd > 0;
     })
-    .sort((a, b) => b.october2025Ytd - a.october2025Ytd);
+    .sort((a, b) => b.november2025Ytd - a.november2025Ytd);
   
   // Take top 15 departments
   const top15 = filteredData.slice(0, 15);
@@ -34,7 +34,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
   // Group the rest as "Other"
   const otherTotal = filteredData
     .slice(15)
-    .reduce((sum, item) => sum + item.october2025Ytd, 0);
+    .reduce((sum, item) => sum + item.november2025Ytd, 0);
   
   const chartData = [
     ...top15.map(item => ({
@@ -42,7 +42,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
         ? item.generalFundDepartment.substring(0, 25) + '...' 
         : item.generalFundDepartment,
       fullName: item.generalFundDepartment,
-      value: item.october2025Ytd,
+      value: item.november2025Ytd,
       budget: item.fy26AdoptedBudget,
     })),
     ...(otherTotal > 0 ? [{
