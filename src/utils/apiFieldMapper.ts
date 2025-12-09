@@ -157,7 +157,7 @@ export class ApiFieldMapper {
         { field: fieldSet.year3, label: 'November 2025', type: 'currency' as const },
         { field: fieldSet.changeField, label: 'Nov25 vs Nov24', type: 'currency' as const },
         { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
-        { field: fieldSet.budgetPercentageField, label: 'Oct 25 YTD as % of FY26 Budget', type: 'percentage' as const },
+        { field: fieldSet.budgetPercentageField, label: 'Nov 25 YTD as % of FY26 Budget', type: 'percentage' as const },
         { field: fieldSet.budgetField, label: 'Adopted Budget', type: 'currency' as const }
       ];
       return mappings.filter(mapping => mapping.field);
@@ -167,12 +167,12 @@ export class ApiFieldMapper {
     
     const mappings: FieldMapping[] = [
       { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
-      { field: fieldSet.year1, label: `Oct ${dateInfo.years[0].slice(-2)} YTD`, type: 'currency' as const },
-      { field: fieldSet.year2, label: `Oct ${dateInfo.years[1].slice(-2)} YTD`, type: 'currency' as const },
-      { field: fieldSet.year3, label: `Oct ${dateInfo.years[2].slice(-2)} YTD`, type: 'currency' as const },
+      { field: fieldSet.year1, label: `Nov ${dateInfo.years[0].slice(-2)} YTD`, type: 'currency' as const },
+      { field: fieldSet.year2, label: `Nov ${dateInfo.years[1].slice(-2)} YTD`, type: 'currency' as const },
+      { field: fieldSet.year3, label: `Nov ${dateInfo.years[2].slice(-2)} YTD`, type: 'currency' as const },
       { field: fieldSet.changeField, label: `${capitalizedMonth.slice(0,3)}${dateInfo.years[2].slice(-2)} vs ${capitalizedMonth.slice(0,3)}${dateInfo.years[1].slice(-2)}`, type: 'currency' as const },
       { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
-      { field: fieldSet.budgetPercentageField, label: 'Oct 25 YTD as % of FY26 Budget', type: 'percentage' as const },
+      { field: fieldSet.budgetPercentageField, label: 'Nov 25 YTD as % of FY26 Budget', type: 'percentage' as const },
       { field: fieldSet.budgetField, label: 'FY2026 Adopted Budget', type: 'currency' as const }
     ];
     
