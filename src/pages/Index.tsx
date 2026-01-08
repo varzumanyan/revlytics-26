@@ -99,10 +99,10 @@ const Index = () => {
   );
   
   const totalExpenditureBudget = totalExpensesRow?.fy26AdoptedBudget || 0;
-  const totalExpenditures = totalExpensesRow?.november2025Ytd || 0;
-  const totalExpenditures2024 = typeof totalExpensesRow?.november2024Ytd === 'number' 
-    ? totalExpensesRow.november2024Ytd 
-    : parseFloat(String(totalExpensesRow?.november2024Ytd || 0));
+  const totalExpenditures = totalExpensesRow?.december2025Ytd || 0;
+  const totalExpenditures2024 = typeof totalExpensesRow?.december2024Ytd === 'number' 
+    ? totalExpensesRow.december2024Ytd 
+    : parseFloat(String(totalExpensesRow?.december2024Ytd || 0));
   const expenditureYearOverYearChange = totalExpenditures2024 > 0 
     ? (totalExpenditures - totalExpenditures2024) / totalExpenditures2024 
     : 0;

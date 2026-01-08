@@ -24,16 +24,16 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
       return dept && 
         !dept.includes('total') && 
         !dept.includes('general fund other') &&
-        item.november2025Ytd > 0;
+        item.december2025Ytd > 0;
     })
-    .sort((a, b) => b.november2025Ytd - a.november2025Ytd)
+    .sort((a, b) => b.december2025Ytd - a.december2025Ytd)
     .slice(0, 10) // Top 10 departments
     .map(item => ({
       name: item.generalFundDepartment.length > 20 
         ? item.generalFundDepartment.substring(0, 20) + '...' 
         : item.generalFundDepartment,
       fullName: item.generalFundDepartment,
-      'YTD Spending': item.november2025Ytd,
+      'YTD Spending': item.december2025Ytd,
       'Budget': item.fy26AdoptedBudget,
       'Utilization %': (item["%OfFy26Budget"] * 100),
     }));
