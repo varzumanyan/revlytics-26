@@ -238,28 +238,28 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field="november2023Ytd">Dec 2023 YTD</SortableHeader>
+                    <SortableHeader field="december2023Ytd">Dec 2023 YTD</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field="november2024Ytd">Dec 2024 YTD</SortableHeader>
+                    <SortableHeader field="december2024Ytd">Dec 2024 YTD</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
-                    <SortableHeader field="november2025Ytd">Dec 2025 YTD</SortableHeader>
+                    <SortableHeader field="december2025Ytd">Dec 2025 YTD</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
-                    const nov2023 = typeof row.november2023Ytd === 'string' && row.november2023Ytd === '' ? 0 : Number(row.november2023Ytd);
+                    const dec2023 = typeof row.december2023Ytd === 'string' && row.december2023Ytd === '' ? 0 : Number(row.december2023Ytd);
                     const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
                     const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
                     
-                    const nov2024 = typeof row.november2024Ytd === 'string' && row.november2024Ytd === '' ? 0 : Number(row.november2024Ytd);
+                    const dec2024 = typeof row.december2024Ytd === 'string' && row.december2024Ytd === '' ? 0 : Number(row.december2024Ytd);
                     const fy25Budget = typeof row.fy25AdoptedBudget === 'string' && row.fy25AdoptedBudget === '' ? 0 : Number(row.fy25AdoptedBudget);
                     const pctFy25 = typeof row["%OfFy25Budget"] === 'string' && row["%OfFy25Budget"] === '' ? 0 : Number(row["%OfFy25Budget"]);
                     
-                    const nov2025 = row.november2025Ytd;
+                    const dec2025 = row.december2025Ytd;
                     const fy26Budget = row.fy26AdoptedBudget;
                     const pctFy26 = row["%OfFy26Budget"];
                     
@@ -317,7 +317,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
                             onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
                           >
-                            {isSection ? '' : (nov2023 > 0 && !isNaN(nov2023) ? formatCurrency(nov2023) : '')}
+                            {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
                           </td>
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
@@ -358,7 +358,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
                             onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
                           >
-                            {isSection ? '' : (nov2024 > 0 && !isNaN(nov2024) ? formatCurrency(nov2024) : '')}
+                            {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
                           </td>
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
@@ -399,7 +399,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
                             onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
                           >
-                            {isSection ? '' : (!isNaN(nov2025) && nov2025 !== 0 ? formatCurrency(nov2025) : '')}
+                            {isSection ? '' : (!isNaN(dec2025) && dec2025 !== 0 ? formatCurrency(dec2025) : '')}
                           </td>
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
