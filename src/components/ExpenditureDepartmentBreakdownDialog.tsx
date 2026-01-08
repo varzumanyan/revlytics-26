@@ -75,8 +75,8 @@ export const ExpenditureDepartmentBreakdownDialog = ({
       .trim()
       .replace(/fy/gi, "FY")
       .replace(/ytd/gi, "YTD")
-      .replace(/\boct\b/gi, "Nov")
-      .replace(/\bOct\b/g, "Nov");
+      .replace(/\bnov\b/gi, "Dec")
+      .replace(/\bNov\b/g, "Dec");
   };
 
   const shouldHaveRightBorder = (column: string): boolean => {
@@ -210,7 +210,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     }
  
                     const borderClass = shouldHaveRightBorder(column) ? 'border-r-2 border-border' : '';
-                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > 0.4167;
+                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > 0.5;
                     
                     return (
                       <td

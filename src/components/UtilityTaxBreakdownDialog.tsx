@@ -111,7 +111,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Nov 23 YTD
+                    Dec 23 YTD
                     {sortColumn === "nov23Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -124,7 +124,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Nov 24 YTD
+                    Dec 24 YTD
                     {sortColumn === "nov24Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -137,7 +137,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Nov 25 YTD
+                    Dec 25 YTD
                     {sortColumn === "nov25Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -150,7 +150,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Nov25 vs Nov24
+                    Dec25 vs Dec24
                     {sortColumn === "nov25VsNov24" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
