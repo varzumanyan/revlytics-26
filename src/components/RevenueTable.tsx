@@ -66,6 +66,13 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     'Revenue to Date'
   ];
 
+  // Display name mapping for renaming categories in the UI
+  const displayNameMapping: Record<string, string> = {
+    'Transfer from Budget Stabilization Fund': 'Transfer from Reserve or Budget Stabilization Fund'
+  };
+
+  const getDisplayName = (name: string) => displayNameMapping[name] || name;
+
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -200,7 +207,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                      let cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
 
                      if (mapping.field === 'revenueType') {
-                       formattedValue = value;
+                       formattedValue = getDisplayName(value);
                        const hasDescription = getRevenueCategoryDescription(value);
                        cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-36 min-w-[9rem] max-w-[9rem] whitespace-normal break-words font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'} ${hasDescription && !isRevenueToDate ? 'cursor-pointer hover:underline' : ''}`;
                      } else if (mapping.type === 'currency') {
