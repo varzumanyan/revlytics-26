@@ -13,12 +13,20 @@ interface RevenueCategoryDescriptionDialogProps {
   categoryName: string;
 }
 
+// Display name mapping for renaming categories in the UI
+const displayNameMapping: Record<string, string> = {
+  'Transfer from Budget Stabilization Fund': 'Transfer from Reserve or Budget Stabilization Fund'
+};
+
+const getDisplayName = (name: string) => displayNameMapping[name] || name;
+
 export const RevenueCategoryDescriptionDialog = ({
   open,
   onOpenChange,
   categoryName,
 }: RevenueCategoryDescriptionDialogProps) => {
   const description = getRevenueCategoryDescription(categoryName);
+  const displayName = getDisplayName(categoryName);
 
   if (!description) return null;
 
@@ -27,7 +35,7 @@ export const RevenueCategoryDescriptionDialog = ({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold text-foreground">
-            {categoryName}
+            {displayName}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground mt-4 leading-relaxed">
             {description}
