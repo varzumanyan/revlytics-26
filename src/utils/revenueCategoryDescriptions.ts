@@ -35,7 +35,7 @@ export const revenueCategoryDescriptions: Record<string, string> = {
   
   "Special Parking Revenue Transfer": "The Special Parking Revenue Transfer revenue represents a surplus amount of the Special Parking Revenue Funds that is determined and transferred at the end of the fiscal year.",
   
-  "Transfer from Reserve or Budget Stabilization Fund": "The Transfer from the Reserve or Budget Stabilization Fund is a transfer from the Reserve Fund (FY2026) or the Budget Stabilization Fund (FY2024) where the amount and timing is determined based on the budget."
+  "Transfer from Budget Stabilization Fund": "The Transfer from the Reserve or Budget Stabilization Fund is a transfer from the Reserve Fund (FY2026) or the Budget Stabilization Fund (FY2024) where the amount and timing is determined based on the budget."
 };
 
 export const getRevenueCategoryDescription = (categoryName: string): string | undefined => {
