@@ -9,6 +9,8 @@ import { useDepartmentalReceiptsData } from "@/hooks/useDepartmentalReceiptsData
 import { DepartmentalReceiptsBreakdownDialog } from "./DepartmentalReceiptsBreakdownDialog";
 import { useTransientOccupancyTaxData } from "@/hooks/useTransientOccupancyTaxData";
 import { TransientOccupancyTaxBreakdownDialog } from "./TransientOccupancyTaxBreakdownDialog";
+import { RevenueCategoryDescriptionDialog } from "./RevenueCategoryDescriptionDialog";
+import { getRevenueCategoryDescription } from "@/utils/revenueCategoryDescriptions";
 
 interface RevenueTableProps {
   data: RevenueData[];
@@ -23,6 +25,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
   const [utilityDialogOpen, setUtilityDialogOpen] = useState(false);
   const [deptReceiptsDialogOpen, setDeptReceiptsDialogOpen] = useState(false);
   const [totDialogOpen, setTotDialogOpen] = useState(false);
+  const [descriptionDialogOpen, setDescriptionDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   
   const { data: utilityTaxData } = useUtilityUsersTaxData();
   const { data: deptReceiptsData } = useDepartmentalReceiptsData();
@@ -197,7 +201,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
 
                      if (mapping.field === 'revenueType') {
                        formattedValue = value;
-                       cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-36 min-w-[9rem] max-w-[9rem] whitespace-normal break-words font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'}`;
+                       const hasDescription = getRevenueCategoryDescription(value);
+                       cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-36 min-w-[9rem] max-w-[9rem] whitespace-normal break-words font-medium ${isRevenueToDate ? 'text-foreground font-bold' : 'text-foreground'} ${hasDescription && !isRevenueToDate ? 'cursor-pointer hover:underline' : ''}`;
                      } else if (mapping.type === 'currency') {
                       formattedValue = formatCurrency(value || 0);
                       cellClass = `px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words ${isRevenueToDate ? 'text-foreground font-bold' : 'text-muted-foreground'}`;
@@ -243,13 +248,18 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                     const isTOT = row.revenueType === "Transient Occupancy Tax";
                     const isCurrencyField = mapping.type === 'currency' && mapping.field !== 'revenueType';
                     const isClickable = (isUtilityUsersTax || isDeptReceipts || isTOT) && isCurrencyField;
+                    const isRevenueTypeColumn = mapping.field === 'revenueType';
+                    const hasDescription = isRevenueTypeColumn && getRevenueCategoryDescription(row.revenueType || '') && !isRevenueToDate;
                     
                     return (
                       <td 
                         key={mapping.field} 
                         className={`${cellClass} ${shouldAddDivider ? "border-r-2 border-muted-foreground/30" : ""} ${isFirstColumn ? `${isRevenueToDate ? 'bg-primary/10 hover:bg-primary/15' : 'bg-background hover:bg-muted/30'}` : ""} ${isClickable ? 'cursor-pointer hover:underline' : ''}`}
                         onClick={() => {
-                          if (isUtilityUsersTax && isCurrencyField) {
+                          if (hasDescription) {
+                            setSelectedCategory(row.revenueType || '');
+                            setDescriptionDialogOpen(true);
+                          } else if (isUtilityUsersTax && isCurrencyField) {
                             setUtilityDialogOpen(true);
                           } else if (isDeptReceipts && isCurrencyField) {
                             setDeptReceiptsDialogOpen(true);
@@ -293,6 +303,12 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
           data={totData.transientOccupancyTax || []}
         />
       )}
+      
+      <RevenueCategoryDescriptionDialog
+        open={descriptionDialogOpen}
+        onOpenChange={setDescriptionDialogOpen}
+        categoryName={selectedCategory}
+      />
     </Card>
   );
 };
