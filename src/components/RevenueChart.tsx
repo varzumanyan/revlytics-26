@@ -1,13 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
+import { getRevenueCategoryDescription } from "@/utils/revenueCategoryDescriptions";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from "recharts";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
+
 
 interface RevenueChartProps {
   data: RevenueData[];
@@ -21,27 +23,25 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
   const [open, setOpen] = useState(false);
   const [clickedPieSegment, setClickedPieSegment] = useState<string | null>(null);
 
-  // Dynamic subtitle based on clicked pie segment
+  // Display name mapping for renaming categories in the UI
+  const displayNameMapping: Record<string, string> = {
+    "Transfer from Budget Stabilization Fund": "Transfer from Reserve or Budget Stabilization Fund",
+  };
+
+  const getDisplayName = (name: string) => displayNameMapping[name] || name;
+
+  // Subtitle description (pulled from the same Excel-backed mapping used by the table dialog)
   const getPieSubtitle = () => {
     const baseText = "Through July - Dec 2025";
-    
+
     if (!clickedPieSegment) {
-      return `${baseText} • Departmental Receipts includes fees, licenses, permits, fines, and charges for services`;
+      return `${baseText} • Click a slice to see its description`;
     }
-    
-    const descriptions: Record<string, string> = {
-      "Sales Tax": "Primary revenue from retail sales and transactions",
-      "Property Tax": "Revenue from real estate and property assessments",
-      "Transient Occupancy Tax": "Hotel and short-term rental tax revenue",
-      "Utility Users Tax": "Tax on utility services (electricity, gas, water)",
-      "Business License Tax": "Fees from business permits and licenses",
-      "Departmental Receipts": "Fees, licenses, permits, fines, and charges for services",
-      "License and Permit Fee": "Revenue from permits and license applications",
-      "Parking Fines": "Citations and parking violation fees",
-      "Other": "Miscellaneous revenue sources"
-    };
-    
-    return `${baseText} • ${descriptions[clickedPieSegment] || clickedPieSegment}`;
+
+    const description = getRevenueCategoryDescription(clickedPieSegment);
+
+    // If we don't have a description for that slice, at least show the (possibly renamed) category name
+    return `${baseText} • ${description ?? getDisplayName(clickedPieSegment)}`;
   };
 
   // Get dynamic field information
