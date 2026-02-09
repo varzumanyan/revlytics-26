@@ -32,7 +32,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
 
   // Subtitle description (pulled from the same Excel-backed mapping used by the table dialog)
   const getPieSubtitle = () => {
-    const baseText = "Through July - Dec 2025";
+    const baseText = "Through July - Jan 2026";
 
     if (!clickedPieSegment) {
       return `${baseText} • Click a slice to see its description`;
