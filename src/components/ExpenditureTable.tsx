@@ -336,7 +336,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
-                            pctFy24 > 0.5 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                            pctFy24 > 0.583 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           } ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
                               ? 'cursor-pointer hover:underline' 
@@ -377,7 +377,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
-                            pctFy25 > 0.5 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                            pctFy25 > 0.583 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           } ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
                               ? 'cursor-pointer hover:underline' 
@@ -418,7 +418,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
-                            !isNaN(pctFy26) && pctFy26 > 0.5 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                            !isNaN(pctFy26) && pctFy26 > 0.583 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           } ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
                               ? 'cursor-pointer hover:underline' 
