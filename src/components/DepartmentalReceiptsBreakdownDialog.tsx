@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { DepartmentalReceiptsData } from "@/hooks/useDepartmentalReceiptsData";
 import { useMemo, useState } from "react";
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { getDashboardConfig } from "@/utils/dashboardConfig";
 
 interface DepartmentalReceiptsBreakdownDialogProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface DepartmentalReceiptsBreakdownDialogProps {
 export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }: DepartmentalReceiptsBreakdownDialogProps) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const dashConfig = getDashboardConfig();
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -52,10 +54,10 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
       .trim()
       .replace(/\bfy\b/gi, "FY")
       .replace(/\bytd\b/gi, "YTD")
-      .replace(/\bnov\b/gi, "Jan")
-      .replace(/\bNov\b/g, "Jan")
-      .replace(/\bdec\b/gi, "Jan")
-      .replace(/\bDec\b/g, "Jan");
+      .replace(/\bnov\b/gi, dashConfig.currentMonthShort)
+      .replace(/\bNov\b/g, dashConfig.currentMonthShort)
+      .replace(/\bdec\b/gi, dashConfig.currentMonthShort)
+      .replace(/\bDec\b/g, dashConfig.currentMonthShort);
   };
 
   const shouldHaveRightBorder = (column: string, index: number) => {

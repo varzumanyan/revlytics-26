@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState } from 'react';
+import { getFiscalPeriodLabel } from "@/utils/dashboardConfig";
 import {
   Dialog,
   DialogContent,
@@ -58,7 +59,7 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
-          Top GF YTD Spending (July - Jan 2026)
+          Top GF YTD Spending ({getFiscalPeriodLabel()})
         </CardTitle>
       </CardHeader>
       <CardContent>

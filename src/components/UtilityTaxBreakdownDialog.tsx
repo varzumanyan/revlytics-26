@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { UtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
 import { useState, useMemo } from "react";
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { getDashboardConfig, getYtdLabels, getChangeLabel } from "@/utils/dashboardConfig";
 
 interface UtilityTaxBreakdownDialogProps {
   open: boolean;
@@ -12,6 +13,8 @@ interface UtilityTaxBreakdownDialogProps {
 export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityTaxBreakdownDialogProps) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const dashConfig = getDashboardConfig();
+  const ytdLabels = getYtdLabels(dashConfig);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -111,7 +114,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Jan 24 YTD
+                    {ytdLabels[0]}
                     {sortColumn === "dec23Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -124,7 +127,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Jan 25 YTD
+                    {ytdLabels[1]}
                     {sortColumn === "dec24Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -137,7 +140,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Jan 26 YTD
+                    {ytdLabels[2]}
                     {sortColumn === "dec25Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -150,7 +153,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Jan26 vs Jan25
+                    {getChangeLabel(dashConfig)}
                     {sortColumn === "dec25VsDec24" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (

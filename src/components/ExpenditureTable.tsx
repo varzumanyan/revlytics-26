@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getDashboardConfig, getYtdLabels } from "@/utils/dashboardConfig";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { ArrowUpDown } from "lucide-react";
@@ -22,6 +23,8 @@ type SortField = keyof ExpenditureData;
 type SortDirection = 'asc' | 'desc';
 
 export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
+  const dashConfig = getDashboardConfig();
+  const ytdLabels = getYtdLabels(dashConfig);
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
@@ -238,13 +241,13 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field="december2023Ytd">Jan 2024 YTD</SortableHeader>
+                    <SortableHeader field="december2023Ytd">{ytdLabels[0]}</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field="december2024Ytd">Jan 2025 YTD</SortableHeader>
+                    <SortableHeader field="december2024Ytd">{ytdLabels[1]}</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
-                    <SortableHeader field="december2025Ytd">Jan 2026 YTD</SortableHeader>
+                    <SortableHeader field="december2025Ytd">{ytdLabels[2]}</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
                   </tr>
@@ -336,7 +339,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
-                            pctFy24 > 0.583 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                            pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           } ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
                               ? 'cursor-pointer hover:underline' 
@@ -377,7 +380,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
-                            pctFy25 > 0.583 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                            pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           } ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
                               ? 'cursor-pointer hover:underline' 
@@ -418,7 +421,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
-                            !isNaN(pctFy26) && pctFy26 > 0.583 ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                            !isNaN(pctFy26) && pctFy26 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                           } ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
                               ? 'cursor-pointer hover:underline' 

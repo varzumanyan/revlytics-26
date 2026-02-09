@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData } from "@/types/expenditure";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { useState } from 'react';
+import { getFiscalPeriodLabel } from "@/utils/dashboardConfig";
 import {
   Dialog,
   DialogContent,
@@ -89,7 +90,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
-          GF Spend Distribution (July - Jan 2026)
+          GF Spend Distribution ({getFiscalPeriodLabel()})
         </CardTitle>
       </CardHeader>
       <CardContent>

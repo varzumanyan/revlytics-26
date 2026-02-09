@@ -11,6 +11,7 @@ import { ExpenditureChartsGrid } from "@/components/ExpenditureChartsGrid";
 import { ExpenditureChart } from "@/components/ExpenditureChart";
 import { ExpenditurePieChart } from "@/components/ExpenditurePieChart";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
+import { getDashboardConfig, getFiscalPeriodLabel } from "@/utils/dashboardConfig";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -110,6 +111,9 @@ const Index = () => {
   
   console.log('Total Expenses Row:', totalExpensesRow);
   console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, totalExpenditures2024, expenditureYearOverYearChange, expenditureBudgetUtilization });
+  const dashConfig = getDashboardConfig();
+  const periodLabel = getFiscalPeriodLabel(dashConfig);
+
   return <div className="min-h-screen bg-background">
       <Navbar />
       
@@ -189,7 +193,7 @@ const Index = () => {
                 title="Total Expenditure FY2026 YTD"
                 value={totalExpenditures}
                 isCurrency={true}
-                description="July - Jan 2026"
+                description={periodLabel}
               />
               <ExpenditureCard
                 title="Year-over-Year Change"
@@ -200,9 +204,9 @@ const Index = () => {
               />
               <BudgetProgressGauge
                 title="FY2026 YTD Budget Progress"
-                subtitle="July - Jan 2026"
+                subtitle={periodLabel}
                 actualProgress={expenditureBudgetUtilization}
-                monthsElapsed={7}
+                monthsElapsed={dashConfig.monthsElapsed}
                 totalMonths={12}
                 isExpenditure={true}
               />
