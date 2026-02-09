@@ -52,8 +52,10 @@ export const DepartmentalReceiptsBreakdownDialog = ({ open, onOpenChange, data }
       .trim()
       .replace(/\bfy\b/gi, "FY")
       .replace(/\bytd\b/gi, "YTD")
-      .replace(/\bnov\b/gi, "Dec")
-      .replace(/\bNov\b/g, "Dec");
+      .replace(/\bnov\b/gi, "Jan")
+      .replace(/\bNov\b/g, "Jan")
+      .replace(/\bdec\b/gi, "Jan")
+      .replace(/\bDec\b/g, "Jan");
   };
 
   const shouldHaveRightBorder = (column: string, index: number) => {
