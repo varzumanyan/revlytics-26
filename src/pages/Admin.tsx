@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -14,10 +15,64 @@ import {
   type DashboardConfig,
 } from "@/utils/dashboardConfig";
 
+const ADMIN_PASSWORD = "controller2026";
+
 const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
   const [config, setConfig] = useState<DashboardConfig>(getDashboardConfig());
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <Card className="w-full max-w-sm bg-gradient-card border-border shadow-soft">
+          <CardHeader className="text-center">
+            <Lock className="h-10 w-10 mx-auto text-muted-foreground mb-2" />
+            <CardTitle className="text-lg">Admin Access</CardTitle>
+            <p className="text-sm text-muted-foreground">Enter the admin password to continue</p>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <Input
+                type="password"
+                placeholder="Password"
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setPasswordError(false);
+                }}
+                className={passwordError ? "border-destructive" : ""}
+              />
+              {passwordError && (
+                <p className="text-sm text-destructive">Incorrect password</p>
+              )}
+              <div className="flex gap-2">
+                <Button variant="outline" type="button" onClick={() => navigate("/")} className="flex-1">
+                  Back
+                </Button>
+                <Button type="submit" className="flex-1">
+                  Enter
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const handleMonthChange = (monthFull: string) => {
     const option = MONTH_OPTIONS.find((m) => m.full === monthFull);

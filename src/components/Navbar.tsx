@@ -41,13 +41,6 @@ export const Navbar = () => {
           </a>
           
           <div className="flex items-center gap-3">
-            <button 
-              onClick={() => navigate("/admin")}
-              className="text-white/70 hover:text-white transition-colors"
-              title="Dashboard Settings"
-            >
-              <Settings className="h-5 w-5" />
-            </button>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <button className="text-white/70 hover:text-white transition-colors">
