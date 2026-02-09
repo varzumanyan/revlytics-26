@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown, Info } from "lucide-react";
 import { useState, useMemo } from 'react';
 import { cn } from "@/lib/utils";
+import { getDashboardConfig, getFiscalPeriodThroughLabel, getYtdLabels } from "@/utils/dashboardConfig";
 import {
   Dialog,
   DialogContent,
@@ -24,6 +25,8 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
   const [selectedDepartment, setSelectedDepartment] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
+  const dashConfig = getDashboardConfig();
+  const ytdLabels = getYtdLabels(dashConfig);
 
   // Filter out total rows and get available departments
   const availableDepartments = useMemo(() => {
@@ -91,9 +94,9 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         selectedDepartment.substring(0, 20) + '...' : 
         selectedDepartment,
       fullName: selectedDepartment,
-      'Jan 24 YTD': Number(selectedItem.december2023Ytd) / 1000000,
-      'Jan 25 YTD': Number(selectedItem.december2024Ytd) / 1000000,
-      'Jan 26 YTD': selectedItem.december2025Ytd / 1000000,
+      [ytdLabels[0]]: Number(selectedItem.december2023Ytd) / 1000000,
+      [ytdLabels[1]]: Number(selectedItem.december2024Ytd) / 1000000,
+      [ytdLabels[2]]: selectedItem.december2025Ytd / 1000000,
     }];
   }, [data, selectedDepartment]);
 
@@ -155,7 +158,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
               FY2026 YTD Expenditure Breakdown
             </CardTitle>
             <p className="text-xs text-muted-foreground mt-2">
-              Through July - Jan 2026
+              {getFiscalPeriodThroughLabel(dashConfig)}
             </p>
           </CardHeader>
           <CardContent>
@@ -358,9 +361,9 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                     paddingTop: '10px'
                   }}
                 />
-                <Bar dataKey="Jan 24 YTD" fill="hsl(var(--chart-primary))" />
-                <Bar dataKey="Jan 25 YTD" fill="hsl(var(--chart-secondary))" />
-                <Bar dataKey="Jan 26 YTD" fill="hsl(var(--chart-tertiary))" />
+                <Bar dataKey={ytdLabels[0]} fill="hsl(var(--chart-primary))" />
+                <Bar dataKey={ytdLabels[1]} fill="hsl(var(--chart-secondary))" />
+                <Bar dataKey={ytdLabels[2]} fill="hsl(var(--chart-tertiary))" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

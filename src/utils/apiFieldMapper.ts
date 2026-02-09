@@ -1,3 +1,5 @@
+import { getDashboardConfig, getYtdLabels, getChangeLabel, getBudgetPercentLabel } from "./dashboardConfig";
+
 interface FieldMapping {
   field: string;
   label: string;
@@ -150,29 +152,32 @@ export class ApiFieldMapper {
     
     // If we can't detect standard date pattern, use generic labels
     if (!dateInfo || !dateInfo.years || dateInfo.years.length < 3) {
+      const cfg = getDashboardConfig();
+      const labels = getYtdLabels(cfg);
       const mappings: FieldMapping[] = [
         { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
-        { field: fieldSet.year1, label: 'January 2024', type: 'currency' as const },
-        { field: fieldSet.year2, label: 'January 2025', type: 'currency' as const },
-        { field: fieldSet.year3, label: 'January 2026', type: 'currency' as const },
-        { field: fieldSet.changeField, label: 'Jan26 vs Jan25', type: 'currency' as const },
+        { field: fieldSet.year1, label: `${cfg.currentMonth} ${cfg.ytdYears[0]}`, type: 'currency' as const },
+        { field: fieldSet.year2, label: `${cfg.currentMonth} ${cfg.ytdYears[1]}`, type: 'currency' as const },
+        { field: fieldSet.year3, label: `${cfg.currentMonth} ${cfg.ytdYears[2]}`, type: 'currency' as const },
+        { field: fieldSet.changeField, label: getChangeLabel(cfg), type: 'currency' as const },
         { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
-        { field: fieldSet.budgetPercentageField, label: 'Jan 26 YTD as % of FY26 Budget', type: 'percentage' as const },
+        { field: fieldSet.budgetPercentageField, label: getBudgetPercentLabel(cfg), type: 'percentage' as const },
         { field: fieldSet.budgetField, label: 'Adopted Budget', type: 'currency' as const }
       ];
       return mappings.filter(mapping => mapping.field);
     }
     
-    const capitalizedMonth = dateInfo.baseMonth.charAt(0).toUpperCase() + dateInfo.baseMonth.slice(1);
+    const cfg = getDashboardConfig();
+    const labels = getYtdLabels(cfg);
     
     const mappings: FieldMapping[] = [
       { field: 'revenueType', label: 'Revenue Type', type: 'text' as const },
-      { field: fieldSet.year1, label: `Jan ${dateInfo.years[0].slice(-2)} YTD`, type: 'currency' as const },
-      { field: fieldSet.year2, label: `Jan ${dateInfo.years[1].slice(-2)} YTD`, type: 'currency' as const },
-      { field: fieldSet.year3, label: `Jan ${dateInfo.years[2].slice(-2)} YTD`, type: 'currency' as const },
-      { field: fieldSet.changeField, label: `${capitalizedMonth.slice(0,3)}${dateInfo.years[2].slice(-2)} vs ${capitalizedMonth.slice(0,3)}${dateInfo.years[1].slice(-2)}`, type: 'currency' as const },
+      { field: fieldSet.year1, label: labels[0], type: 'currency' as const },
+      { field: fieldSet.year2, label: labels[1], type: 'currency' as const },
+      { field: fieldSet.year3, label: labels[2], type: 'currency' as const },
+      { field: fieldSet.changeField, label: getChangeLabel(cfg), type: 'currency' as const },
       { field: fieldSet.percentageField, label: 'YoY Change %', type: 'percentage' as const },
-      { field: fieldSet.budgetPercentageField, label: 'Jan 26 YTD as % of FY26 Budget', type: 'percentage' as const },
+      { field: fieldSet.budgetPercentageField, label: getBudgetPercentLabel(cfg), type: 'percentage' as const },
       { field: fieldSet.budgetField, label: 'FY2026 Adopted Budget', type: 'currency' as const }
     ];
     

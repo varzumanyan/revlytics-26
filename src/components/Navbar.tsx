@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import kennethMejiaLogo from "@/assets/kenneth-mejia-logo.png";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, Settings } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,7 @@ import {
 
 export const Navbar = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const hasSeenDialog = localStorage.getItem('hasSeenAboutDialog');
@@ -38,7 +40,15 @@ export const Navbar = () => {
             />
           </a>
           
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => navigate("/admin")}
+              className="text-white/70 hover:text-white transition-colors"
+              title="Dashboard Settings"
+            >
+              <Settings className="h-5 w-5" />
+            </button>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <button className="text-white/70 hover:text-white transition-colors">
                 <HelpCircle className="h-6 w-6" />
@@ -64,6 +74,7 @@ export const Navbar = () => {
               </DialogHeader>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
       </div>
     </nav>

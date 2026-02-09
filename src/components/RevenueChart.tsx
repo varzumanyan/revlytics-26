@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { getRevenueCategoryDescription } from "@/utils/revenueCategoryDescriptions";
+import { getFiscalPeriodThroughLabel } from "@/utils/dashboardConfig";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from "recharts";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -32,7 +33,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
 
   // Subtitle description (pulled from the same Excel-backed mapping used by the table dialog)
   const getPieSubtitle = () => {
-    const baseText = "Through July - Jan 2026";
+    const baseText = getFiscalPeriodThroughLabel();
 
     if (!clickedPieSegment) {
       return `${baseText} • Click a slice to see its description`;

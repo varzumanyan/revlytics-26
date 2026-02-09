@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { getDashboardConfig } from "@/utils/dashboardConfig";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +27,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
 }: ExpenditureDepartmentBreakdownDialogProps) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const dashConfig = getDashboardConfig();
 
   const formatCurrency = (value: number | string) => {
     const numValue = typeof value === "string" ? parseFloat(value) || 0 : value;
@@ -75,10 +77,10 @@ export const ExpenditureDepartmentBreakdownDialog = ({
       .trim()
       .replace(/fy/gi, "FY")
       .replace(/ytd/gi, "YTD")
-      .replace(/\bnov\b/gi, "Jan")
-      .replace(/\bNov\b/g, "Jan")
-      .replace(/\bdec\b/gi, "Jan")
-      .replace(/\bDec\b/g, "Jan");
+      .replace(/\bnov\b/gi, dashConfig.currentMonthShort)
+      .replace(/\bNov\b/g, dashConfig.currentMonthShort)
+      .replace(/\bdec\b/gi, dashConfig.currentMonthShort)
+      .replace(/\bDec\b/g, dashConfig.currentMonthShort);
   };
 
   const shouldHaveRightBorder = (column: string): boolean => {
@@ -212,7 +214,7 @@ export const ExpenditureDepartmentBreakdownDialog = ({
                     }
  
                     const borderClass = shouldHaveRightBorder(column) ? 'border-r-2 border-border' : '';
-                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > 0.583;
+                    const isHighPercentage = columnType === "percentage" && typeof value === "number" && value > dashConfig.percentageThreshold;
                     
                     return (
                       <td
