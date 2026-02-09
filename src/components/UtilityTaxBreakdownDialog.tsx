@@ -111,7 +111,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Dec 23 YTD
+                    Jan 24 YTD
                     {sortColumn === "dec23Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -124,7 +124,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Dec 24 YTD
+                    Jan 25 YTD
                     {sortColumn === "dec24Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (
@@ -137,7 +137,7 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
                   className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Dec 25 YTD
+                    Jan 26 YTD
                     {sortColumn === "dec25Ytd" ? (
                       sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
                     ) : (

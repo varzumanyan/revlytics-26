@@ -91,9 +91,9 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         selectedDepartment.substring(0, 20) + '...' : 
         selectedDepartment,
       fullName: selectedDepartment,
-      'Dec 23 YTD': Number(selectedItem.december2023Ytd) / 1000000,
-      'Dec 24 YTD': Number(selectedItem.december2024Ytd) / 1000000,
-      'Dec 25 YTD': selectedItem.december2025Ytd / 1000000,
+      'Jan 24 YTD': Number(selectedItem.december2023Ytd) / 1000000,
+      'Jan 25 YTD': Number(selectedItem.december2024Ytd) / 1000000,
+      'Jan 26 YTD': selectedItem.december2025Ytd / 1000000,
     }];
   }, [data, selectedDepartment]);
 
@@ -155,7 +155,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
               FY2026 YTD Expenditure Breakdown
             </CardTitle>
             <p className="text-xs text-muted-foreground mt-2">
-              Through July - Dec 2025
+              Through July - Jan 2026
             </p>
           </CardHeader>
           <CardContent>
@@ -358,9 +358,9 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                     paddingTop: '10px'
                   }}
                 />
-                <Bar dataKey="Dec 23 YTD" fill="hsl(var(--chart-primary))" />
-                <Bar dataKey="Dec 24 YTD" fill="hsl(var(--chart-secondary))" />
-                <Bar dataKey="Dec 25 YTD" fill="hsl(var(--chart-tertiary))" />
+                <Bar dataKey="Jan 24 YTD" fill="hsl(var(--chart-primary))" />
+                <Bar dataKey="Jan 25 YTD" fill="hsl(var(--chart-secondary))" />
+                <Bar dataKey="Jan 26 YTD" fill="hsl(var(--chart-tertiary))" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

@@ -58,7 +58,7 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
     <Card className="bg-gradient-card border-border shadow-soft">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
-          Top GF YTD Spending (July - Nov 2025)
+          Top GF YTD Spending (July - Jan 2026)
         </CardTitle>
       </CardHeader>
       <CardContent>
