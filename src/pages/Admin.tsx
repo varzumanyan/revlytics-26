@@ -154,10 +154,22 @@ const Admin = () => {
                 </p>
               </div>
               <div className="space-y-1">
-                <Label className="text-muted-foreground text-xs">Red Highlight Threshold</Label>
-                <p className="text-lg font-semibold text-foreground">
-                  {(config.percentageThreshold * 100).toFixed(1)}%
-                </p>
+                <Label className="text-muted-foreground text-xs">Red Highlight Threshold (%)</Label>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={parseFloat((config.percentageThreshold * 100).toFixed(1))}
+                    onChange={(e) => {
+                      const val = parseFloat(e.target.value);
+                      if (!isNaN(val)) {
+                        setConfig({ ...config, percentageThreshold: val / 100 });
+                      }
+                    }}
+                    className="w-20 rounded-md border border-input bg-background px-3 py-2 text-sm font-semibold"
+                  />
+                  <span className="text-lg font-semibold text-foreground">%</span>
+                </div>
               </div>
             </div>
 
