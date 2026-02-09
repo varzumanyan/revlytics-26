@@ -102,8 +102,12 @@ const Admin = () => {
     saveDashboardConfig(config);
     toast({
       title: "Settings saved",
-      description: `Dashboard updated to ${config.currentMonth} (${config.monthsElapsed}/12 months, threshold ${(config.percentageThreshold * 100).toFixed(1)}%)`,
+      description: `Dashboard updated to ${config.currentMonth} (${config.monthsElapsed}/12 months, threshold ${(config.percentageThreshold * 100).toFixed(1)}%). Redirecting...`,
     });
+    setTimeout(() => {
+      navigate("/");
+      window.location.reload();
+    }, 1000);
   };
 
   return (
