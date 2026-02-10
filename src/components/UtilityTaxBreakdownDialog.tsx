@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
-import { getDashboardConfig, getYtdLabels, getChangeLabel } from "@/utils/dashboardConfig";
+import { getDashboardConfig } from "@/utils/dashboardConfig";
 
 interface UtilityTaxBreakdownDialogProps {
   open: boolean;
@@ -14,7 +14,6 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const dashConfig = getDashboardConfig();
-  const ytdLabels = getYtdLabels(dashConfig);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -26,6 +25,43 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
 
   const formatPercentage = (value: number) => {
     return `${(value * 100).toFixed(2)}%`;
+  };
+
+  const columns = useMemo(() => {
+    if (data.length === 0) return [];
+    const firstRow = data[0];
+    return Object.keys(firstRow).filter(key => key !== 'id');
+  }, [data]);
+
+  const getColumnType = (key: string, value: any) => {
+    if (key.toLowerCase().includes('change') || key.toLowerCase().includes('yoy')) {
+      return 'percentage';
+    }
+    if (typeof value === 'number' && !key.toLowerCase().includes('%')) {
+      return 'currency';
+    }
+    if (key.toLowerCase().includes('%') || (typeof value === 'number' && value < 1 && value > -1)) {
+      return 'percentage';
+    }
+    return 'text';
+  };
+
+  const formatColumnHeader = (key: string) => {
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .trim()
+      .replace(/\bfy\b/gi, "FY")
+      .replace(/\bytd\b/gi, "YTD")
+      .replace(/\bjan\b/gi, dashConfig.currentMonthShort)
+      .replace(/\bJan\b/g, dashConfig.currentMonthShort)
+      .replace(/\bdec\b/gi, dashConfig.currentMonthShort)
+      .replace(/\bDec\b/g, dashConfig.currentMonthShort);
+  };
+
+  const shouldHaveRightBorder = (column: string) => {
+    const lowerColumn = column.toLowerCase();
+    return lowerColumn.includes('subcategory') || lowerColumn.includes('ytd');
   };
 
   const handleSort = (column: string) => {
@@ -41,14 +77,12 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
     if (!sortColumn || !data) return data;
 
     return [...data].sort((a, b) => {
-      const aValue = a[sortColumn as keyof UtilityUsersTaxData];
-      const bValue = b[sortColumn as keyof UtilityUsersTaxData];
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
 
-      // Handle null/undefined values
       if (aValue === null || aValue === undefined) return 1;
       if (bValue === null || bValue === undefined) return -1;
 
-      // Compare based on type
       let comparison = 0;
       if (typeof aValue === "number" && typeof bValue === "number") {
         comparison = aValue - bValue;
@@ -70,129 +104,58 @@ export const UtilityTaxBreakdownDialog = ({ open, onOpenChange, data }: UtilityT
           <table className="min-w-full divide-y divide-border">
             <thead className="bg-background sticky top-0 z-10">
               <tr>
-                <th 
-                  onClick={() => handleSort("combinedCategory")}
-                  className="px-3 py-2 text-left cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center gap-1">
-                    Combined Category
-                    {sortColumn === "combinedCategory" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("category")}
-                  className="px-3 py-2 text-left cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center gap-1">
-                    Category
-                    {sortColumn === "category" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("subCategory")}
-                  className="px-3 py-2 text-left cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center gap-1">
-                    Sub Category
-                    {sortColumn === "subCategory" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("dec23Ytd")}
-                  className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center justify-end gap-1">
-                    {ytdLabels[0]}
-                    {sortColumn === "dec23Ytd" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("dec24Ytd")}
-                  className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center justify-end gap-1">
-                    {ytdLabels[1]}
-                    {sortColumn === "dec24Ytd" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("dec25Ytd")}
-                  className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center justify-end gap-1">
-                    {ytdLabels[2]}
-                    {sortColumn === "dec25Ytd" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("dec25VsDec24")}
-                  className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center justify-end gap-1">
-                    {getChangeLabel(dashConfig)}
-                    {sortColumn === "dec25VsDec24" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
-                <th 
-                  onClick={() => handleSort("yoYChange %")}
-                  className="px-3 py-2 text-right cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-xs font-semibold text-foreground"
-                >
-                  <div className="flex items-center justify-end gap-1">
-                    YoY Change %
-                    {sortColumn === "yoYChange %" ? (
-                      sortDirection === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
-                    ) : (
-                      <ArrowUpDown className="h-3 w-3 opacity-50" />
-                    )}
-                  </div>
-                </th>
+                {columns.map((column) => {
+                  const columnType = getColumnType(column, data[0]?.[column]);
+                  return (
+                    <th
+                      key={column}
+                      onClick={() => handleSort(column)}
+                      className={`px-3 py-2 cursor-pointer hover:bg-muted/50 w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words ${columnType !== 'text' ? 'text-right' : 'text-left'} text-xs font-semibold text-foreground ${shouldHaveRightBorder(column) ? 'border-r-2 border-border' : ''}`}
+                    >
+                      <div className="flex items-center gap-1">
+                        {formatColumnHeader(column)}
+                        {sortColumn === column ? (
+                          sortDirection === "asc" ? (
+                            <ArrowUp className="h-3 w-3" />
+                          ) : (
+                            <ArrowDown className="h-3 w-3" />
+                          )
+                        ) : (
+                          <ArrowUpDown className="h-3 w-3 opacity-50" />
+                        )}
+                      </div>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody className="divide-y divide-border bg-background">
-              {sortedData.map((row) => (
-                <tr key={row.id} className="hover:bg-muted/50 border-b border-border">
-                  <td className="px-3 py-2 text-sm border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-muted-foreground">{row.combinedCategory}</td>
-                  <td className="px-3 py-2 text-sm border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-muted-foreground">{row.category}</td>
-                  <td className="px-3 py-2 text-sm border-r-2 border-border w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words text-muted-foreground">{row.subCategory}</td>
-                  <td className="px-3 py-2 text-sm text-right text-muted-foreground">{formatCurrency(row.dec23Ytd)}</td>
-                  <td className="px-3 py-2 text-sm text-right text-muted-foreground">{formatCurrency(row.dec24Ytd)}</td>
-                  <td className="px-3 py-2 text-sm text-right border-r-2 border-border text-muted-foreground">{formatCurrency(row.dec25Ytd)}</td>
-                  <td className={`px-3 py-2 text-sm text-right ${row.dec25VsDec24 >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {row.dec25VsDec24 >= 0 ? '' : '('}
-                    {formatCurrency(Math.abs(row.dec25VsDec24))}
-                    {row.dec25VsDec24 < 0 ? ')' : ''}
-                  </td>
-                  <td className={`px-3 py-2 text-sm text-right ${row["yoYChange %"] >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {formatPercentage(row["yoYChange %"])}
-                  </td>
+              {sortedData.map((row, index) => (
+                <tr key={row.id as number || index} className="hover:bg-muted/50 border-b border-border">
+                  {columns.map((column) => {
+                    const value = row[column];
+                    const type = getColumnType(column, value);
+                    let formattedValue: string;
+                    let cellClass = '';
+
+                    if (type === 'currency' && typeof value === 'number') {
+                      formattedValue = formatCurrency(value);
+                      cellClass = 'text-right';
+                    } else if (type === 'percentage' && typeof value === 'number') {
+                      formattedValue = formatPercentage(value);
+                      cellClass = `text-right ${value >= 0 ? 'text-green-600' : 'text-red-600'}`;
+                    } else {
+                      formattedValue = String(value || '');
+                    }
+
+                    const borderClass = shouldHaveRightBorder(column) ? 'border-r-2 border-border' : '';
+
+                    return (
+                      <td key={column} className={`px-3 py-2 text-sm w-32 min-w-[8rem] max-w-[8rem] whitespace-normal break-words ${cellClass} ${borderClass} text-muted-foreground`}>
+                        {formattedValue}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
