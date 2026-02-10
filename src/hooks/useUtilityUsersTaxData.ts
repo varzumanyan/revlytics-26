@@ -1,15 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 export interface UtilityUsersTaxData {
-  combinedCategory: string;
-  category: string;
-  subCategory: string;
-  dec23Ytd: number;
-  dec24Ytd: number;
-  dec25Ytd: number;
-  dec25VsDec24: number;
-  "yoYChange %": number;
-  id: number;
+  [key: string]: string | number | undefined;
 }
 
 export interface UtilityUsersTaxApiResponse {
