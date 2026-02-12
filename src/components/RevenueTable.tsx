@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RevenueData } from "@/types/revenue";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
+import { getDashboardConfig } from "@/utils/dashboardConfig";
 import { ArrowUpDown } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useUtilityUsersTaxData } from "@/hooks/useUtilityUsersTaxData";
@@ -20,6 +21,7 @@ type SortField = string; // Now dynamic instead of keyof RevenueData
 type SortDirection = 'asc' | 'desc';
 
 export const RevenueTable = ({ data }: RevenueTableProps) => {
+  const dashConfig = getDashboardConfig();
   const [sortField, setSortField] = useState<SortField>('revenueType');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [utilityDialogOpen, setUtilityDialogOpen] = useState(false);
@@ -240,9 +242,13 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
                         }
                       }
                       
-                      // Special styling for budget percentage over 50%
-                      if (budgetPercentageField && mapping.field === budgetPercentageField && value > 0.5) {
-                        cellClass = isRevenueToDate ? 'px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-bold text-foreground' : 'px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-medium text-success';
+                      // Special styling for budget percentage relative to threshold
+                      if (budgetPercentageField && mapping.field === budgetPercentageField && !isRevenueToDate) {
+                        if (value >= dashConfig.percentageThreshold) {
+                          cellClass = 'px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-medium text-success';
+                        } else if (value > 0 && value < dashConfig.percentageThreshold) {
+                          cellClass = 'px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words font-medium text-destructive';
+                        }
                       }
                     } else {
                       formattedValue = String(value || '');
