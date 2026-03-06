@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExpenditureData } from "@/types/expenditure";
+import { ExpenditureData, getExpenditureYtdFields } from "@/types/expenditure";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { useState } from 'react';
 import { getFiscalPeriodLabel } from "@/utils/dashboardConfig";
