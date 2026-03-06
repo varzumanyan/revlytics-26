@@ -40,11 +40,11 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         return dept && 
           !dept.includes('total') && 
           !dept.includes('general fund other') &&
-          item.december2025Ytd > 0;
+          Number(item[ytd3Key] || 0) > 0;
       })
       .map(item => item.generalFundDepartment)
       .sort();
-  }, [data]);
+  }, [data, ytd3Key]);
 
   // Set initial department if not set
   if (!selectedDepartment && availableDepartments.length > 0) {
