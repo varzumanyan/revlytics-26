@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExpenditureData } from "@/types/expenditure";
+import { ExpenditureData, getExpenditureYtdFields } from "@/types/expenditure";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState } from 'react';
 import { getFiscalPeriodLabel } from "@/utils/dashboardConfig";
@@ -18,6 +18,9 @@ interface ExpenditureChartProps {
 
 export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
   const [selectedDepartment, setSelectedDepartment] = useState<{ name: string; description: string } | null>(null);
+  const expFields = getExpenditureYtdFields(data);
+  const ytd3Key = expFields?.year3 || 'february2026Ytd';
+  
   // Filter out total rows and prepare data for the chart
   const chartData = data
     .filter(item => {
@@ -25,16 +28,16 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
       return dept && 
         !dept.includes('total') && 
         !dept.includes('general fund other') &&
-        item.december2025Ytd > 0;
+        Number(item[ytd3Key] || 0) > 0;
     })
-    .sort((a, b) => b.december2025Ytd - a.december2025Ytd)
+    .sort((a, b) => Number(b[ytd3Key] || 0) - Number(a[ytd3Key] || 0))
     .slice(0, 10) // Top 10 departments
     .map(item => ({
       name: item.generalFundDepartment.length > 20 
         ? item.generalFundDepartment.substring(0, 20) + '...' 
         : item.generalFundDepartment,
       fullName: item.generalFundDepartment,
-      'YTD Spending': item.december2025Ytd,
+      'YTD Spending': Number(item[ytd3Key] || 0),
       'Budget': item.fy26AdoptedBudget,
       'Utilization %': (item["%OfFy26Budget"] * 100),
     }));

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { getDashboardConfig, getYtdLabels } from "@/utils/dashboardConfig";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExpenditureData } from "@/types/expenditure";
+import { ExpenditureData, getExpenditureYtdFields } from "@/types/expenditure";
 import { ArrowUpDown } from "lucide-react";
 import {
   Dialog,
@@ -25,6 +25,7 @@ type SortDirection = 'asc' | 'desc';
 export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const dashConfig = getDashboardConfig();
   const ytdLabels = getYtdLabels(dashConfig);
+  const expFields = useMemo(() => getExpenditureYtdFields(data), [data]);
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
@@ -241,28 +242,32 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field="december2023Ytd">{ytdLabels[0]}</SortableHeader>
+                    <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
                     <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field="december2024Ytd">{ytdLabels[1]}</SortableHeader>
+                    <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
                     <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
-                    <SortableHeader field="december2025Ytd">{ytdLabels[2]}</SortableHeader>
+                    <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
                     <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
-                    const dec2023 = typeof row.december2023Ytd === 'string' && row.december2023Ytd === '' ? 0 : Number(row.december2023Ytd);
+                    const ytd1Key = expFields?.year1 || 'february2024Ytd';
+                    const ytd2Key = expFields?.year2 || 'february2025Ytd';
+                    const ytd3Key = expFields?.year3 || 'february2026Ytd';
+                    
+                    const dec2023 = typeof row[ytd1Key] === 'string' && row[ytd1Key] === '' ? 0 : Number(row[ytd1Key] || 0);
                     const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
                     const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
                     
-                    const dec2024 = typeof row.december2024Ytd === 'string' && row.december2024Ytd === '' ? 0 : Number(row.december2024Ytd);
+                    const dec2024 = typeof row[ytd2Key] === 'string' && row[ytd2Key] === '' ? 0 : Number(row[ytd2Key] || 0);
                     const fy25Budget = typeof row.fy25AdoptedBudget === 'string' && row.fy25AdoptedBudget === '' ? 0 : Number(row.fy25AdoptedBudget);
                     const pctFy25 = typeof row["%OfFy25Budget"] === 'string' && row["%OfFy25Budget"] === '' ? 0 : Number(row["%OfFy25Budget"]);
                     
-                    const dec2025 = row.december2025Ytd;
+                    const dec2025 = Number(row[ytd3Key] || 0);
                     const fy26Budget = row.fy26AdoptedBudget;
                     const pctFy26 = row["%OfFy26Budget"];
                     

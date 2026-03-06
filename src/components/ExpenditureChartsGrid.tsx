@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExpenditureData } from "@/types/expenditure";
+import { ExpenditureData, getExpenditureYtdFields } from "@/types/expenditure";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -27,6 +27,10 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
   const dashConfig = getDashboardConfig();
   const ytdLabels = getYtdLabels(dashConfig);
+  const expFields = getExpenditureYtdFields(data);
+  const ytd1Key = expFields?.year1 || 'february2024Ytd';
+  const ytd2Key = expFields?.year2 || 'february2025Ytd';
+  const ytd3Key = expFields?.year3 || 'february2026Ytd';
 
   // Filter out total rows and get available departments
   const availableDepartments = useMemo(() => {
@@ -36,11 +40,11 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         return dept && 
           !dept.includes('total') && 
           !dept.includes('general fund other') &&
-          item.december2025Ytd > 0;
+          Number(item[ytd3Key] || 0) > 0;
       })
       .map(item => item.generalFundDepartment)
       .sort();
-  }, [data]);
+  }, [data, ytd3Key]);
 
   // Set initial department if not set
   if (!selectedDepartment && availableDepartments.length > 0) {
@@ -55,9 +59,9 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         return dept && 
           !dept.includes('total') && 
           !dept.includes('general fund other') &&
-          item.december2025Ytd > 0;
+          Number(item[ytd3Key] || 0) > 0;
       })
-      .sort((a, b) => b.december2025Ytd - a.december2025Ytd);
+      .sort((a, b) => Number(b[ytd3Key] || 0) - Number(a[ytd3Key] || 0));
     
     // Take top 15 departments
     const top15 = filteredData.slice(0, 15);
@@ -65,7 +69,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
     // Group the rest as "Other"
     const otherTotal = filteredData
       .slice(15)
-      .reduce((sum, item) => sum + item.december2025Ytd, 0);
+      .reduce((sum, item) => sum + Number(item[ytd3Key] || 0), 0);
     
     return [
       ...top15.map(item => ({
@@ -73,7 +77,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
           ? item.generalFundDepartment.substring(0, 25) + '...' 
           : item.generalFundDepartment,
         fullName: item.generalFundDepartment,
-        value: item.december2025Ytd,
+        value: Number(item[ytd3Key] || 0),
       })),
       ...(otherTotal > 0 ? [{
         name: 'Other',
@@ -81,7 +85,7 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         value: otherTotal,
       }] : [])
     ];
-  }, [data]);
+  }, [data, ytd3Key]);
 
   // Prepare data for the bar chart (selected department across years)
   const barChartData = useMemo(() => {
@@ -94,11 +98,11 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         selectedDepartment.substring(0, 20) + '...' : 
         selectedDepartment,
       fullName: selectedDepartment,
-      [ytdLabels[0]]: Number(selectedItem.december2023Ytd) / 1000000,
-      [ytdLabels[1]]: Number(selectedItem.december2024Ytd) / 1000000,
-      [ytdLabels[2]]: selectedItem.december2025Ytd / 1000000,
+      [ytdLabels[0]]: Number(selectedItem[ytd1Key] || 0) / 1000000,
+      [ytdLabels[1]]: Number(selectedItem[ytd2Key] || 0) / 1000000,
+      [ytdLabels[2]]: Number(selectedItem[ytd3Key] || 0) / 1000000,
     }];
-  }, [data, selectedDepartment]);
+  }, [data, selectedDepartment, ytd1Key, ytd2Key, ytd3Key]);
 
   // Colors for pie chart
   const COLORS = [

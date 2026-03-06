@@ -115,12 +115,17 @@ const Lab = () => {
     if (!expData?.expenses) return [];
     return expData.expenses
       .filter(e => e.generalFundDepartment && e.generalFundDepartment !== "TOTAL" && e.generalFundDepartment !== "Total")
-      .map(e => ({
-        name: e.generalFundDepartment,
-        spent: typeof e.december2025Ytd === "number" ? e.december2025Ytd : 0,
-        budget: typeof e.fy26AdoptedBudget === "number" ? e.fy26AdoptedBudget : 0,
-        pctUsed: typeof e["%OfFy26Budget"] === "number" ? (e["%OfFy26Budget"] as number) * 100 : 0,
-      }))
+      .map(e => {
+        // Dynamically find YTD field
+        const keys = Object.keys(e);
+        const ytdKey = keys.find(k => /^\w+2026Ytd$/.test(k)) || keys.find(k => /^\w+2025Ytd$/.test(k)) || '';
+        return {
+          name: e.generalFundDepartment,
+          spent: typeof e[ytdKey] === "number" ? e[ytdKey] : 0,
+          budget: typeof e.fy26AdoptedBudget === "number" ? e.fy26AdoptedBudget : 0,
+          pctUsed: typeof e["%OfFy26Budget"] === "number" ? (e["%OfFy26Budget"] as number) * 100 : 0,
+        };
+      })
       .filter(e => e.budget > 0)
       .sort((a, b) => b.budget - a.budget);
   }, [expData]);
