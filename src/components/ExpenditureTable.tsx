@@ -255,15 +255,19 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 </thead>
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
-                    const dec2023 = typeof row.december2023Ytd === 'string' && row.december2023Ytd === '' ? 0 : Number(row.december2023Ytd);
+                    const ytd1Key = expFields?.year1 || 'february2024Ytd';
+                    const ytd2Key = expFields?.year2 || 'february2025Ytd';
+                    const ytd3Key = expFields?.year3 || 'february2026Ytd';
+                    
+                    const dec2023 = typeof row[ytd1Key] === 'string' && row[ytd1Key] === '' ? 0 : Number(row[ytd1Key] || 0);
                     const fy24Budget = typeof row.fy24AdoptedBudget === 'string' && row.fy24AdoptedBudget === '' ? 0 : Number(row.fy24AdoptedBudget);
                     const pctFy24 = typeof row["%OfFy24Budget"] === 'string' && row["%OfFy24Budget"] === '' ? 0 : Number(row["%OfFy24Budget"]);
                     
-                    const dec2024 = typeof row.december2024Ytd === 'string' && row.december2024Ytd === '' ? 0 : Number(row.december2024Ytd);
+                    const dec2024 = typeof row[ytd2Key] === 'string' && row[ytd2Key] === '' ? 0 : Number(row[ytd2Key] || 0);
                     const fy25Budget = typeof row.fy25AdoptedBudget === 'string' && row.fy25AdoptedBudget === '' ? 0 : Number(row.fy25AdoptedBudget);
                     const pctFy25 = typeof row["%OfFy25Budget"] === 'string' && row["%OfFy25Budget"] === '' ? 0 : Number(row["%OfFy25Budget"]);
                     
-                    const dec2025 = row.december2025Ytd;
+                    const dec2025 = Number(row[ytd3Key] || 0);
                     const fy26Budget = row.fy26AdoptedBudget;
                     const pctFy26 = row["%OfFy26Budget"];
                     
