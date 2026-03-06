@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { getDashboardConfig, getYtdLabels } from "@/utils/dashboardConfig";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExpenditureData } from "@/types/expenditure";
+import { ExpenditureData, getExpenditureYtdFields } from "@/types/expenditure";
 import { ArrowUpDown } from "lucide-react";
 import {
   Dialog,
