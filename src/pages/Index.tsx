@@ -12,6 +12,7 @@ import { ExpenditureChart } from "@/components/ExpenditureChart";
 import { ExpenditurePieChart } from "@/components/ExpenditurePieChart";
 import { ApiFieldMapper } from "@/utils/apiFieldMapper";
 import { getDashboardConfig, getFiscalPeriodLabel } from "@/utils/dashboardConfig";
+import { getExpenditureYtdFields } from "@/types/expenditure";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -93,22 +94,21 @@ const Index = () => {
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 0;
   const budgetProgress = totalBudget > 0 ? totalRevenue2025 / totalBudget : 0;
 
-  // Calculate expenditure metrics for FY2026 only - filter to main departments only to avoid double counting
-  // Find the Total Expenses row for accurate metrics
+  // Calculate expenditure metrics dynamically
+  const expYtdFields = getExpenditureYtdFields(expenditureDataSheet);
   const totalExpensesRow = expenditureDataSheet.find(item => 
     item.generalFundDepartment?.toLowerCase() === 'total expenses'
   );
   
   const totalExpenditureBudget = totalExpensesRow?.fy26AdoptedBudget || 0;
-  const totalExpenditures = totalExpensesRow?.december2025Ytd || 0;
-  const totalExpenditures2024 = typeof totalExpensesRow?.december2024Ytd === 'number' 
-    ? totalExpensesRow.december2024Ytd 
-    : parseFloat(String(totalExpensesRow?.december2024Ytd || 0));
+  const totalExpenditures = expYtdFields ? Number(totalExpensesRow?.[expYtdFields.year3] || 0) : 0;
+  const totalExpenditures2024 = expYtdFields ? Number(totalExpensesRow?.[expYtdFields.year2] || 0) : 0;
   const expenditureYearOverYearChange = totalExpenditures2024 > 0 
     ? (totalExpenditures - totalExpenditures2024) / totalExpenditures2024 
     : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   
+  console.log('Expenditure YTD fields:', expYtdFields);
   console.log('Total Expenses Row:', totalExpensesRow);
   console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, totalExpenditures2024, expenditureYearOverYearChange, expenditureBudgetUtilization });
   const dashConfig = getDashboardConfig();
@@ -156,7 +156,7 @@ const Index = () => {
                 title="Total Revenue FY2026 YTD" 
                 value={totalRevenue2025} 
                 isCurrency={true}
-                description="July - Jan 2026"
+                description={periodLabel}
               />
               <RevenueCard 
                 title="Year-over-Year Change" 
@@ -167,9 +167,9 @@ const Index = () => {
               />
               <BudgetProgressGauge 
                 title="FY2026 YTD Budget Progress" 
-                subtitle="July - Jan 2026"
+                subtitle={periodLabel}
                 actualProgress={budgetProgress}
-                monthsElapsed={7}
+                monthsElapsed={dashConfig.monthsElapsed}
                 totalMonths={12}
               />
               <RevenueCard 
