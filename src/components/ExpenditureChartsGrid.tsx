@@ -27,6 +27,10 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
   const dashConfig = getDashboardConfig();
   const ytdLabels = getYtdLabels(dashConfig);
+  const expFields = getExpenditureYtdFields(data);
+  const ytd1Key = expFields?.year1 || 'february2024Ytd';
+  const ytd2Key = expFields?.year2 || 'february2025Ytd';
+  const ytd3Key = expFields?.year3 || 'february2026Ytd';
 
   // Filter out total rows and get available departments
   const availableDepartments = useMemo(() => {
