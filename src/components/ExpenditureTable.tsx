@@ -25,6 +25,7 @@ type SortDirection = 'asc' | 'desc';
 export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const dashConfig = getDashboardConfig();
   const ytdLabels = getYtdLabels(dashConfig);
+  const expFields = useMemo(() => getExpenditureYtdFields(data), [data]);
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
