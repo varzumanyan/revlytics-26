@@ -98,11 +98,11 @@ export const ExpenditureChartsGrid = ({ data }: ExpenditureChartsGridProps) => {
         selectedDepartment.substring(0, 20) + '...' : 
         selectedDepartment,
       fullName: selectedDepartment,
-      [ytdLabels[0]]: Number(selectedItem.december2023Ytd) / 1000000,
-      [ytdLabels[1]]: Number(selectedItem.december2024Ytd) / 1000000,
-      [ytdLabels[2]]: selectedItem.december2025Ytd / 1000000,
+      [ytdLabels[0]]: Number(selectedItem[ytd1Key] || 0) / 1000000,
+      [ytdLabels[1]]: Number(selectedItem[ytd2Key] || 0) / 1000000,
+      [ytdLabels[2]]: Number(selectedItem[ytd3Key] || 0) / 1000000,
     }];
-  }, [data, selectedDepartment]);
+  }, [data, selectedDepartment, ytd1Key, ytd2Key, ytd3Key]);
 
   // Colors for pie chart
   const COLORS = [

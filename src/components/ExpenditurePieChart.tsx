@@ -18,6 +18,9 @@ interface ExpenditurePieChartProps {
 
 export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
   const [selectedDepartment, setSelectedDepartment] = useState<{ name: string; description: string } | null>(null);
+  const expFields = getExpenditureYtdFields(data);
+  const ytd3Key = expFields?.year3 || 'february2026Ytd';
+  
   // Filter out total rows and prepare data for the pie chart
   const filteredData = data
     .filter(item => {
@@ -25,9 +28,9 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
       return dept && 
         !dept.includes('total') && 
         !dept.includes('general fund other') &&
-        item.december2025Ytd > 0;
+        Number(item[ytd3Key] || 0) > 0;
     })
-    .sort((a, b) => b.december2025Ytd - a.december2025Ytd);
+    .sort((a, b) => Number(b[ytd3Key] || 0) - Number(a[ytd3Key] || 0));
   
   // Take top 15 departments
   const top15 = filteredData.slice(0, 15);
@@ -35,7 +38,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
   // Group the rest as "Other"
   const otherTotal = filteredData
     .slice(15)
-    .reduce((sum, item) => sum + item.december2025Ytd, 0);
+    .reduce((sum, item) => sum + Number(item[ytd3Key] || 0), 0);
   
   const chartData = [
     ...top15.map(item => ({
@@ -43,7 +46,7 @@ export const ExpenditurePieChart = ({ data }: ExpenditurePieChartProps) => {
         ? item.generalFundDepartment.substring(0, 25) + '...' 
         : item.generalFundDepartment,
       fullName: item.generalFundDepartment,
-      value: item.december2025Ytd,
+      value: Number(item[ytd3Key] || 0),
       budget: item.fy26AdoptedBudget,
     })),
     ...(otherTotal > 0 ? [{
