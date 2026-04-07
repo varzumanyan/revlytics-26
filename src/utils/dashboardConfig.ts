@@ -17,8 +17,8 @@ export interface DashboardConfig {
 const STORAGE_KEY = "dashboard-fiscal-config";
 
 const DEFAULT_CONFIG: DashboardConfig = {
-  currentMonth: "February",
-  currentMonthShort: "Feb",
+  currentMonth: "March",
+  currentMonthShort: "Mar",
   ytdYears: [2024, 2025, 2026],
   monthsElapsed: 8,
   percentageThreshold: 0.6667,
