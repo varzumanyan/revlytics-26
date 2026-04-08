@@ -36,8 +36,18 @@ const Admin = () => {
   };
 
   const handleMonthChange = (value: string) => {
-    const newConfig = { ...config, currentMonth: value };
-    setConfig(newConfig);
+    const selectedMonth = MONTH_OPTIONS.find(m => m.full === value);
+    if (selectedMonth) {
+      const monthsElapsed = getMonthsElapsed(value);
+      const newConfig = { 
+        ...config, 
+        currentMonth: value,
+        currentMonthShort: selectedMonth.short,
+        monthsElapsed,
+        percentageThreshold: monthsElapsed / 12
+      };
+      setConfig(newConfig);
+    }
   };
 
   const handleSave = () => {
@@ -120,8 +130,8 @@ const Admin = () => {
                 </SelectTrigger>
                 <SelectContent>
                   {MONTH_OPTIONS.map((month) => (
-                    <SelectItem key={month.value} value={month.value}>
-                      {month.label}
+                    <SelectItem key={month.full} value={month.full}>
+                      {month.full}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -131,28 +141,28 @@ const Admin = () => {
               </p>
             </div>
 
-            {/* Expected Progress */}
+            {/* Budget Threshold */}
             <div className="space-y-2">
-              <Label htmlFor="expected-progress" className="text-muted-foreground text-xs">Expected Progress (%)</Label>
+              <Label htmlFor="budget-threshold" className="text-muted-foreground text-xs">Budget Utilization Threshold (%)</Label>
               <p className="text-xs text-muted-foreground mb-2">
-                Automatically calculated based on months elapsed. You can manually override if needed.
+                Set the expected budget utilization percentage for comparison.
               </p>
               <div className="flex items-center gap-2">
                 <input
-                  id="expected-progress"
+                  id="budget-threshold"
                   type="number"
                   step="0.01"
                   min="0"
                   max="100"
-                  value={config.expectedProgress}
+                  value={(config.percentageThreshold * 100).toFixed(2)}
                   onChange={(e) => {
                     const value = parseFloat(e.target.value);
                     if (!isNaN(value) && value >= 0 && value <= 100) {
-                      setConfig({ ...config, expectedProgress: value });
+                      setConfig({ ...config, percentageThreshold: value / 100 });
                     }
                   }}
                   className="w-20 rounded-md border border-input bg-background px-3 py-2 text-sm font-semibold"
-                  aria-label="Expected progress percentage"
+                  aria-label="Budget utilization threshold percentage"
                 />
                 <span className="text-lg font-semibold text-foreground">%</span>
               </div>
