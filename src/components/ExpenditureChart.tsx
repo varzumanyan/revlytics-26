@@ -59,13 +59,14 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
   };
 
   return (
-    <Card className="bg-gradient-card border-border shadow-soft">
+    <Card className="bg-gradient-card border-border shadow-soft" role="region" aria-label="Top General Fund YTD Spending">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
           Top GF YTD Spending ({getFiscalPeriodLabel()})
         </CardTitle>
       </CardHeader>
       <CardContent>
+        <div role="img" aria-label={`Bar chart showing top 10 departments by YTD spending. ${chartData.map(d => `${d.fullName}: ${formatCurrency(d['YTD Spending'])}`).join(', ')}`}>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
             data={chartData}
@@ -126,13 +127,14 @@ export const ExpenditureChart = ({ data }: ExpenditureChartProps) => {
             />
           </BarChart>
         </ResponsiveContainer>
+        </div>
       </CardContent>
 
       <Dialog open={!!selectedDepartment} onOpenChange={() => setSelectedDepartment(null)}>
-        <DialogContent>
+        <DialogContent aria-describedby="department-description">
           <DialogHeader>
             <DialogTitle>{selectedDepartment?.name}</DialogTitle>
-            <DialogDescription className="text-base leading-relaxed pt-2">
+            <DialogDescription id="department-description" className="text-base leading-relaxed pt-2">
               {selectedDepartment?.description}
             </DialogDescription>
           </DialogHeader>

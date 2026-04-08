@@ -147,7 +147,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
     <div className="w-full max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pie Chart */}
-        <Card className="bg-gradient-card border-border shadow-soft">
+        <Card className="bg-gradient-card border-border shadow-soft" role="region" aria-label="FY2026 YTD Revenue Breakdown">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-foreground">
               FY2026 YTD Revenue Breakdown
@@ -157,6 +157,7 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
             </p>
           </CardHeader>
           <CardContent>
+            <div role="img" aria-label={`Pie chart showing revenue breakdown by category. ${pieChartData.map(d => `${d.name}: ${formatCurrency(d.value)}`).join(', ')}`}>
             <ResponsiveContainer width="100%" height={400}>
               <PieChart>
                 <Pie
@@ -218,11 +219,12 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                 />
               </PieChart>
             </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
         {/* Bar Chart */}
-        <Card className="bg-gradient-card border-border shadow-soft">
+        <Card className="bg-gradient-card border-border shadow-soft" role="region" aria-label="Revenue Source by Year">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold text-foreground">
@@ -234,10 +236,11 @@ export const RevenueChart = ({ data }: RevenueChartProps) => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
+                    aria-label="Select revenue category"
                     className="w-48 justify-between"
                   >
                     {selectedCategory || "Select category..."}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-72 p-0">

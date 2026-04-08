@@ -219,26 +219,36 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
     <th 
       className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${className}`}
       onClick={() => handleSort(field)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleSort(field);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-sort={sortField === field ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
+      aria-label={`Sort by ${children}, currently ${sortField === field ? sortDirection : 'not sorted'}`}
     >
       <div className="flex items-center space-x-1">
         <span className="leading-tight">{children}</span>
-        <ArrowUpDown className="h-2.5 w-2.5 lg:h-3 lg:w-3 flex-shrink-0" />
+        <ArrowUpDown className="h-2.5 w-2.5 lg:h-3 lg:w-3 flex-shrink-0" aria-hidden="true" />
       </div>
     </th>
   );
 
   return (
     <>
-    <Card className="bg-gradient-card border-border shadow-soft w-full">
+    <Card className="bg-gradient-card border-border shadow-soft w-full" role="region" aria-label="Year to date General Fund expenditure analysis">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
           YTD GF Expenditure Analysis
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="relative overflow-x-auto table-scroll-container">
+        <div className="relative overflow-x-auto table-scroll-container" role="region" aria-label="Scrollable expenditure data table" tabIndex={0}>
           <div className="max-h-[600px] overflow-y-auto border border-border rounded-md">
-            <table className="min-w-full divide-y divide-border w-max lg:w-full">
+            <table className="min-w-full divide-y divide-border w-max lg:w-full" aria-label="Expenditure data by department and fiscal year">
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>

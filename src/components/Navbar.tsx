@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import kennethMejiaLogo from "@/assets/kenneth-mejia-logo.png";
-import { HelpCircle, Settings } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,25 +12,17 @@ import {
 
 export const Navbar = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const hasSeenDialog = localStorage.getItem('hasSeenAboutDialog');
-    if (!hasSeenDialog) {
-      setIsDialogOpen(true);
-      localStorage.setItem('hasSeenAboutDialog', 'true');
-    }
-  }, []);
 
   return (
-    <nav className="w-full bg-black border-b border-border/10">
+    <nav className="w-full bg-black border-b border-border/10" role="navigation" aria-label="Main navigation">
       <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           <a 
             href="https://controller.lacity.gov" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="hover:opacity-80 transition-opacity"
+            className="hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded"
+            aria-label="Visit LA City Controller website"
           >
             <img 
               src={kennethMejiaLogo} 
@@ -43,14 +34,17 @@ export const Navbar = () => {
           <div className="flex items-center gap-3">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <button className="text-white/70 hover:text-white transition-colors">
-                <HelpCircle className="h-6 w-6" />
+              <button 
+                className="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded p-1"
+                aria-label="About this dashboard"
+              >
+                <HelpCircle className="h-6 w-6" aria-hidden="true" />
               </button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent aria-describedby="dialog-description">
               <DialogHeader>
                 <DialogTitle>About This Dashboard</DialogTitle>
-                <DialogDescription className="space-y-4 pt-4 text-foreground/90 text-left">
+                <DialogDescription id="dialog-description" className="space-y-4 pt-4 text-foreground/90 text-left">
                   <p>
                     This dashboard provides a high-level overview of the City of LA's FY2026 General Fund Revenues and Expenditures. This will enable taxpayers and decisionmakers to analyze the City's financial health on a more real-time basis.
                   </p>

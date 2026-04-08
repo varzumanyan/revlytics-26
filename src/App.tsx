@@ -18,6 +18,12 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:top-0 focus:left-0"
+        >
+          Skip to main content
+        </a>
         <div className="min-h-screen flex flex-col">
           <div className="flex-1">
             <Routes>

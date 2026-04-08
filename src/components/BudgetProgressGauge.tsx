@@ -64,7 +64,7 @@ export const BudgetProgressGauge = ({
   };
 
   return (
-    <Card className="bg-gradient-card border-border shadow-soft hover:shadow-medium transition-all duration-300">
+    <Card className="bg-gradient-card border-border shadow-soft hover:shadow-medium transition-all duration-300" role="region" aria-label={title}>
       <CardHeader className="space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
@@ -74,11 +74,11 @@ export const BudgetProgressGauge = ({
         )}
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="text-2xl font-bold text-foreground">
+        <div className="text-2xl font-bold text-foreground" aria-live="polite">
           {progressPercentage.toFixed(2)}%
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-2" role="group" aria-label="Budget progress comparison">
           {/* Actual Progress Bar */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
@@ -90,7 +90,8 @@ export const BudgetProgressGauge = ({
               className={`h-2 ${isExpenditure 
                 ? (actualProgress < expectedProgress ? '[&>div]:bg-success' : '[&>div]:bg-destructive')
                 : '[&>div]:bg-destructive'
-              }`} 
+              }`}
+              aria-label={`Actual progress: ${progressPercentage.toFixed(1)} percent`}
             />
           </div>
           
@@ -100,10 +101,11 @@ export const BudgetProgressGauge = ({
               <span className="text-muted-foreground">({monthsElapsed}/{totalMonths} months)</span>
               <span className="font-medium">{expectedPercentage.toFixed(1)}%</span>
             </div>
-            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
+            <div className="relative h-2 bg-muted rounded-full overflow-hidden" role="progressbar" aria-valuenow={expectedPercentage} aria-valuemin={0} aria-valuemax={100} aria-label={`Expected progress: ${expectedPercentage.toFixed(1)} percent`}>
               <div 
                 className="absolute h-full bg-muted-foreground/30 rounded-full"
                 style={{ width: `${expectedPercentage}%` }}
+                aria-hidden="true"
               />
             </div>
           </div>

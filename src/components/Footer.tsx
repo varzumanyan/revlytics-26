@@ -1,7 +1,7 @@
 
 export default function Footer() {
   return (
-    <footer>
+    <footer role="contentinfo" className="bg-black">
           <hr className='my-6 border-gray-200 sm:mx-auto  lg:my-4' />
 
         <div className='sm:flex sm:items-center sm:justify-between mb-4 mx-2'>
@@ -10,7 +10,7 @@ export default function Footer() {
               © 2026{' '}
               <a
                 href='https://controller.lacity.gov'
-                className='p-0 hover:text-[#41ffca] hover:underline text-white'
+                className='p-0 hover:text-[#41ffca] hover:underline text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded'
               >
                 Kenneth Mejia, Los Angeles City Controller
               </a>
@@ -19,18 +19,19 @@ export default function Footer() {
             <span>
               <a
                 href='https://disclaimer.lacity.gov/accessibility.htm'
-                className='p-0 text-sm hover:text-[#41ffca] hover:underline text-white'
+                className='p-0 text-sm hover:text-[#41ffca] hover:underline text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded'
               >
-                Citywide Accessibility
+                Citywide Accessibility Statement
               </a>
             </span>
           </div>
-          <div className='mt-4 flex space-x-6 text-[#41ffca] sm:mt-0 sm:justify-center'>
+          <nav className='mt-4 flex space-x-6 text-[#41ffca] sm:mt-0 sm:justify-center' aria-label="Social media links">
             <a
-              href=' https://www.facebook.com/lacontroller'
+              href='https://www.facebook.com/lacontroller'
               target='_blank'
-              rel='noreferrer'
-              aria-label='Facebook'
+              rel='noopener noreferrer'
+              aria-label='Visit us on Facebook (opens in new window)'
+              className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded"
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -48,10 +49,11 @@ export default function Footer() {
 
             {/*  instagram */}
             <a
-              href=' https://www.instagram.com/lacontroller'
+              href='https://www.instagram.com/lacontroller'
               target='_blank'
-              rel='noreferrer'
-              aria-label='Instagram'
+              rel='noopener noreferrer'
+              aria-label='Visit us on Instagram (opens in new window)'
+              className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded"
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -70,8 +72,9 @@ export default function Footer() {
             <a
               href='https://www.tiktok.com/@lacontrollermejia'
               target='_blank'
-              rel='noreferrer'
-              aria-label='TikTok'
+              rel='noopener noreferrer'
+              aria-label='Visit us on TikTok (opens in new window)'
+              className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded"
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -91,8 +94,9 @@ export default function Footer() {
             <a
               href='https://twitter.com/lacontroller'
               target='_blank'
-              aria-label='Twitter'
-              rel='noreferrer'
+              rel='noopener noreferrer'
+              aria-label='Visit us on Twitter (opens in new window)'
+              className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded"
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -110,8 +114,9 @@ export default function Footer() {
             <a
               href='https://bsky.app/profile/controller.lacity.gov'
               target='_blank'
-              aria-label='Bluesky'
-              rel='noreferrer'
+              rel='noopener noreferrer'
+              aria-label='Visit us on Bluesky (opens in new window)'
+              className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded"
             >
               <svg
                 width='29'

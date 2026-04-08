@@ -50,14 +50,14 @@ export const ExpenditureCard = ({
   };
 
   return (
-    <Card className="bg-gradient-card border-border shadow-soft">
+    <Card className="bg-gradient-card border-border shadow-soft" role="region" aria-label={title}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold text-foreground">{formatValue(value)}</div>
+        <div className="text-2xl font-bold text-foreground" aria-live="polite">{formatValue(value)}</div>
         {change && (
           <p className={`text-xs ${getChangeColor()}`}>
             {change}

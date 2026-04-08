@@ -118,7 +118,7 @@ const Index = () => {
       <Navbar />
       
       {/* Header */}
-      <div className="bg-gradient-header shadow-strong">
+      <header className="bg-gradient-header shadow-strong">
         <div className="container mx-auto max-w-7xl px-6 py-12">
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold text-[#41ffca]">
@@ -129,12 +129,12 @@ const Index = () => {
             </p>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      <div className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
+      <main id="main-content" className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
         <Tabs defaultValue="revenue" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50">
+          <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50" aria-label="Financial data categories">
             <TabsTrigger 
               value="revenue" 
               className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
@@ -151,6 +151,8 @@ const Index = () => {
           
           <TabsContent value="revenue" className="space-y-8">
             {/* Revenue Key Metrics */}
+            <section aria-labelledby="revenue-metrics-heading">
+              <h2 id="revenue-metrics-heading" className="sr-only">Revenue Key Metrics</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <RevenueCard 
                 title="Total Revenue FY2026 YTD" 
@@ -178,16 +180,25 @@ const Index = () => {
                 isCurrency={true} 
               />
             </div>
+            </section>
 
             {/* Charts */}
+            <section aria-labelledby="revenue-chart-heading">
+              <h2 id="revenue-chart-heading" className="sr-only">Revenue Visualization</h2>
             <RevenueChart data={revenueDataSheet} />
+            </section>
 
             {/* Revenue Data Table */}
+            <section aria-labelledby="revenue-table-heading">
+              <h2 id="revenue-table-heading" className="sr-only">Revenue Data Table</h2>
             <RevenueTable data={revenueDataSheet} />
+            </section>
           </TabsContent>
 
           <TabsContent value="expenditures" className="space-y-8">
             {/* Expenditure Key Metrics */}
+            <section aria-labelledby="expenditure-metrics-heading">
+              <h2 id="expenditure-metrics-heading" className="sr-only">Expenditure Key Metrics</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <ExpenditureCard
                 title="Total Expenditure FY2026 YTD"
@@ -217,12 +228,19 @@ const Index = () => {
                 description="Full year budget"
               />
             </div>
+            </section>
 
             {/* Expenditure Charts */}
+            <section aria-labelledby="expenditure-charts-heading">
+              <h2 id="expenditure-charts-heading" className="sr-only">Expenditure Visualizations</h2>
             <ExpenditureChartsGrid data={expenditureDataSheet} />
+            </section>
 
             {/* Expenditure Data Table */}
+            <section aria-labelledby="expenditure-table-heading">
+              <h2 id="expenditure-table-heading" className="sr-only">Expenditure Data Table</h2>
             <ExpenditureTable data={expenditureDataSheet} />
+            </section>
           </TabsContent>
         </Tabs>
 
@@ -235,7 +253,7 @@ const Index = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </main>
     </div>;
 };
 export default Index;
