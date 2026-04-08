@@ -74,21 +74,21 @@ const Index = () => {
   const revenueDataSheet = revenueData?.revenue || [];
   const expenditureDataSheet = expenditureData?.expenses || [];
 
-  console.log('Revenue data sheet:', revenueDataSheet);
-  console.log('Number of revenue items:', revenueDataSheet.length);
+  // console.log('Revenue data sheet:', revenueDataSheet);
+  // console.log('Number of revenue items:', revenueDataSheet.length);
 
   // Calculate summary metrics - use the Revenue to Date row for accurate totals
   const monthlyTotalRow = revenueDataSheet.find(item => item.revenueType === "Revenue to Date");
-  console.log('Revenue to Date Row:', monthlyTotalRow);
+  // console.log('Revenue to Date Row:', monthlyTotalRow);
   
   // Get dynamic field references for calculations
   const dateFields = ApiFieldMapper.getDateFields(revenueDataSheet);
-  console.log('Date fields detected:', dateFields);
+  // console.log('Date fields detected:', dateFields);
   
   const totalRevenue2025 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year3] || 0 : 0;
   const totalRevenue2024 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year2] || 0 : 0;
   const totalRevenue2023 = dateFields ? (monthlyTotalRow as any)?.[dateFields.year1] || 0 : 0;
-  console.log('Total revenue values:', { totalRevenue2023, totalRevenue2024, totalRevenue2025 });
+  // console.log('Total revenue values:', { totalRevenue2023, totalRevenue2024, totalRevenue2025 });
   
   const yearOverYearChange = totalRevenue2024 > 0 ? (totalRevenue2025 - totalRevenue2024) / totalRevenue2024 : 0;
   const totalBudget = monthlyTotalRow?.["fy2026\nadoptedBudget"] || 0;
@@ -108,9 +108,9 @@ const Index = () => {
     : 0;
   const expenditureBudgetUtilization = totalExpenditureBudget > 0 ? totalExpenditures / totalExpenditureBudget : 0;
   
-  console.log('Expenditure YTD fields:', expYtdFields);
-  console.log('Total Expenses Row:', totalExpensesRow);
-  console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, totalExpenditures2024, expenditureYearOverYearChange, expenditureBudgetUtilization });
+  // console.log('Expenditure YTD fields:', expYtdFields);
+  // console.log('Total Expenses Row:', totalExpensesRow);
+  // console.log('Expenditure metrics:', { totalExpenditureBudget, totalExpenditures, totalExpenditures2024, expenditureYearOverYearChange, expenditureBudgetUtilization });
   const dashConfig = getDashboardConfig();
   const periodLabel = getFiscalPeriodLabel(dashConfig);
 

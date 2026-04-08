@@ -20,8 +20,8 @@ const DEFAULT_CONFIG: DashboardConfig = {
   currentMonth: "March",
   currentMonthShort: "Mar",
   ytdYears: [2024, 2025, 2026],
-  monthsElapsed: 8,
-  percentageThreshold: 0.6667,
+  monthsElapsed: 9,
+  percentageThreshold: 0.75,
 };
 
 export function getDashboardConfig(): DashboardConfig {
