@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dashboard_config: {
+        Row: {
+          current_month: string
+          current_month_short: string
+          id: string
+          months_elapsed: number
+          percentage_threshold: number
+          updated_at: string
+          ytd_years: number[]
+        }
+        Insert: {
+          current_month: string
+          current_month_short: string
+          id?: string
+          months_elapsed: number
+          percentage_threshold: number
+          updated_at?: string
+          ytd_years: number[]
+        }
+        Update: {
+          current_month?: string
+          current_month_short?: string
+          id?: string
+          months_elapsed?: number
+          percentage_threshold?: number
+          updated_at?: string
+          ytd_years?: number[]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
