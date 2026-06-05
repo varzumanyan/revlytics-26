@@ -65,6 +65,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
     'Residential Development Tax',
     'Special Parking Revenue Transfer',
     'Transfer from Budget Stabilization Fund',
+    'Transfer from Reserve or Budget Stabilization Fund',
     'Revenue to Date'
   ];
 
