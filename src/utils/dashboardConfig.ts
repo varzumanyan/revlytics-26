@@ -14,7 +14,10 @@ export interface DashboardConfig {
   percentageThreshold: number;
 }
 
+import { supabase } from "@/integrations/supabase/client";
+
 const STORAGE_KEY = "dashboard-fiscal-config";
+const SINGLETON_ID = "singleton";
 
 const DEFAULT_CONFIG: DashboardConfig = {
   currentMonth: "April",
@@ -36,11 +39,54 @@ export function getDashboardConfig(): DashboardConfig {
   return DEFAULT_CONFIG;
 }
 
-export function saveDashboardConfig(config: DashboardConfig): void {
+/** Fetch the shared config from the backend and cache to localStorage. */
+export async function fetchDashboardConfig(): Promise<DashboardConfig> {
+  try {
+    const { data, error } = await supabase
+      .from("dashboard_config")
+      .select("*")
+      .eq("id", SINGLETON_ID)
+      .maybeSingle();
+    if (error) throw error;
+    if (data) {
+      const config: DashboardConfig = {
+        currentMonth: data.current_month,
+        currentMonthShort: data.current_month_short,
+        ytdYears: data.ytd_years as [number, number, number],
+        monthsElapsed: data.months_elapsed,
+        percentageThreshold: Number(data.percentage_threshold),
+      };
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(config)); } catch {}
+      return config;
+    }
+  } catch (e) {
+    console.warn("Failed to fetch dashboard config from backend:", e);
+  }
+  return getDashboardConfig();
+}
+
+export async function saveDashboardConfig(config: DashboardConfig): Promise<void> {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
   } catch (e) {
     console.warn("Failed to save dashboard config to localStorage:", e);
+  }
+  try {
+    const { error } = await supabase
+      .from("dashboard_config")
+      .upsert({
+        id: SINGLETON_ID,
+        current_month: config.currentMonth,
+        current_month_short: config.currentMonthShort,
+        ytd_years: config.ytdYears,
+        months_elapsed: config.monthsElapsed,
+        percentage_threshold: config.percentageThreshold,
+        updated_at: new Date().toISOString(),
+      });
+    if (error) throw error;
+  } catch (e) {
+    console.error("Failed to save dashboard config to backend:", e);
+    throw e;
   }
 }
 
