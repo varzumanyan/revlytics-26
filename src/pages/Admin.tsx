@@ -50,13 +50,21 @@ const Admin = () => {
     }
   };
 
-  const handleSave = () => {
-    saveDashboardConfig(config);
-    toast({
-      title: "Settings saved",
-      description: "Dashboard configuration has been updated successfully.",
-    });
-    navigate("/");
+  const handleSave = async () => {
+    try {
+      await saveDashboardConfig(config);
+      toast({
+        title: "Settings saved",
+        description: "Dashboard configuration has been updated for all visitors.",
+      });
+      navigate("/");
+    } catch (e) {
+      toast({
+        title: "Save failed",
+        description: "Could not save settings to the backend. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (!isAuthenticated) {
