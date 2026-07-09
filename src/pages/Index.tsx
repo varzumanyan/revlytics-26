@@ -121,11 +121,20 @@ const Index = () => {
       <header className="bg-gradient-header shadow-strong">
         <div className="container mx-auto max-w-7xl px-6 py-12">
           <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#41ffca]/40 bg-[#41ffca]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#41ffca]">
+                <span className="h-2 w-2 rounded-full bg-[#41ffca] animate-pulse" aria-hidden="true" />
+                Preliminary
+              </span>
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-[#41ffca]">
               FY2026 General Fund Revenue &amp; Expense Analysis
             </h1>
             <p className="text-xl max-w-2xl mx-auto text-slate-50">
               City of Los Angeles General Fund Revenue and Expenditure Overview for Fiscal Year 2026
+            </p>
+            <p className="text-sm max-w-2xl mx-auto text-slate-300 italic">
+              FY26 revenue and expenses are preliminary and will not be final until the year is closed in August.
             </p>
           </div>
         </div>
