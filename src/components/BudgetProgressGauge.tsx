@@ -89,7 +89,7 @@ export const BudgetProgressGauge = ({
               value={progressPercentage} 
               className={`h-2 ${isExpenditure 
                 ? (actualProgress < expectedProgress ? '[&>div]:bg-success' : '[&>div]:bg-destructive')
-                : '[&>div]:bg-destructive'
+                : (actualProgress >= 1 ? '[&>div]:bg-success' : '[&>div]:bg-destructive')
               }`}
               aria-label={`Actual progress: ${progressPercentage.toFixed(1)} percent`}
             />
