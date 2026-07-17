@@ -379,14 +379,21 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               {row.generalFundDepartment}
                             </span>
                           </td>
-                        {!historyCollapsed && (
+                        {fy24Collapsed ? (
+                          <td className={`px-1 py-1.5 lg:py-2 border-r-2 border-muted-foreground/30 ${
+                            isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                          }`}></td>
+                        ) : (
                           <>
-                            <td 
+                            <td className={`px-1 py-1.5 lg:py-2 ${
+                              isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                            }`}></td>
+                            <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -394,12 +401,12 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -407,14 +414,14 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${
                                 pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                               } ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -422,12 +429,24 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
                               </td>
-                              <td 
+                          </>
+                        )}
+
+                        {fy25Collapsed ? (
+                          <td className={`px-1 py-1.5 lg:py-2 border-r-2 border-muted-foreground/30 ${
+                            isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                          }`}></td>
+                        ) : (
+                          <>
+                            <td className={`px-1 py-1.5 lg:py-2 ${
+                              isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                            }`}></td>
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -435,12 +454,12 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -448,14 +467,14 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${
                                 pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                               } ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
