@@ -244,10 +244,21 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
   return (
     <>
     <Card className="bg-gradient-card border-border shadow-soft w-full" role="region" aria-label="Year to date General Fund expenditure analysis">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between gap-3 flex-wrap">
         <CardTitle className="text-xl font-semibold text-foreground">
           YTD GF Expenditure Analysis
         </CardTitle>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setHistoryCollapsed(!historyCollapsed)}
+          className="text-xs"
+          aria-expanded={!historyCollapsed}
+          aria-label={historyCollapsed ? "Show historical FY24 and FY25 columns" : "Hide historical FY24 and FY25 columns"}
+        >
+          {historyCollapsed ? <Plus className="h-3 w-3 mr-1" /> : <Minus className="h-3 w-3 mr-1" />}
+          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25
+        </Button>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container" role="region" aria-label="Scrollable expenditure data table" tabIndex={0}>
@@ -256,17 +267,24 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
-                    <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
-                    <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
+                    {!historyCollapsed && (
+                      <>
+                        <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
+                        <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
+                        <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
+                        <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
+                        <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
+                        <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
+                      </>
+                    )}
                     <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
+                    <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
+                    <SortableHeader field={"__yoyChange" as SortField}>{getChangeLabel(dashConfig)}</SortableHeader>
+                    <SortableHeader field={"__yoyPct" as SortField}>YoY % Change</SortableHeader>
                   </tr>
                 </thead>
+
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
                     const ytd1Key = expFields?.year1 || 'february2024Ytd';
