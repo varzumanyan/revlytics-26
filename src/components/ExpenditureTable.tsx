@@ -30,7 +30,8 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const expFields = useMemo(() => getExpenditureYtdFields(data), [data]);
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-  const [historyCollapsed, setHistoryCollapsed] = useState(true);
+  const [fy24Collapsed, setFy24Collapsed] = useState(true);
+  const [fy25Collapsed, setFy25Collapsed] = useState(true);
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
 
   const [breakdownDialogOpen, setBreakdownDialogOpen] = useState(false);
@@ -244,21 +245,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
   return (
     <>
     <Card className="bg-gradient-card border-border shadow-soft w-full" role="region" aria-label="Year to date General Fund expenditure analysis">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 flex-wrap">
+      <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
           YTD GF Expenditure Analysis
         </CardTitle>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setHistoryCollapsed(!historyCollapsed)}
-          className="text-xs"
-          aria-expanded={!historyCollapsed}
-          aria-label={historyCollapsed ? "Show historical FY24, FY25, and FY26 percent of budget columns" : "Hide historical FY24, FY25, and FY26 percent of budget columns"}
-        >
-          {historyCollapsed ? <Plus className="h-3 w-3 mr-1" /> : <Minus className="h-3 w-3 mr-1" />}
-          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25 / FY26 %
-        </Button>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container" role="region" aria-label="Scrollable expenditure data table" tabIndex={0}>
@@ -267,25 +257,65 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    {!historyCollapsed && (
+
+                    {fy24Collapsed ? (
+                      <th
+                        className="px-1 lg:px-2 py-1.5 lg:py-2 text-center text-[10px] lg:text-xs font-semibold text-foreground bg-background sticky top-0 z-30 border-b border-border border-r-2 border-muted-foreground/30 w-10 min-w-[2.5rem] max-w-[2.5rem]"
+                      >
+                        <button
+                          onClick={() => setFy24Collapsed(false)}
+                          className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+                          aria-label="Expand FY24 columns"
+                        >
+                          <Plus className="h-3 w-3" /> FY24
+                        </button>
+                      </th>
+                    ) : (
                       <>
+                        <th className="px-1 py-1.5 lg:py-2 text-center bg-background sticky top-0 z-30 border-b border-border w-6 min-w-[1.5rem]">
+                          <button onClick={() => setFy24Collapsed(true)} className="hover:text-primary" aria-label="Collapse FY24 columns">
+                            <Minus className="h-3 w-3" />
+                          </button>
+                        </th>
                         <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
                         <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                         <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
+                      </>
+                    )}
+
+                    {fy25Collapsed ? (
+                      <th
+                        className="px-1 lg:px-2 py-1.5 lg:py-2 text-center text-[10px] lg:text-xs font-semibold text-foreground bg-background sticky top-0 z-30 border-b border-border border-r-2 border-muted-foreground/30 w-10 min-w-[2.5rem] max-w-[2.5rem]"
+                      >
+                        <button
+                          onClick={() => setFy25Collapsed(false)}
+                          className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+                          aria-label="Expand FY25 columns"
+                        >
+                          <Plus className="h-3 w-3" /> FY25
+                        </button>
+                      </th>
+                    ) : (
+                      <>
+                        <th className="px-1 py-1.5 lg:py-2 text-center bg-background sticky top-0 z-30 border-b border-border w-6 min-w-[1.5rem]">
+                          <button onClick={() => setFy25Collapsed(true)} className="hover:text-primary" aria-label="Collapse FY25 columns">
+                            <Minus className="h-3 w-3" />
+                          </button>
+                        </th>
                         <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
                         <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                         <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
                       </>
                     )}
+
                     <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
-                    <SortableHeader field="fy26AdoptedBudget" className={historyCollapsed ? "border-r-2 border-muted-foreground/30" : ""}>FY26 Adopted Budget</SortableHeader>
-                    {!historyCollapsed && (
-                      <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
-                    )}
+                    <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
+                    <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
                     <SortableHeader field={"__yoyChange" as SortField}>{getChangeLabel(dashConfig)}</SortableHeader>
                     <SortableHeader field={"__yoyPct" as SortField}>YoY % Change</SortableHeader>
                   </tr>
                 </thead>
+
 
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
@@ -318,7 +348,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       <React.Fragment key={row.id}>
                   {needsSpacingBefore && (
                     <tr className="h-3">
-                      <td colSpan={historyCollapsed ? 5 : 12} className="border-0 bg-background"></td>
+                      <td colSpan={1 + (fy24Collapsed ? 1 : 4) + (fy25Collapsed ? 1 : 4) + 3 + 2} className="border-0 bg-background"></td>
                     </tr>
                   )}
 
@@ -349,14 +379,21 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               {row.generalFundDepartment}
                             </span>
                           </td>
-                        {!historyCollapsed && (
+                        {fy24Collapsed ? (
+                          <td className={`px-1 py-1.5 lg:py-2 border-r-2 border-muted-foreground/30 ${
+                            isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                          }`}></td>
+                        ) : (
                           <>
-                            <td 
+                            <td className={`px-1 py-1.5 lg:py-2 ${
+                              isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                            }`}></td>
+                            <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -364,12 +401,12 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -377,14 +414,14 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${
                                 pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                               } ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -392,12 +429,24 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
                               </td>
-                              <td 
+                          </>
+                        )}
+
+                        {fy25Collapsed ? (
+                          <td className={`px-1 py-1.5 lg:py-2 border-r-2 border-muted-foreground/30 ${
+                            isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                          }`}></td>
+                        ) : (
+                          <>
+                            <td className={`px-1 py-1.5 lg:py-2 ${
+                              isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
+                            }`}></td>
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -405,12 +454,12 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -418,14 +467,14 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               >
                                 {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
                               </td>
-                              <td 
+                              <td
                                 className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${
                                 pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
                               } ${
-                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                                  ? 'cursor-pointer hover:underline' 
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment)
+                                  ? 'cursor-pointer hover:underline'
                                   : ''
                               }`}
                                 data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
@@ -449,7 +498,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(dec2025) && dec2025 !== 0 ? formatCurrency(dec2025) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${historyCollapsed ? 'border-r-2 border-muted-foreground/30 ' : ''}${
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
@@ -461,7 +510,6 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
-                          {!historyCollapsed && (
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
@@ -477,7 +525,6 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(pctFy26) && pctFy26 !== 0 ? formatPercentage(pctFy26) : '')}
                           </td>
-                          )}
                           {(() => {
                             const yoyChange = dec2025 - dec2024;
                             const yoyPct = dec2024 > 0 ? (dec2025 - dec2024) / dec2024 : 0;
