@@ -449,7 +449,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(dec2025) && dec2025 !== 0 ? formatCurrency(dec2025) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${historyCollapsed ? 'border-r-2 border-muted-foreground/30 ' : ''}${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
