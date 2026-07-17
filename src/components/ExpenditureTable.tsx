@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from "react";
-import { getDashboardConfig, getYtdLabels } from "@/utils/dashboardConfig";
+import { getDashboardConfig, getYtdLabels, getChangeLabel } from "@/utils/dashboardConfig";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpenditureData, getExpenditureYtdFields } from "@/types/expenditure";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Plus, Minus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 import {
   Dialog,
   DialogContent,
@@ -28,7 +30,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const expFields = useMemo(() => getExpenditureYtdFields(data), [data]);
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [historyCollapsed, setHistoryCollapsed] = useState(true);
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
+
   const [breakdownDialogOpen, setBreakdownDialogOpen] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   
@@ -240,10 +244,21 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
   return (
     <>
     <Card className="bg-gradient-card border-border shadow-soft w-full" role="region" aria-label="Year to date General Fund expenditure analysis">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between gap-3 flex-wrap">
         <CardTitle className="text-xl font-semibold text-foreground">
           YTD GF Expenditure Analysis
         </CardTitle>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setHistoryCollapsed(!historyCollapsed)}
+          className="text-xs"
+          aria-expanded={!historyCollapsed}
+          aria-label={historyCollapsed ? "Show historical FY24 and FY25 columns" : "Hide historical FY24 and FY25 columns"}
+        >
+          {historyCollapsed ? <Plus className="h-3 w-3 mr-1" /> : <Minus className="h-3 w-3 mr-1" />}
+          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25
+        </Button>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container" role="region" aria-label="Scrollable expenditure data table" tabIndex={0}>
@@ -252,17 +267,24 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
-                    <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
-                    <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
-                    <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
+                    {!historyCollapsed && (
+                      <>
+                        <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
+                        <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
+                        <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
+                        <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
+                        <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
+                        <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
+                      </>
+                    )}
                     <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
                     <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy26Budget">% as of FY26 Budget</SortableHeader>
+                    <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
+                    <SortableHeader field={"__yoyChange" as SortField}>{getChangeLabel(dashConfig)}</SortableHeader>
+                    <SortableHeader field={"__yoyPct" as SortField}>YoY % Change</SortableHeader>
                   </tr>
                 </thead>
+
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
                     const ytd1Key = expFields?.year1 || 'february2024Ytd';
@@ -294,9 +316,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       <React.Fragment key={row.id}>
                   {needsSpacingBefore && (
                     <tr className="h-3">
-                      <td colSpan={10} className="border-0 bg-background"></td>
+                      <td colSpan={historyCollapsed ? 6 : 12} className="border-0 bg-background"></td>
                     </tr>
                   )}
+
                         <tr 
                           className={`transition-colors ${
                             isGrand ? 'bg-primary/10 hover:bg-primary/15 font-bold border-t-2 border-primary' :
@@ -324,88 +347,92 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               {row.generalFundDepartment}
                             </span>
                           </td>
-                        <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${
-                            pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          } ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${
-                            pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          } ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '')}
-                          </td>
+                        {!historyCollapsed && (
+                          <>
+                            <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${
+                                pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                              } ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${
+                                pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                              } ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '')}
+                              </td>
+                          </>
+                        )}
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
@@ -433,7 +460,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             !isNaN(pctFy26) && pctFy26 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
@@ -447,6 +474,29 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(pctFy26) && pctFy26 !== 0 ? formatPercentage(pctFy26) : '')}
                           </td>
+                          {(() => {
+                            const yoyChange = dec2025 - dec2024;
+                            const yoyPct = dec2024 > 0 ? (dec2025 - dec2024) / dec2024 : 0;
+                            const showYoy = !isSection && dec2025 !== 0 && dec2024 !== 0 && !isNaN(dec2025) && !isNaN(dec2024);
+                            const changeColor = isGrand || isSub
+                              ? 'text-foreground'
+                              : yoyChange > 0 ? 'text-destructive' : yoyChange < 0 ? 'text-success' : 'text-muted-foreground';
+                            return (
+                              <>
+                                <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                  isGrand || isSub ? 'font-bold' : 'font-medium'
+                                } ${changeColor}`}>
+                                  {showYoy ? formatCurrency(yoyChange) : ''}
+                                </td>
+                                <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                  isGrand || isSub ? 'font-bold' : 'font-medium'
+                                } ${changeColor}`}>
+                                  {showYoy ? `${(yoyPct * 100).toFixed(2)}%` : ''}
+                                </td>
+                              </>
+                            );
+                          })()}
+
                         </tr>
                       </React.Fragment>
                     );
