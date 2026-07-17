@@ -254,10 +254,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
           onClick={() => setHistoryCollapsed(!historyCollapsed)}
           className="text-xs"
           aria-expanded={!historyCollapsed}
-          aria-label={historyCollapsed ? "Show historical FY24 and FY25 columns" : "Hide historical FY24 and FY25 columns"}
+          aria-label={historyCollapsed ? "Show historical FY24, FY25, and FY26 percent of budget columns" : "Hide historical FY24, FY25, and FY26 percent of budget columns"}
         >
           {historyCollapsed ? <Plus className="h-3 w-3 mr-1" /> : <Minus className="h-3 w-3 mr-1" />}
-          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25
+          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25 / FY26 %
         </Button>
       </CardHeader>
       <CardContent className="p-0">
@@ -278,8 +278,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       </>
                     )}
                     <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
-                    <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
+                    <SortableHeader field="fy26AdoptedBudget" className={historyCollapsed ? "border-r-2 border-muted-foreground/30" : ""}>FY26 Adopted Budget</SortableHeader>
+                    {!historyCollapsed && (
+                      <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
+                    )}
                     <SortableHeader field={"__yoyChange" as SortField}>{getChangeLabel(dashConfig)}</SortableHeader>
                     <SortableHeader field={"__yoyPct" as SortField}>YoY % Change</SortableHeader>
                   </tr>
@@ -316,7 +318,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       <React.Fragment key={row.id}>
                   {needsSpacingBefore && (
                     <tr className="h-3">
-                      <td colSpan={historyCollapsed ? 6 : 12} className="border-0 bg-background"></td>
+                      <td colSpan={historyCollapsed ? 5 : 12} className="border-0 bg-background"></td>
                     </tr>
                   )}
 
@@ -447,7 +449,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(dec2025) && dec2025 !== 0 ? formatCurrency(dec2025) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${historyCollapsed ? 'border-r-2 border-muted-foreground/30 ' : ''}${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
@@ -459,6 +461,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
+                          {!historyCollapsed && (
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
@@ -474,6 +477,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(pctFy26) && pctFy26 !== 0 ? formatPercentage(pctFy26) : '')}
                           </td>
+                          )}
                           {(() => {
                             const yoyChange = dec2025 - dec2024;
                             const yoyPct = dec2024 > 0 ? (dec2025 - dec2024) / dec2024 : 0;
