@@ -30,7 +30,9 @@ export const ExpenditureTable = ({ data }: ExpenditureTableProps) => {
   const expFields = useMemo(() => getExpenditureYtdFields(data), [data]);
   const [sortField, setSortField] = useState<SortField>('generalFundDepartment');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [historyCollapsed, setHistoryCollapsed] = useState(true);
   const [dialogDepartment, setDialogDepartment] = useState<{ name: string; description: string } | null>(null);
+
   const [breakdownDialogOpen, setBreakdownDialogOpen] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   
