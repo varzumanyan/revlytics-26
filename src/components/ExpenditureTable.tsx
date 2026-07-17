@@ -278,8 +278,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       </>
                     )}
                     <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
-                    <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
-                    <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
+                    <SortableHeader field="fy26AdoptedBudget" className={historyCollapsed ? "border-r-2 border-muted-foreground/30" : ""}>FY26 Adopted Budget</SortableHeader>
+                    {!historyCollapsed && (
+                      <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
+                    )}
                     <SortableHeader field={"__yoyChange" as SortField}>{getChangeLabel(dashConfig)}</SortableHeader>
                     <SortableHeader field={"__yoyPct" as SortField}>YoY % Change</SortableHeader>
                   </tr>
