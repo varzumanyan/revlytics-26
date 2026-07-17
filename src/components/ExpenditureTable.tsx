@@ -348,7 +348,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                       <React.Fragment key={row.id}>
                   {needsSpacingBefore && (
                     <tr className="h-3">
-                      <td colSpan={historyCollapsed ? 5 : 12} className="border-0 bg-background"></td>
+                      <td colSpan={1 + (fy24Collapsed ? 1 : 4) + (fy25Collapsed ? 1 : 4) + 3 + 2} className="border-0 bg-background"></td>
                     </tr>
                   )}
 
