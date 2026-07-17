@@ -245,21 +245,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
   return (
     <>
     <Card className="bg-gradient-card border-border shadow-soft w-full" role="region" aria-label="Year to date General Fund expenditure analysis">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 flex-wrap">
+      <CardHeader>
         <CardTitle className="text-xl font-semibold text-foreground">
           YTD GF Expenditure Analysis
         </CardTitle>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setHistoryCollapsed(!historyCollapsed)}
-          className="text-xs"
-          aria-expanded={!historyCollapsed}
-          aria-label={historyCollapsed ? "Show historical FY24, FY25, and FY26 percent of budget columns" : "Hide historical FY24, FY25, and FY26 percent of budget columns"}
-        >
-          {historyCollapsed ? <Plus className="h-3 w-3 mr-1" /> : <Minus className="h-3 w-3 mr-1" />}
-          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25 / FY26 %
-        </Button>
       </CardHeader>
       <CardContent className="p-0">
         <div className="relative overflow-x-auto table-scroll-container" role="region" aria-label="Scrollable expenditure data table" tabIndex={0}>
