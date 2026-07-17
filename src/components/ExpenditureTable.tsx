@@ -347,88 +347,92 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               {row.generalFundDepartment}
                             </span>
                           </td>
-                        <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${
-                            pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          } ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
-                          </td>
-                          <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
-                            isGrand || isSub ? 'font-bold' : ''
-                          } ${
-                            pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
-                          } ${
-                            !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
-                              ? 'cursor-pointer hover:underline' 
-                              : ''
-                          }`}
-                            data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
-                            onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
-                          >
-                            {isSection ? '' : (pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '')}
-                          </td>
+                        {!historyCollapsed && (
+                          <>
+                            <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${
+                                pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                              } ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (pctFy24 > 0 && !isNaN(pctFy24) ? formatPercentage(pctFy24) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
+                              </td>
+                              <td 
+                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                                isGrand || isSub ? 'font-bold' : ''
+                              } ${
+                                pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
+                              } ${
+                                !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
+                                  ? 'cursor-pointer hover:underline' 
+                                  : ''
+                              }`}
+                                data-breakdown-click={!isTotal && getEndpointForDepartment(row.generalFundDepartment) ? "true" : undefined}
+                                onClick={(e) => !isTotal && handleDepartmentClick(row.generalFundDepartment, e)}
+                              >
+                                {isSection ? '' : (pctFy25 > 0 && !isNaN(pctFy25) ? formatPercentage(pctFy25) : '')}
+                              </td>
+                          </>
+                        )}
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
@@ -456,7 +460,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             !isNaN(pctFy26) && pctFy26 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
@@ -470,6 +474,29 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(pctFy26) && pctFy26 !== 0 ? formatPercentage(pctFy26) : '')}
                           </td>
+                          {(() => {
+                            const yoyChange = dec2025 - dec2024;
+                            const yoyPct = dec2024 > 0 ? (dec2025 - dec2024) / dec2024 : 0;
+                            const showYoy = !isSection && dec2025 !== 0 && dec2024 !== 0 && !isNaN(dec2025) && !isNaN(dec2024);
+                            const changeColor = isGrand || isSub
+                              ? 'text-foreground'
+                              : yoyChange > 0 ? 'text-destructive' : yoyChange < 0 ? 'text-success' : 'text-muted-foreground';
+                            return (
+                              <>
+                                <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                  isGrand || isSub ? 'font-bold' : 'font-medium'
+                                } ${changeColor}`}>
+                                  {showYoy ? formatCurrency(yoyChange) : ''}
+                                </td>
+                                <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                  isGrand || isSub ? 'font-bold' : 'font-medium'
+                                } ${changeColor}`}>
+                                  {showYoy ? `${(yoyPct * 100).toFixed(2)}%` : ''}
+                                </td>
+                              </>
+                            );
+                          })()}
+
                         </tr>
                       </React.Fragment>
                     );
