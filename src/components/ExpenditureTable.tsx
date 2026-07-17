@@ -254,10 +254,10 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
           onClick={() => setHistoryCollapsed(!historyCollapsed)}
           className="text-xs"
           aria-expanded={!historyCollapsed}
-          aria-label={historyCollapsed ? "Show historical FY24 and FY25 columns" : "Hide historical FY24 and FY25 columns"}
+          aria-label={historyCollapsed ? "Show historical FY24, FY25, and FY26 percent of budget columns" : "Hide historical FY24, FY25, and FY26 percent of budget columns"}
         >
           {historyCollapsed ? <Plus className="h-3 w-3 mr-1" /> : <Minus className="h-3 w-3 mr-1" />}
-          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25
+          {historyCollapsed ? "Show" : "Hide"} FY24 / FY25 / FY26 %
         </Button>
       </CardHeader>
       <CardContent className="p-0">
