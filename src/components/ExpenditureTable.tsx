@@ -257,25 +257,65 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                 <thead className="sticky top-0 z-20 bg-background shadow-sm">
                   <tr>
                     <SortableHeader field="generalFundDepartment" className="border-r-2 border-muted-foreground/30" isFirstColumn={true}>General Fund Department</SortableHeader>
-                    {!historyCollapsed && (
+
+                    {fy24Collapsed ? (
+                      <th
+                        className="px-1 lg:px-2 py-1.5 lg:py-2 text-center text-[10px] lg:text-xs font-semibold text-foreground bg-background sticky top-0 z-30 border-b border-border border-r-2 border-muted-foreground/30 w-10 min-w-[2.5rem] max-w-[2.5rem]"
+                      >
+                        <button
+                          onClick={() => setFy24Collapsed(false)}
+                          className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+                          aria-label="Expand FY24 columns"
+                        >
+                          <Plus className="h-3 w-3" /> FY24
+                        </button>
+                      </th>
+                    ) : (
                       <>
+                        <th className="px-1 py-1.5 lg:py-2 text-center bg-background sticky top-0 z-30 border-b border-border w-6 min-w-[1.5rem]">
+                          <button onClick={() => setFy24Collapsed(true)} className="hover:text-primary" aria-label="Collapse FY24 columns">
+                            <Minus className="h-3 w-3" />
+                          </button>
+                        </th>
                         <SortableHeader field={(expFields?.year1 || 'february2024Ytd') as SortField}>{ytdLabels[0]}</SortableHeader>
                         <SortableHeader field="fy24AdoptedBudget">FY24 Adopted Budget</SortableHeader>
                         <SortableHeader field="%OfFy24Budget" className="border-r-2 border-muted-foreground/30">% as of FY24 Budget</SortableHeader>
+                      </>
+                    )}
+
+                    {fy25Collapsed ? (
+                      <th
+                        className="px-1 lg:px-2 py-1.5 lg:py-2 text-center text-[10px] lg:text-xs font-semibold text-foreground bg-background sticky top-0 z-30 border-b border-border border-r-2 border-muted-foreground/30 w-10 min-w-[2.5rem] max-w-[2.5rem]"
+                      >
+                        <button
+                          onClick={() => setFy25Collapsed(false)}
+                          className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+                          aria-label="Expand FY25 columns"
+                        >
+                          <Plus className="h-3 w-3" /> FY25
+                        </button>
+                      </th>
+                    ) : (
+                      <>
+                        <th className="px-1 py-1.5 lg:py-2 text-center bg-background sticky top-0 z-30 border-b border-border w-6 min-w-[1.5rem]">
+                          <button onClick={() => setFy25Collapsed(true)} className="hover:text-primary" aria-label="Collapse FY25 columns">
+                            <Minus className="h-3 w-3" />
+                          </button>
+                        </th>
                         <SortableHeader field={(expFields?.year2 || 'february2025Ytd') as SortField}>{ytdLabels[1]}</SortableHeader>
                         <SortableHeader field="fy25AdoptedBudget">FY25 Adopted Budget</SortableHeader>
                         <SortableHeader field="%OfFy25Budget" className="border-r-2 border-muted-foreground/30">% as of FY25 Budget</SortableHeader>
                       </>
                     )}
+
                     <SortableHeader field={(expFields?.year3 || 'february2026Ytd') as SortField}>{ytdLabels[2]}</SortableHeader>
-                    <SortableHeader field="fy26AdoptedBudget" className={historyCollapsed ? "border-r-2 border-muted-foreground/30" : ""}>FY26 Adopted Budget</SortableHeader>
-                    {!historyCollapsed && (
-                      <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
-                    )}
+                    <SortableHeader field="fy26AdoptedBudget">FY26 Adopted Budget</SortableHeader>
+                    <SortableHeader field="%OfFy26Budget" className="border-r-2 border-muted-foreground/30">% as of FY26 Budget</SortableHeader>
                     <SortableHeader field={"__yoyChange" as SortField}>{getChangeLabel(dashConfig)}</SortableHeader>
                     <SortableHeader field={"__yoyPct" as SortField}>YoY % Change</SortableHeader>
                   </tr>
                 </thead>
+
 
                 <tbody className="divide-y divide-border">
                   {sortedData.map((row, index) => {
