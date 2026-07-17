@@ -461,6 +461,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
+                          {!historyCollapsed && (
                           <td 
                             className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
@@ -476,6 +477,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           >
                             {isSection ? '' : (!isNaN(pctFy26) && pctFy26 !== 0 ? formatPercentage(pctFy26) : '')}
                           </td>
+                          )}
                           {(() => {
                             const yoyChange = dec2025 - dec2024;
                             const yoyPct = dec2024 > 0 ? (dec2025 - dec2024) / dec2024 : 0;
