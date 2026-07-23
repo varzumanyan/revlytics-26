@@ -30,12 +30,29 @@ const Index = () => {
     error: expenditureError
   } = useExpenditureData();
   if (revenueError || expenditureError) {
-    return <div className="min-h-screen bg-background p-6">
-        <div className="container mx-auto max-w-4xl">
-          <Card className="bg-destructive/10 border-destructive/50">
-            <CardContent className="flex items-center space-x-2 pt-6">
-              <AlertCircle className="h-5 w-5 text-destructive" />
-              <p className="text-destructive">Failed to load data. Please try again later.</p>
+    return <div className="min-h-screen bg-background p-6 flex items-center justify-center">
+        <div className="container mx-auto max-w-2xl">
+          <Card className="border-[#41ffca]/30 bg-gradient-card shadow-strong">
+            <CardHeader className="text-center space-y-2">
+              <div className="flex justify-center">
+                <div className="rounded-full bg-[#41ffca]/10 p-4">
+                  <AlertCircle className="h-10 w-10 text-[#41ffca]" />
+                </div>
+              </div>
+              <CardTitle className="text-2xl font-bold text-[#41ffca]">
+                Maintenance in Progress
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-center pb-8">
+              <p className="text-slate-50 text-lg">
+                We are currently performing updates on the FY2026 General Fund Revenue &amp; Expense dashboard.
+              </p>
+              <p className="text-slate-300">
+                Data from our source provider is temporarily unavailable. Please check back soon — the dashboard will be restored as soon as the maintenance is complete.
+              </p>
+              <p className="text-sm text-slate-400 italic">
+                Thank you for your patience.
+              </p>
             </CardContent>
           </Card>
         </div>
