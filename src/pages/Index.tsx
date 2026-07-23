@@ -58,6 +58,22 @@ const Index = () => {
         </div>
       </div>;
   }
+
+  // Always-visible maintenance banner
+  const MaintenanceBanner = () => <Card className="border-[#41ffca]/30 bg-gradient-card shadow-strong">
+      <CardContent className="py-4">
+        <div className="flex items-center justify-center gap-3 text-center flex-wrap">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#41ffca] animate-pulse" aria-hidden="true" />
+          <p className="text-[#41ffca] font-semibold">
+            Maintenance in Progress
+          </p>
+          <span className="hidden sm:inline text-slate-300">—</span>
+          <p className="text-slate-300 text-sm">
+            Data updates are temporarily paused while we work on the FY2026 General Fund dashboard. Please check back soon.
+          </p>
+        </div>
+      </CardContent>
+    </Card>;
   if (revenueLoading || expenditureLoading) {
     return <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-7xl space-y-6">
