@@ -175,6 +175,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main id="main-content" className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
+        <MaintenanceBanner />
         <Tabs defaultValue="revenue" className="w-full">
           <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50" aria-label="Financial data categories">
             <TabsTrigger 
