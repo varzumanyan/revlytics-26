@@ -222,7 +222,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
 
   const SortableHeader = ({ field, children, className = "", isFirstColumn = false }: { field: SortField; children: React.ReactNode; className?: string; isFirstColumn?: boolean }) => (
     <th 
-      className={`px-2 lg:px-3 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words' : ''} ${className}`}
+      className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-left text-[10px] lg:text-xs font-semibold text-foreground cursor-pointer hover:bg-muted/50 transition-colors border-b border-border bg-background sticky top-0 z-30 ${isFirstColumn ? 'w-40 min-w-[10rem] max-w-[10rem] whitespace-normal break-words' : 'w-20 min-w-[5rem] max-w-[5rem] whitespace-normal break-words'} ${className}`}
       onClick={() => handleSort(field)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -360,7 +360,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             'hover:bg-muted/30'
                           }`}
                         >
-                          <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words border-r-2 border-muted-foreground/30 ${
+                          <td className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm w-48 min-w-[12rem] max-w-[12rem] whitespace-normal break-words border-r-2 border-muted-foreground/30 ${
                             isGrand ? 'bg-primary/10 hover:bg-primary/15 text-foreground font-bold' :
                             isSub ? 'bg-muted/50 hover:bg-muted/60 text-foreground font-semibold' :
                             isSection ? 'bg-muted/30 hover:bg-muted/40 text-foreground font-semibold' :
@@ -389,7 +389,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
                             }`}></td>
                             <td
-                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                                 !isTotal && getEndpointForDepartment(row.generalFundDepartment)
@@ -402,7 +402,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                                 {isSection ? '' : (dec2023 > 0 && !isNaN(dec2023) ? formatCurrency(dec2023) : '')}
                               </td>
                               <td
-                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                                 !isTotal && getEndpointForDepartment(row.generalFundDepartment)
@@ -415,7 +415,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                                 {isSection ? '' : (fy24Budget > 0 && !isNaN(fy24Budget) ? formatCurrency(fy24Budget) : '')}
                               </td>
                               <td
-                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                                className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${
                                 pctFy24 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
@@ -442,7 +442,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               isGrand ? 'bg-primary/10' : isSub ? 'bg-muted/50' : isSection ? 'bg-muted/30' : 'bg-background'
                             }`}></td>
                               <td
-                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                                 !isTotal && getEndpointForDepartment(row.generalFundDepartment)
@@ -455,7 +455,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                                 {isSection ? '' : (dec2024 > 0 && !isNaN(dec2024) ? formatCurrency(dec2024) : '')}
                               </td>
                               <td
-                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                                 !isTotal && getEndpointForDepartment(row.generalFundDepartment)
@@ -468,7 +468,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                                 {isSection ? '' : (fy25Budget > 0 && !isNaN(fy25Budget) ? formatCurrency(fy25Budget) : '')}
                               </td>
                               <td
-                                className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                                className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                                 isGrand || isSub ? 'font-bold' : ''
                               } ${
                                 pctFy25 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
@@ -485,7 +485,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                           </>
                         )}
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                            className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
@@ -498,7 +498,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(dec2025) && dec2025 !== 0 ? formatCurrency(dec2025) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                            className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'} ${
                             !isTotal && getEndpointForDepartment(row.generalFundDepartment) 
@@ -511,7 +511,7 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                             {isSection ? '' : (!isNaN(fy26Budget) && fy26Budget !== 0 ? formatCurrency(fy26Budget) : '')}
                           </td>
                           <td 
-                            className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
+                            className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap border-r-2 border-muted-foreground/30 ${
                             isGrand || isSub ? 'font-bold' : ''
                           } ${
                             !isNaN(pctFy26) && pctFy26 > dashConfig.percentageThreshold ? 'text-destructive font-medium' : isSection ? 'font-semibold text-muted-foreground' : 'text-muted-foreground'
@@ -534,12 +534,12 @@ General City Purposes: Spending includes the Homelessness Emergency Account, Med
                               : yoyChange > 0 ? 'text-destructive' : yoyChange < 0 ? 'text-success' : 'text-muted-foreground';
                             return (
                               <>
-                                <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                <td className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                   isGrand || isSub ? 'font-bold' : 'font-medium'
                                 } ${changeColor}`}>
                                   {showYoy ? formatCurrency(yoyChange) : ''}
                                 </td>
-                                <td className={`px-2 lg:px-3 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
+                                <td className={`px-1 lg:px-1.5 py-1.5 lg:py-2 text-[10px] lg:text-sm text-right whitespace-nowrap ${
                                   isGrand || isSub ? 'font-bold' : 'font-medium'
                                 } ${changeColor}`}>
                                   {showYoy ? `${(yoyPct * 100).toFixed(2)}%` : ''}
