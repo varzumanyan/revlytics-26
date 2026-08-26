@@ -161,7 +161,7 @@ const Index = () => {
       {/* Main Content */}
       <main id="main-content" className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
         <Tabs defaultValue="revenue" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50" aria-label="Financial data categories">
+          <TabsList className="grid w-full grid-cols-3 h-14 bg-muted/50" aria-label="Financial data categories">
             <TabsTrigger 
               value="revenue" 
               className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
@@ -173,6 +173,12 @@ const Index = () => {
               className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
             >
               Expenditures
+            </TabsTrigger>
+            <TabsTrigger 
+              value="fy2027"
+              className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
+            >
+              FY2027
             </TabsTrigger>
           </TabsList>
           
