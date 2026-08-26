@@ -16,7 +16,7 @@ import { getExpenditureYtdFields } from "@/types/expenditure";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertCircle, TrendingUp, DollarSign, BarChart3 } from "lucide-react";
+import { AlertCircle, TrendingUp, DollarSign, BarChart3, CalendarClock } from "lucide-react";
 
 const Index = () => {
   const {
@@ -161,7 +161,7 @@ const Index = () => {
       {/* Main Content */}
       <main id="main-content" className="container mx-auto max-w-7xl px-6 py-8 space-y-8">
         <Tabs defaultValue="revenue" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50" aria-label="Financial data categories">
+          <TabsList className="grid w-full grid-cols-3 h-14 bg-muted/50" aria-label="Financial data categories">
             <TabsTrigger 
               value="revenue" 
               className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
@@ -173,6 +173,12 @@ const Index = () => {
               className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
             >
               Expenditures
+            </TabsTrigger>
+            <TabsTrigger 
+              value="fy2027"
+              className="text-lg font-semibold data-[state=active]:bg-[#41ffca] data-[state=active]:text-black data-[state=active]:shadow-md"
+            >
+              FY2027
             </TabsTrigger>
           </TabsList>
           
@@ -267,6 +273,36 @@ const Index = () => {
             <section aria-labelledby="expenditure-table-heading">
               <h2 id="expenditure-table-heading" className="sr-only">Expenditure Data Table</h2>
             <ExpenditureTable data={expenditureDataSheet} />
+            </section>
+          </TabsContent>
+
+          <TabsContent value="fy2027" className="space-y-8">
+            <section aria-labelledby="fy2027-coming-soon-heading">
+              <h2 id="fy2027-coming-soon-heading" className="sr-only">FY2027 Coming Soon</h2>
+              <Card className="border-[#41ffca]/30 bg-gradient-card shadow-strong">
+                <CardHeader className="text-center space-y-4 pt-10">
+                  <div className="flex justify-center">
+                    <div className="rounded-full bg-[#41ffca]/10 p-5">
+                      <CalendarClock className="h-12 w-12 text-[#41ffca]" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-3xl font-bold text-[#41ffca]">
+                    FY2027 Coming Soon
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6 text-center pb-12 max-w-2xl mx-auto">
+                  <p className="text-slate-50 text-lg">
+                    A dedicated FY2027 Revenue &amp; Expenditures dashboard is in the works.
+                  </p>
+                  <p className="text-slate-300">
+                    Once the new fiscal year data is finalized, this tab will display FY2027 revenue collections, expenditure details, budget progress, and year-over-year comparisons — mirroring the FY2026 layout you see today.
+                  </p>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#41ffca]/40 bg-[#41ffca]/10 px-4 py-2 text-sm font-semibold text-[#41ffca]">
+                    <span className="h-2 w-2 rounded-full bg-[#41ffca] animate-pulse" aria-hidden="true" />
+                    Expected launch: in the next few weeks
+                  </div>
+                </CardContent>
+              </Card>
             </section>
           </TabsContent>
         </Tabs>
