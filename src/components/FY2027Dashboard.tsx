@@ -175,7 +175,17 @@ export const FY2027Dashboard = () => {
                 </thead>
                 <tbody>
                   {expenses.map(e => {
+                    const isSectionHeading = e.dept === "General Fund Other Expenses";
                     const isTotal = e.dept.toLowerCase().startsWith("total");
+                    if (isSectionHeading) {
+                      return (
+                        <tr key={e.dept} className="border-y border-border bg-muted/40">
+                          <td colSpan={10} className="px-2 py-2 text-sm font-semibold">
+                            {e.dept}
+                          </td>
+                        </tr>
+                      );
+                    }
                     return (
                       <tr key={e.dept} className={`border-b border-border/50 ${isTotal ? "font-bold bg-muted/40" : ""}`}>
                         <td className="px-2 py-1.5 text-sm">
