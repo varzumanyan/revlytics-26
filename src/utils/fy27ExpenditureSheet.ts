@@ -5,7 +5,7 @@ const TABS: Record<string, string> = {
   "Aging": "1402716049", "Animal Services": "1183881376", "Building and Safety": "207608797",
   "Cannabis Regulation": "1433605537", "City Administrative Officer": "60945357", "City Attorney": "1579669734",
   "City Clerk": "1061889191", "City Ethics Commission": "1158870943", "City Planning": "796603994",
-  "Civil Human Rights": "1360657869", "Community Investment": "1700733622", "Controller": "363760343",
+  "Civil Human Rights": "1360657869", "Community Investment": "1700733622", "Community Investment Families": "1700733622", "Controller": "363760343",
   "Council": "1684219652", "Cultural Affairs": "733965152", "Disability": "484167513",
   "Economic and Workforce": "1044771740", "El Pueblo": "1481019313", "Emergency Management": "92240706",
   "Employee Relations": "259628232", "Fire": "968818433", "General Services": "1269027984",
