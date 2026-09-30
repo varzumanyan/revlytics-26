@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getFy27TabGid, fy27TabCsvUrl } from "@/utils/fy27ExpenditureSheet";
 import revenueCsv from "@/data/fy27/revenue.csv?raw";
 import expensesCsv from "@/data/fy27/expenses.csv?raw";
 import deptCsv from "@/data/fy27/departmentalReceipts.csv?raw";
@@ -82,6 +84,21 @@ export const FY2027Dashboard = () => {
   const revYoy = total && total.y2 ? (total.y3 - total.y2) / total.y2 : 0;
   const expYoy = totalExp && totalExp.ytd26 ? (totalExp.ytd27 - totalExp.ytd26) / totalExp.ytd26 : 0;
   const breakdown = open ? BREAKDOWNS[open] : [];
+  const [deptOpen, setDeptOpen] = useState<string | null>(null);
+  const gid = deptOpen ? getFy27TabGid(deptOpen) : null;
+  const deptQuery = useQuery({
+    queryKey: ["fy27DeptBreakdown", gid],
+    enabled: !!gid,
+    staleTime: 5 * 60 * 1000,
+    queryFn: async (): Promise<ExpRow[]> => {
+      const res = await fetch(fy27TabCsvUrl(gid!));
+      if (!res.ok) throw new Error(`Sheet request failed [${res.status}]`);
+      return parseCsv(await res.text()).slice(1).filter(r => r[1]?.trim()).map(r => ({
+        dept: r[1].trim(), ytd25: num(r[2]), bud25: num(r[3]), pct25: pct(r[4]), ytd26: num(r[5]), bud26: num(r[6]),
+        pct26: pct(r[7]), ytd27: num(r[8]), bud27: num(r[9]), pct27: pct(r[10]),
+      }));
+    },
+  });
   const revRows = useMemo(() => revenue.filter(r => r.type !== "Revenue to Date"), []);
 
   return (
@@ -161,7 +178,11 @@ export const FY2027Dashboard = () => {
                     const isTotal = e.dept.toLowerCase().startsWith("total");
                     return (
                       <tr key={e.dept} className={`border-b border-border/50 ${isTotal ? "font-bold bg-muted/40" : ""}`}>
-                        <td className="px-2 py-1.5 text-sm">{e.dept}</td>
+                        <td className="px-2 py-1.5 text-sm">
+                          {!isTotal && getFy27TabGid(e.dept)
+                            ? <button className="text-primary underline text-left" onClick={() => setDeptOpen(e.dept)}>{e.dept}</button>
+                            : e.dept}
+                        </td>
                         <td className={td}>{usd(e.ytd25)}</td><td className={td}>{usd(e.bud25)}</td><td className={td}>{fmtPct(e.pct25)}</td>
                         <td className={td}>{usd(e.ytd26)}</td><td className={td}>{usd(e.bud26)}</td><td className={td}>{fmtPct(e.pct26)}</td>
                         <td className={td}>{usd(e.ytd27)}</td><td className={td}>{usd(e.bud27)}</td>
@@ -198,6 +219,35 @@ export const FY2027Dashboard = () => {
               ))}
             </tbody>
           </table>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!deptOpen} onOpenChange={o => !o && setDeptOpen(null)}>
+        <DialogContent className="max-w-6xl max-h-[85vh] overflow-auto">
+          <DialogHeader><DialogTitle>{deptOpen} — FY2027 Expenditure Breakdown</DialogTitle></DialogHeader>
+          {deptQuery.isLoading ? <p className="text-sm text-muted-foreground">Loading…</p> :
+           deptQuery.error ? <p className="text-sm text-destructive">Could not load this department's sheet.</p> : (
+          <table className="w-full min-w-[900px] border-collapse">
+            <thead className="sticky top-0 bg-background border-b border-border">
+              <tr>
+                <th className={`${th} w-56`}>Account</th>
+                <th className={th}>FY25 Aug 2024 YTD</th><th className={th}>FY25 Adopted Budget</th><th className={th}>% of FY25 Budget</th>
+                <th className={th}>FY26 Aug 2025 YTD</th><th className={th}>FY26 Adopted Budget</th><th className={th}>% of FY26 Budget</th>
+                <th className={th}>FY27 Aug 2026 YTD</th><th className={th}>FY27 Adopted Budget</th><th className={th}>% of FY27 Budget</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(deptQuery.data ?? []).map((a, i) => (
+                <tr key={i} className="border-b border-border/50">
+                  <td className="px-2 py-1.5 text-sm">{a.dept}</td>
+                  <td className={td}>{usd(a.ytd25)}</td><td className={td}>{usd(a.bud25)}</td><td className={td}>{fmtPct(a.pct25)}</td>
+                  <td className={td}>{usd(a.ytd26)}</td><td className={td}>{usd(a.bud26)}</td><td className={td}>{fmtPct(a.pct26)}</td>
+                  <td className={td}>{usd(a.ytd27)}</td><td className={td}>{usd(a.bud27)}</td>
+                  <td className={`${td} ${a.bud27 ? (a.pct27 > THRESHOLD ? "text-red-500" : "text-green-500") : ""}`}>{fmtPct(a.pct27)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>)}
         </DialogContent>
       </Dialog>
     </div>
