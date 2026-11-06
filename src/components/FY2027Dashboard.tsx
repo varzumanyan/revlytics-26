@@ -17,6 +17,9 @@ import { BudgetProgressGauge } from "@/components/BudgetProgressGauge";
 const MONTHS_ELAPSED = 2;
 const THRESHOLD = MONTHS_ELAPSED / 12;
 const PERIOD = "July - Aug 2026";
+const REV_MONTHS = 4;
+const REV_THRESHOLD = REV_MONTHS / 12;
+const REV_PERIOD = "July - Oct 2026";
 
 function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
@@ -104,7 +107,7 @@ export const FY2027Dashboard = () => {
   return (
     <div className="space-y-6">
       <p className="text-center text-sm text-muted-foreground italic">
-        FY2027 data through August 2026 (2 of 12 months, {fmtPct(THRESHOLD)} of the year elapsed).
+        FY2027 revenue through October 2026 (4 of 12 months, {fmtPct(REV_THRESHOLD)} elapsed); expenditures through August 2026 (2 of 12 months, {fmtPct(THRESHOLD)} elapsed).
       </p>
       <Tabs defaultValue="rev">
         <TabsList className="grid w-full grid-cols-2">
@@ -114,9 +117,9 @@ export const FY2027Dashboard = () => {
 
         <TabsContent value="rev" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <RevenueCard title="Total Revenue FY2027 YTD" value={total?.y3 ?? 0} description={PERIOD} />
+            <RevenueCard title="Total Revenue FY2027 YTD" value={total?.y3 ?? 0} description={REV_PERIOD} />
             <RevenueCard title="Year-over-Year Change" value={revYoy} change={revYoy} isPercentage isCurrency={false} />
-            <BudgetProgressGauge title="FY2027 YTD Budget Progress" subtitle={PERIOD} actualProgress={total?.budgetPct ?? 0} monthsElapsed={MONTHS_ELAPSED} totalMonths={12} />
+            <BudgetProgressGauge title="FY2027 YTD Budget Progress" subtitle={REV_PERIOD} actualProgress={total?.budgetPct ?? 0} monthsElapsed={REV_MONTHS} totalMonths={12} />
             <RevenueCard title="FY2027 Adopted Budget" value={total?.budget ?? 0} />
           </div>
           <Card>
@@ -126,9 +129,9 @@ export const FY2027Dashboard = () => {
                 <thead className="border-b border-border">
                   <tr>
                     <th className={`${th} w-48`}>Revenue Type</th>
-                    <th className={th}>Aug 24 YTD</th><th className={th}>Aug 25 YTD</th><th className={th}>Aug 26 YTD</th>
-                    <th className={th}>Aug26 vs Aug25</th><th className={th}>YoY %</th>
-                    <th className={th}>Aug 26 YTD as % of FY27 Budget</th><th className={th}>FY2027 Adopted Budget</th>
+                    <th className={th}>Oct 24 YTD</th><th className={th}>Oct 25 YTD</th><th className={th}>Oct 26 YTD</th>
+                    <th className={th}>Oct26 vs Oct25</th><th className={th}>YoY %</th>
+                    <th className={th}>Oct 26 YTD as % of FY27 Budget</th><th className={th}>FY2027 Adopted Budget</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -143,7 +146,7 @@ export const FY2027Dashboard = () => {
                         <td className={td}>{usd(r.y1)}</td><td className={td}>{usd(r.y2)}</td><td className={td}>{usd(r.y3)}</td>
                         <td className={`${td} ${chgCls(r.chg)}`}>{usd(r.chg)}</td>
                         <td className={`${td} ${chgCls(r.chgPct)}`}>{fmtPct(r.chgPct)}</td>
-                        <td className={`${td} ${r.budget ? (r.budgetPct >= THRESHOLD ? "text-green-500" : "text-red-500") : ""}`}>{fmtPct(r.budgetPct)}</td>
+                        <td className={`${td} ${r.budget ? (r.budgetPct >= REV_THRESHOLD ? "text-green-500" : "text-red-500") : ""}`}>{fmtPct(r.budgetPct)}</td>
                         <td className={td}>{usd(r.budget)}</td>
                       </tr>
                     );
