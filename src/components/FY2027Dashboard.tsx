@@ -13,10 +13,10 @@ import { RevenueCard } from "@/components/RevenueCard";
 import { ExpenditureCard } from "@/components/ExpenditureCard";
 import { BudgetProgressGauge } from "@/components/BudgetProgressGauge";
 
-// FY2027 data comes from the attached sheets (through August 2026 = 2 of 12 months)
-const MONTHS_ELAPSED = 2;
+// FY2027 data comes from the attached sheets (through October 2026 = 4 of 12 months)
+const MONTHS_ELAPSED = 4;
 const THRESHOLD = MONTHS_ELAPSED / 12;
-const PERIOD = "July - Aug 2026";
+const PERIOD = "July - Oct 2026";
 const REV_MONTHS = 4;
 const REV_THRESHOLD = REV_MONTHS / 12;
 const REV_PERIOD = "July - Oct 2026";
@@ -107,7 +107,7 @@ export const FY2027Dashboard = () => {
   return (
     <div className="space-y-6">
       <p className="text-center text-sm text-muted-foreground italic">
-        FY2027 revenue through October 2026 (4 of 12 months, {fmtPct(REV_THRESHOLD)} elapsed); expenditures through August 2026 (2 of 12 months, {fmtPct(THRESHOLD)} elapsed).
+        FY2027 revenue and expenditures through October 2026 (4 of 12 months, {fmtPct(THRESHOLD)} elapsed).
       </p>
       <Tabs defaultValue="rev">
         <TabsList className="grid w-full grid-cols-2">
@@ -171,9 +171,9 @@ export const FY2027Dashboard = () => {
                 <thead className="border-b border-border">
                   <tr>
                     <th className={`${th} w-44`}>General Fund Department</th>
-                    <th className={th}>FY25 Aug 2024 YTD</th><th className={th}>FY25 Adopted Budget</th><th className={th}>% of FY25 Budget</th>
-                    <th className={th}>FY26 Aug 2025 YTD</th><th className={th}>FY26 Adopted Budget</th><th className={th}>% of FY26 Budget</th>
-                    <th className={th}>FY27 Aug 2026 YTD</th><th className={th}>FY27 Adopted Budget</th><th className={th}>% of FY27 Budget</th>
+                    <th className={th}>FY25 Oct 2024 YTD</th><th className={th}>FY25 Adopted Budget</th><th className={th}>% of FY25 Budget</th>
+                    <th className={th}>FY26 Oct 2025 YTD</th><th className={th}>FY26 Adopted Budget</th><th className={th}>% of FY26 Budget</th>
+                    <th className={th}>FY27 Oct 2026 YTD</th><th className={th}>FY27 Adopted Budget</th><th className={th}>% of FY27 Budget</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -244,9 +244,9 @@ export const FY2027Dashboard = () => {
             <thead className="sticky top-0 bg-background border-b border-border">
               <tr>
                 <th className={`${th} w-56`}>Account</th>
-                <th className={th}>FY25 Aug 2024 YTD</th><th className={th}>FY25 Adopted Budget</th><th className={th}>% of FY25 Budget</th>
-                <th className={th}>FY26 Aug 2025 YTD</th><th className={th}>FY26 Adopted Budget</th><th className={th}>% of FY26 Budget</th>
-                <th className={th}>FY27 Aug 2026 YTD</th><th className={th}>FY27 Adopted Budget</th><th className={th}>% of FY27 Budget</th>
+                <th className={th}>FY25 Oct 2024 YTD</th><th className={th}>FY25 Adopted Budget</th><th className={th}>% of FY25 Budget</th>
+                <th className={th}>FY26 Oct 2025 YTD</th><th className={th}>FY26 Adopted Budget</th><th className={th}>% of FY26 Budget</th>
+                <th className={th}>FY27 Oct 2026 YTD</th><th className={th}>FY27 Adopted Budget</th><th className={th}>% of FY27 Budget</th>
               </tr>
             </thead>
             <tbody>
