@@ -217,8 +217,8 @@ export const FY2027Dashboard = () => {
             <thead className="sticky top-0 bg-background border-b border-border">
               <tr>
                 <th className={`${th} w-40`}>Category</th><th className={`${th} w-56`}>Sub Category</th>
-                <th className={th}>Aug 24 YTD</th><th className={th}>Aug 25 YTD</th><th className={th}>Aug 26 YTD</th>
-                <th className={th}>Aug26 vs Aug25</th><th className={th}>YoY %</th>
+                <th className={th}>Oct 24 YTD</th><th className={th}>Oct 25 YTD</th><th className={th}>Oct 26 YTD</th>
+                <th className={th}>Oct26 vs Oct25</th><th className={th}>YoY %</th>
               </tr>
             </thead>
             <tbody>
